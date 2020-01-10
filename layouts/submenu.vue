@@ -2,17 +2,15 @@
   <v-app>
     <v-container class="pa-0" fluid>
       <v-row>
-        <v-col class="back-header" cols="12">
-          <v-row>
-            <v-col class="text-center" cols="3">
-              <v-icon color="#000">
-                mdi-arrow-left
-              </v-icon>
-            </v-col>
-            <v-col>
+        <v-col class="back-header pa-0" cols="12">
+          <v-toolbar height="86" class="px-4">
+            <v-btn icon>
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-toolbar-title>
               Title
-            </v-col>
-          </v-row>
+            </v-toolbar-title>
+          </v-toolbar>
         </v-col>
         <v-col cols="12">
           <nuxt />
@@ -22,11 +20,18 @@
   </v-app>
 </template>
 
+<style lang="scss">
+* {
+  font-family: 'Raleway', sans-serif;
+  color: #000;
+}
+</style>
+
 <style lang="scss" scoped>
 .back-header{
   background-color:white;
-  color: #000;
-  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 1.2em;
 }
 </style>
 
