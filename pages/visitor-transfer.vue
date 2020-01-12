@@ -31,7 +31,7 @@
       </v-form>
     </v-col>
     <v-col class="d-flex justify-center" cols="10">
-      <v-btn color="#4336D7" class="white--text" height="50px" width="100%">
+      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%">
         Give Points!
       </v-btn>
     </v-col>
@@ -47,7 +47,7 @@
 .points-balance {
   font-size:4em;
   font-weight:600;
-  color:rgb(22, 26, 255);
+  color:#3F32D5;
 }
 </style>
 
