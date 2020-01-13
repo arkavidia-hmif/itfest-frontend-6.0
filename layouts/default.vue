@@ -1,11 +1,9 @@
 <template>
   <v-app style="background-color:white">
-    <v-content class="pa-0">
-      <nuxt />
-    </v-content>
+    <nuxt />
   </v-app>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
