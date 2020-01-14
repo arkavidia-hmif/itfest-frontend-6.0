@@ -1,8 +1,8 @@
 <template>
   <v-content>
-    <v-container fluid fill-height class="login-container">
-      <v-row justify="center" align="center">
-        <v-col cols="12" md="8" lg="4">
+    <v-container fluid fill-height class="login-container pa-0">
+      <v-row justify="center" align="center" wrap no-gutters="">
+        <v-col cols="10">
           <AdminLogin />
         </v-col>
       </v-row>

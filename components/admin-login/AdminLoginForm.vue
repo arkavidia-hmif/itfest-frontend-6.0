@@ -1,5 +1,5 @@
 <template>
-  <v-form class="px-8 justify-center">
+  <v-form class="px-4 justify-center">
     <v-text-field label="Email Address" type="text" />
     <v-text-field label="Password" type="password" />
     <div class="text-center">

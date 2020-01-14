@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" justify-md="start" align="center">
+  <v-row justify="center" justify-md="start" align="center" no-gutters>
     <v-col
       cols="12"
       md="6"
@@ -7,7 +7,7 @@
       align-center
       justify-center
     >
-      <div class="text-right display-1 section-title font-weight-bold">
+      <div class="text-right display-1 section-title font-weight-bold mb-4">
         Login ke dashboard.
       </div>
     </v-col>
@@ -33,12 +33,12 @@
     padding-bottom: 8px;
   }
 
-  .section-title:after {
+  .section-title::after {
     content: "";
     position: absolute;
     width: 150px;
     height: 1px;
-    bottom: -10px;
+    bottom: -4px;
     right: 0;
     border-bottom: 6px solid #FF084F;
   }
