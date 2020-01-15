@@ -26,9 +26,9 @@
 </style>
 
 <script>
-import Vue from 'vue'
-import BackToolbar from '~/components/partials/BackToolbar.vue'
-import TransferForm from '~/components/visitor-transfer/TransferForm.vue'
+import Vue from 'vue';
+import BackToolbar from '~/components/partials/BackToolbar.vue';
+import TransferForm from '~/components/visitor-transfer/TransferForm.vue';
 
 export default Vue.extend({
   name: 'VisitorTransfer',
@@ -36,5 +36,5 @@ export default Vue.extend({
     BackToolbar,
     TransferForm
   }
-})
+});
 </script>

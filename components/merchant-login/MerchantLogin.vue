@@ -29,7 +29,7 @@
     font-weight: 700;
   }
   .section-title {
-    position: relative;
+    position: absolute;
     padding-bottom: 8px;
   }
 
