@@ -1,9 +1,9 @@
 <template>
   <v-content>
     <v-container fluid fill-height>
-      <v-row>
+      <v-row no-gutters class="pa-4">
         <v-col cols="12">
-          <div class="form-title">
+          <div class="form-title my-4 mb-8">
             <h1>
               Registration time!
             </h1>
@@ -59,33 +59,46 @@
                 </v-btn>
               </v-date-picker>
             </v-dialog>
-            <v-label>
+            <h4 class="mt-4">
               Gender
-            </v-label>
-            <v-radio-group v-model="gender" row>
+            </h4>
+            <v-radio-group v-model="gender" row class="mt-2" hide-details>
               <v-radio label="Male" color="#3F32D5" />
               <v-radio label="Female" color="#3F32D5" />
             </v-radio-group>
-            <v-label>
+            <h4 class="mt-4">
               Interests
-            </v-label>
-            <v-checkbox v-model="interests" label="Financial Technology" hide-details />
-            <v-checkbox v-model="interests" label="Education Technology" hide-details />
-            <v-checkbox v-model="interests" label="Health Technology" hide-details />
-            <v-checkbox v-model="interests" label="E-commerce" hide-details />
-            <v-checkbox v-model="interests" label="Tourism" hide-details />
+            </h4>
+            <v-checkbox
+              v-for="i in 5"
+              :key="i"
+              :label="interestsName[i-1]"
+              :value="`interest-`+(i-1).toString()"
+              v-model="interests"
+              hide-details
+              class="mt-2"
+            />
             <div class="d-flex">
-              <v-checkbox v-model="interestOther" label="Others : " hide-details />
-              <v-text-field :disabled="!interestOther" />
+              <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" />
+              <v-text-field :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
             </div>
-            <v-label>
+            <h4 class="mt-4">
               Disclaimer
-            </v-label>
-            <p>Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.</p>
+            </h4>
+            <p class="mt-3">
+              Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
+            </p>
             <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details />
-            <v-btn :disabled="!agreeTOA">
-              Register!
-            </v-btn>
+            <div class="d-flex justify-center py-4">
+              <v-btn
+                :disabled="!agreeTOA"
+                :color="agreeTOA? `#FF084F` : ``"
+                :class="(agreeTOA? `white--text` : ``)+` text-none`"
+                x-large
+              >
+                Register!
+              </v-btn>
+            </div>
           </v-form>
         </v-col>
       </v-row>
@@ -110,5 +123,20 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  data: () => ({
+    interestOther: false,
+    interests: [],
+    agreeTOA: false,
+    date: new Date().toISOString().substr(0, 10),
+    modal: false,
+    gender: '',
+    interestsName: [
+      'Financial Technology',
+      'Education Technology',
+      'Health Technology',
+      'E-commerce',
+      'Tourism'
+    ]
+  })
 });
 </script>
