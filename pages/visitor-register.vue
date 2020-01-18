@@ -124,12 +124,16 @@ import Vue from 'vue';
 
 export default Vue.extend({
   data: () => ({
-    interestOther: false,
-    interests: [],
-    agreeTOA: false,
-    date: new Date().toISOString().substr(0, 10),
-    modal: false,
+    fullName: '',
+    emailAddress: '',
+    password: '',
+    rePassword: '',
     gender: '',
+    date: new Date().toISOString().substr(0, 10),
+    interests: [],
+    interestOther: false,
+    agreeTOA: false,
+    modal: false,
     interestsName: [
       'Financial Technology',
       'Education Technology',
