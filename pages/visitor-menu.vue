@@ -1,27 +1,34 @@
 <template>
   <v-content>
     <v-container>
+      <div>
+        <v-img :src="require('~/assets/logo-horz.svg')" aspect-ratio="15" contain class="py-2" />
+      </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
           <SignedInAs />
         </v-col>
         <v-col cols="12" class="py-2">
-          <PersonalDataBanner message="Fill in your peronal data to earn 20 points for FREE!" />
+          <PersonalDataBanner message="Fill in your personal data to earn 20 points for FREE!" />
         </v-col>
         <v-col cols="12" class="py-2">
           <BalanceComponent />
         </v-col>
-        <v-col cols="4">
-          <SubmenuComponent />
-        </v-col>
-        <v-col cols="4">
-          <SubmenuComponent />
-        </v-col>
-        <v-col cols="4">
-          <SubmenuComponent />
+        <v-col cols="12" class="py-2">
+          <v-row no-gutters>
+            <v-col cols="4">
+              <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
+            </v-col>
+            <v-col cols="4">
+              <SubmenuComponent submenu-icon="mdi-refresh" submenu-title="Trade Points" />
+            </v-col>
+            <v-col cols="4">
+              <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
+            </v-col>
+          </v-row>
         </v-col>
         <v-col cols="12">
-          Feedback
+          <FeedbackComponent />
         </v-col>
         <v-col cols="12">
           QR
@@ -43,6 +50,7 @@ import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import PersonalDataBanner from '~/components/visitor-menu/PersonalDataBanner.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
+import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
 
 export default Vue.extend({
   name: 'VisitorMenu',
@@ -50,7 +58,8 @@ export default Vue.extend({
     SignedInAs,
     PersonalDataBanner,
     BalanceComponent,
-    SubmenuComponent
+    SubmenuComponent,
+    FeedbackComponent
   }
 });
 </script>
