@@ -1,5 +1,5 @@
 <template>
-  <v-form>
+  <v-form v-model="isValid">
     <v-text-field
       :rules="nameRules"
       v-model="fullName"
@@ -70,9 +70,10 @@
       v-model="interests"
       hide-details
       class="mt-2"
+      color="#3F32D5"
     />
     <div class="d-flex">
-      <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" />
+      <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
       <v-text-field :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
     </div>
     <h4 class="mt-4">
@@ -81,10 +82,10 @@
     <p class="mt-3">
       Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
     </p>
-    <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details />
+    <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details color="#3F32D5" />
     <div class="d-flex justify-center py-4">
       <v-btn
-        :disabled="!agreeTOA"
+        :disabled="!isValid"
         :color="agreeTOA? `#FF084F` : ``"
         :class="(agreeTOA? `white--text` : ``)+` text-none`"
         x-large
@@ -101,6 +102,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'VisitorRegisterForm',
   data: () => ({
+    isValid: false,
     fullName: '',
     emailAddress: '',
     password: '',
@@ -139,7 +141,7 @@ export default Vue.extend({
   computed: {
     passwordsFilled() {
       return (this.password !== '' && this.rePassword !== '');
-    },
+    }
   },
   methods: {
     passwordMatch() {
