@@ -21,40 +21,44 @@
         </v-card>
       </v-col>
       <v-col :cols="12">
-        <v-card elevation="8" color="white">
-          <v-row>
-            <v-col>
-              <v-card-text class="headline font-weight-bold" style="color:blue">
-                <v-row>
-                  <div class="ml-4 mt-1">
-                    <i class="mdi mdi-48px mdi-hand-heart" />
-                  </div>
-                  <div class="ml-4 mt-3">
-                    Give Points
-                  </div>
-                </v-row>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
+        <nuxt-link to="/startup/give-point">
+          <v-card elevation="8" color="white">
+            <v-row>
+              <v-col>
+                <v-card-text class="headline font-weight-bold" style="color:blue">
+                  <v-row>
+                    <div class="ml-4 mt-1">
+                      <i class="mdi mdi-48px mdi-hand-heart" />
+                    </div>
+                    <div class="ml-4 mt-3">
+                      Give Points
+                    </div>
+                  </v-row>
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+        </nuxt-link>
       </v-col>
       <v-col :cols="12">
-        <v-card elevation="8" color="white">
-          <v-row>
-            <v-col>
-              <v-card-text class="headline font-weight-bold" style="color:blue">
-                <v-row>
-                  <div class="ml-4 mt-1">
-                    <i class="mdi mdi-history mdi-48px" />
-                  </div>
-                  <div class="ml-4 mt-1">
-                    Transaction History
-                  </div>
-                </v-row>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
+        <nuxt-link to="/startup/trx-history">
+          <v-card elevation="8" color="white">
+            <v-row>
+              <v-col>
+                <v-card-text class="headline font-weight-bold" style="color:blue">
+                  <v-row>
+                    <div class="ml-4 mt-1">
+                      <i class="mdi mdi-history mdi-48px" />
+                    </div>
+                    <div class="ml-4 mt-1">
+                      Transaction History
+                    </div>
+                  </v-row>
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+        </nuxt-link>
       </v-col>
     </v-row>
   </v-container>

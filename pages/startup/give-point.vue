@@ -85,7 +85,7 @@ export default Vue.extend({
         x += 50
       }
       if (this.selected.includes('Hard')) {
-        x += 100
+        x += 75
       }
       this.pointTemp = x
     }
