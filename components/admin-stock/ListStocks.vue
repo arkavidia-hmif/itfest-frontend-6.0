@@ -29,7 +29,9 @@
         </v-col>
         <v-col cols="6">
           <v-row>
-            <div style="margin-right: 0.5rem">Price: </div>
+            <div style="margin-right: 0.5rem">
+              Price:
+            </div>
             <div style="color: #3F32D5;">
               {{ item.point }} points
             </div>
@@ -37,7 +39,9 @@
         </v-col>
       </v-row>
       <v-row>
-        <div style="margin-right: 0.5rem">Stock: </div>
+        <div style="margin-right: 0.5rem">
+          Stock:
+        </div>
         <div style="color: #3F32D5;">
           {{ item.stock }}
         </div>
