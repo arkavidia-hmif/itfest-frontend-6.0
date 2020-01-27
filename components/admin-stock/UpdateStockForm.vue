@@ -38,8 +38,7 @@
           </div>
           <div class="d-flex align-center">
             <v-row class="px-2">
-              <v-text-field :v-model="inputedAmount" full-width />
-              <v-select :items="quantifiers" :v-model="inputedQuantifier" full-width />
+              <v-text-field full-width :v-model="inputedAmount" type="number" suffix="pcs" />
             </v-row>
           </div>
         </div>
@@ -63,10 +62,8 @@ import Vue from 'vue';
 export default Vue.extend({
   data: () => ({
     inputedAmount: 0,
-    inputedQuantifier: 'pcs',
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-    tenants: ['Company A', 'Company B', 'Company C'],
-    quantifiers: ['pcs']
+    tenants: ['Company A', 'Company B', 'Company C']
   })
 });
 </script>
