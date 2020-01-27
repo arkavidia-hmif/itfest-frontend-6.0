@@ -9,9 +9,6 @@
           <SignedInAs />
         </v-col>
         <v-col cols="12" class="py-2">
-          <PersonalDataBanner message="Fill in your personal data to earn 20 points for FREE!" />
-        </v-col>
-        <v-col cols="12" class="py-2">
           <BalanceComponent />
         </v-col>
         <v-col cols="12" class="py-2">
@@ -47,7 +44,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
-import PersonalDataBanner from '~/components/visitor-menu/PersonalDataBanner.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
@@ -56,7 +52,6 @@ export default Vue.extend({
   name: 'VisitorMenu',
   components: {
     SignedInAs,
-    PersonalDataBanner,
     BalanceComponent,
     SubmenuComponent,
     FeedbackComponent
