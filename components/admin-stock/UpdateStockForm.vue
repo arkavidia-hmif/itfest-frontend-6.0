@@ -7,7 +7,7 @@
             Merchandise
           </div>
           <div class="d-flex align-center">
-            <div class="px-2">
+            <div class="px-2 full-width">
               <v-select :items="items" full-width label="Item" />
             </div>
           </div>
@@ -17,7 +17,7 @@
             From
           </div>
           <div class="d-flex align-center">
-            <div class="px-2">
+            <div class="px-2 full-width">
               <v-select :items="tenants" full-width label="Tenant" />
             </div>
           </div>
@@ -27,7 +27,7 @@
             Price
           </div>
           <div class="d-flex align-center">
-            <div class="px-2">
+            <div class="px-2 full-width">
               <v-text-field full-width suffix="points" />
             </div>
           </div>
@@ -37,9 +37,9 @@
             Amount
           </div>
           <div class="d-flex align-center">
-            <v-row class="px-2">
+            <div class="px-2 full-width">
               <v-text-field full-width :v-model="inputedAmount" type="number" suffix="pcs" />
-            </v-row>
+            </div>
           </div>
         </div>
       </v-form>
@@ -53,6 +53,10 @@
 </template>
 
 <style lang="scss" scoped>
+
+  .full-width {
+    width: 100%;
+  }
 
 </style>
 

@@ -9,7 +9,7 @@
       pa-5
     >
       <v-row>
-        <div style="font-weight: 800;">
+        <div style="font-weight: 800; margin-right: 0.5rem">
           Startup:
         </div>
         <div style="font-weight: 800; color: #FF0B51;">
@@ -19,7 +19,7 @@
       <v-row>
         <v-col cols="6">
           <v-row>
-            <div>
+            <div style="margin-right: 0.5rem">
               Name:
             </div>
             <div style="color: #3F32D5;">
@@ -29,7 +29,7 @@
         </v-col>
         <v-col cols="6">
           <v-row>
-            <div>Price: </div>
+            <div style="margin-right: 0.5rem">Price: </div>
             <div style="color: #3F32D5;">
               {{ item.point }} points
             </div>
@@ -37,7 +37,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <div>Stock: </div>
+        <div style="margin-right: 0.5rem">Stock: </div>
         <div style="color: #3F32D5;">
           {{ item.stock }}
         </div>
