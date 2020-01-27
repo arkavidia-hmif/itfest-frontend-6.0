@@ -36,6 +36,7 @@ import Vue from 'vue';
 import { QrcodeStream } from 'vue-qrcode-reader';
 
 export default Vue.extend({
+  name: 'ScanUserForm',
   components: {
     'qrcode-stream': QrcodeStream
   },

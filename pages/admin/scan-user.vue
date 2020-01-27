@@ -1,8 +1,10 @@
 <template>
   <div>
-    <BackToolbar title-text="Scan User" />
+    <BackToolbar title-text="Scan User" prev-page="/admin" />
     <v-content>
-      <ScanUserForm />
+      <no-ssr placeholder="loading...">
+        <ScanUserForm />
+      </no-ssr>
     </v-content>
   </div>
 </template>
@@ -28,13 +30,12 @@
 <script>
 import Vue from 'vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
-import ScanUserForm from '~/components/admin-points/ScanUserForm.vue';
 
 export default Vue.extend({
   name: 'ScanUser',
   components: {
     BackToolbar,
-    ScanUserForm
+    'ScanUserForm': () => import('~/components/admin-points/ScanUserForm.vue')
   }
 });
 </script>

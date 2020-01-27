@@ -1,6 +1,6 @@
 <template>
   <v-toolbar height="75" class="px-4">
-    <v-btn icon>
+    <v-btn :href="prevPage" icon>
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
     <v-toolbar-title class="toolbar-title">
@@ -21,6 +21,10 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'BackToolbar',
   props: {
+    prevPage: {
+      default: '/admin',
+      type: String
+    },
     titleText: {
       default: 'Title',
       type: String

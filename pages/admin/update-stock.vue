@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Update Merch Stock" />
+    <BackToolbar title-text="Update Merch Stock" prev-page="/admin" />
     <v-content>
       <UpdateStockForm />
     </v-content>
