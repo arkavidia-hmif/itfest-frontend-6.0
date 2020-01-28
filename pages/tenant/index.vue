@@ -62,7 +62,7 @@
         </v-card>
       </v-col>
       <v-col :cols="12">
-        <nuxt-link to="/tenant/trx-history">
+        <nuxt-link to="/tenant/trx">
           <v-card color="white" elevation="8">
             <v-row>
               <v-col>
