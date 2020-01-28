@@ -6,6 +6,11 @@
       label="Full name"
     />
     <v-text-field
+      v-model="voucherCode"
+      :rules="voucherRules"
+      label="Voucher Code"
+    />
+    <v-text-field
       v-model="emailAddress"
       :rules="emailRules"
       label="Email"
@@ -130,6 +135,9 @@ class VisitorRegisterForm extends Vue {
   emailRules = [
     v => !!v || 'Email is required!',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
+  ];
+  voucherRules = [
+    v => !!v || 'Voucher code is required!',
   ];
   passwordRules = [
     v => !!v || 'Password is required',

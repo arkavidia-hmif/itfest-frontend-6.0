@@ -17,10 +17,12 @@
               <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-refresh" submenu-title="Trade Points" />
+              <nuxt-link to="/visitor/trx">
+                <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
+              </nuxt-link>
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
+              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" />
             </v-col>
           </v-row>
         </v-col>
@@ -28,7 +30,7 @@
           <FeedbackComponent />
         </v-col>
         <v-col cols="12">
-          QR
+          <QRComponent url="www.google.com" :size="300" />
         </v-col>
       </v-row>
     </v-container>
@@ -47,6 +49,7 @@ import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
+import QRComponent from '~/components/visitor-menu/QRComponent.vue';
 
 export default Vue.extend({
   name: 'VisitorMenu',
@@ -54,7 +57,8 @@ export default Vue.extend({
     SignedInAs,
     BalanceComponent,
     SubmenuComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    QRComponent
   }
 });
 </script>
