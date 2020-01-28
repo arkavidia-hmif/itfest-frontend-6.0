@@ -18,7 +18,7 @@ import { UserData } from '../api/types';
 })
 class IndexPage extends Vue {
   @Action('user/fetchUser') fetchUserAction;
-  @Getter('user/getUser') user: UserData;
+  @Getter('user/getUser') user!: UserData;
 
   mounted() {
     this.fetchUserAction();
