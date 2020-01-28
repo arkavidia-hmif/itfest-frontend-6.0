@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar titleText="Transaction History"/>
+    <BackToolbar title-text="Transaction History" />
     <div>
       <TenantTrxHistory />
     </div>

@@ -52,8 +52,8 @@
                 <v-card-actions style="text-align: center">
                   <vue-qr-reader
                     v-if="show"
-                    v-on:code-scanned="codeScanned"
-                    v-on:error-captured="errorCaptured"
+                    @code-scanned="codeScanned"
+                    @error-captured="errorCaptured"
                   />
                 </v-card-actions>
               </v-card>
@@ -86,14 +86,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueQrReader from '~/components/VueQrReader'
+import Vue from 'vue';
+import VueQrReader from '~/components/VueQrReader';
 
 export default Vue.extend({
   components: {
     VueQrReader
   },
-  data () {
+  data() {
     return {
       company: {
         name: 'NamaCompany',
@@ -103,46 +103,49 @@ export default Vue.extend({
       dialog: false,
       show: false,
       errorMessage: ''
-    }
+    };
   },
   watch: {
-    dialog (val) {
+    dialog(val) {
       if (!val) {
-        this.show = false
+        this.show = false;
       }
     }
   },
   methods: {
-    codeScanned (code) {
-      this.scanned = code
-      console.log(this.scanned)
+    codeScanned(code) {
+      this.scanned = code;
+      // eslint-disable-next-line no-console
+      console.log(this.scanned);
     },
-    errorCaptured (error) {
+    errorCaptured(error) {
       switch (error.name) {
         case 'NotAllowedError':
-          this.errorMessage = 'Camera permission denied.'
-          break
+          this.errorMessage = 'Camera permission denied.';
+          break;
         case 'NotFoundError':
-          this.errorMessage = 'There is no connected camera.'
-          break
+          this.errorMessage = 'There is no connected camera.';
+          break;
         case 'NotSupportedError':
           this.errorMessage =
-            'Seems like this page is served in non-secure context.'
-          break
+            'Seems like this page is served in non-secure context.';
+          break;
         case 'NotReadableError':
           this.errorMessage =
-            "Couldn't access your camera. Is it already in use?"
-          break
+            "Couldn't access your camera. Is it already in use?";
+          break;
         case 'OverconstrainedError':
-          this.errorMessage = "Constraints don't match any installed camera."
-          break
+          this.errorMessage = "Constraints don't match any installed camera.";
+          break;
         default:
-          this.errorMessage = 'UNKNOWN ERROR: ' + error.message
+          this.errorMessage = 'UNKNOWN ERROR: ' + error.message;
       }
-      console.error(this.errorMessage)
+
+      // eslint-disable-next-line no-console
+      console.error(this.errorMessage);
     }
   }
-})
+});
 </script>
 <style>
 </style>

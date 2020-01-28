@@ -5,25 +5,25 @@
         <div class="headline">
           Which difficulties did the visitor played?
           <v-checkbox
-            @click.native="pointChange"
             v-model="selected"
             class="black--checkbox"
             label="Easy"
             value="Easy"
+            @click.native="pointChange"
           />
           <v-checkbox
-            @click.native="pointChange"
             v-model="selected"
             class="black--checkbox"
             label="Medium"
             value="Medium"
+            @click.native="pointChange"
           />
           <v-checkbox
-            @click.native="pointChange"
             v-model="selected"
             class="black--checkbox"
             label="Hard"
             value="Hard"
+            @click.native="pointChange"
           />
         </div>
       </v-col>
@@ -63,34 +63,34 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from 'vue';
 export default Vue.extend({
   layout: 'submenu',
   name: 'TransactionsHistory',
-  data () {
+  data() {
     return {
       selected: [],
       pointTemp: 0,
       accountTemp: 123123,
       remainingPoint: 4900
-    }
+    };
   },
   methods: {
-    pointChange () {
-      let x = 0
+    pointChange() {
+      let x = 0;
       if (this.selected.includes('Easy')) {
-        x += 25
+        x += 25;
       }
       if (this.selected.includes('Medium')) {
-        x += 50
+        x += 50;
       }
       if (this.selected.includes('Hard')) {
-        x += 75
+        x += 75;
       }
-      this.pointTemp = x
+      this.pointTemp = x;
     }
   }
-})
+});
 </script>
 <style scoped>
   .black--checkbox /deep/ label {

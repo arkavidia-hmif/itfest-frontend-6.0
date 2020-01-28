@@ -1,14 +1,14 @@
 <template>
   <div ref="container" class="vue-qr-reader__container">
     <video
-      ref="video"
       v-show="showPlay"
+      ref="video"
       :width="videoWH.width"
       :height="videoWH.height"
       class="source"
       controls
     />
-    <canvas ref="canvas" v-show="!showPlay" />
+    <canvas v-show="!showPlay" ref="canvas" />
     <button v-show="showPlay" @click="run">
       Play!
     </button>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import jsQR from 'jsqr'
+import jsQR from 'jsqr';
 export default {
   name: 'VueQrReader',
   props: {
@@ -53,122 +53,128 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       showPlay: false,
       containerWidth: null,
       active: false
-    }
+    };
   },
   computed: {
-    videoWH () {
+    videoWH() {
       if (this.containerWidth) {
-        const width = this.containerWidth
-        const height = width * 0.75
-        return { width, height }
+        const width = this.containerWidth;
+        const height = width * 0.75;
+        return { width, height };
       }
-      return { width: this.videoWidth, height: this.videoHeight }
+      return { width: this.videoWidth, height: this.videoHeight };
     }
   },
   watch: {
     active: {
       immediate: true,
-      handler (active) {
+      handler(active) {
         if (!active) {
-          this.fullStop()
+          this.fullStop();
         }
       }
     }
   },
-  mounted () {
-    this.setup()
+  mounted() {
+    this.setup();
   },
-  beforeDestroy () {
-    this.fullStop()
+  beforeDestroy() {
+    this.fullStop();
   },
   methods: {
-    drawLine (begin, end) {
-      this.canvas.beginPath()
-      this.canvas.moveTo(begin.x, begin.y)
-      this.canvas.lineTo(end.x, end.y)
-      this.canvas.lineWidth = this.lineWidth
-      this.canvas.strokeStyle = this.lineColor
-      this.canvas.stroke()
+    drawLine(begin, end) {
+      this.canvas.beginPath();
+      this.canvas.moveTo(begin.x, begin.y);
+      this.canvas.lineTo(end.x, end.y);
+      this.canvas.lineWidth = this.lineWidth;
+      this.canvas.strokeStyle = this.lineColor;
+      this.canvas.stroke();
     },
-    drawBox (l) {
+    drawBox(l) {
       if (this.drawOnFound) {
-        this.drawLine(l.topLeftCorner, l.topRightCorner)
-        this.drawLine(l.topRightCorner, l.bottomRightCorner)
-        this.drawLine(l.bottomRightCorner, l.bottomLeftCorner)
-        this.drawLine(l.bottomLeftCorner, l.topLeftCorner)
+        this.drawLine(l.topLeftCorner, l.topRightCorner);
+        this.drawLine(l.topRightCorner, l.bottomRightCorner);
+        this.drawLine(l.bottomRightCorner, l.bottomLeftCorner);
+        this.drawLine(l.bottomLeftCorner, l.topLeftCorner);
       }
     },
-    tick () {
+    tick() {
       if (
         this.$refs.video &&
         this.$refs.video.readyState === this.$refs.video.HAVE_ENOUGH_DATA
       ) {
-        this.$refs.canvas.height = this.videoWH.height
-        this.$refs.canvas.width = this.videoWH.width
+        this.$refs.canvas.height = this.videoWH.height;
+        this.$refs.canvas.width = this.videoWH.width;
         this.canvas.drawImage(
           this.$refs.video,
           0,
           0,
           this.$refs.canvas.width,
           this.$refs.canvas.height
-        )
+        );
         const imageData = this.canvas.getImageData(
           0,
           0,
           this.$refs.canvas.width,
           this.$refs.canvas.height
-        )
-        let code = false
+        );
+        let code = false;
         try {
-          code = jsQR(imageData.data, imageData.width, imageData.height)
-        } catch (e) {
+          code = jsQR(imageData.data, imageData.width, imageData.height);
+        }
+        catch (e) {
           // sometimes JSQR may fail, but we can carry on.
-          console.error(e)
+          // eslint-disable-next-line no-console
+          console.error(e);
         }
         if (code) {
-          this.drawBox(code.location)
-          this.found(code.data)
+          this.drawBox(code.location);
+          this.found(code.data);
         }
       }
-      this.run()
+      this.run();
     },
-    setup () {
+    setup() {
       if (this.responsive) {
         this.$nextTick(() => {
-          this.containerWidth = this.$refs.container.clientWidth
-        })
+          this.containerWidth = this.$refs.container.clientWidth;
+        });
       }
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        this.previousCode = null
-        this.parity = 0
-        this.active = true
-        this.canvas = this.$refs.canvas.getContext('2d')
+        this.previousCode = null;
+        this.parity = 0;
+        this.active = true;
+        this.canvas = this.$refs.canvas.getContext('2d');
         const facingMode = this.useBackCamera
           ? { exact: 'environment' }
-          : 'user'
+          : 'user';
         const handleSuccess = (stream) => {
           if (this.$refs.video.srcObject !== undefined) {
-            this.$refs.video.srcObject = stream
-          } else if (this.$refs.video.mozSrcObject !== undefined) {
-            this.$refs.video.mozSrcObject = stream
-          } else if (window.URL.createObjectURL) {
-            this.$refs.video.src = window.URL.createObjectURL(stream)
-          } else if (window.webkitURL) {
-            this.$refs.video.src = window.webkitURL.createObjectURL(stream)
-          } else {
-            this.$refs.video.src = stream
+            this.$refs.video.srcObject = stream;
+          }
+ else if (this.$refs.video.mozSrcObject !== undefined) {
+            this.$refs.video.mozSrcObject = stream;
+          }
+ else if (window.URL.createObjectURL) {
+            this.$refs.video.src = window.URL.createObjectURL(stream);
+          }
+ else if (window.webkitURL) {
+            this.$refs.video.src = window.webkitURL.createObjectURL(stream);
+          }
+ else {
+            this.$refs.video.src = stream;
           }
           // iOS play inline
-          this.$refs.video.playsInline = true
-          const playPromise = this.$refs.video.play()
-          playPromise.catch(() => (this.showPlay = true))
-          playPromise.then(this.run)
-        }
+          this.$refs.video.playsInline = true;
+          const playPromise = this.$refs.video.play();
+          playPromise.catch(() => (this.showPlay = true));
+          playPromise.then(this.run);
+        };
         navigator.mediaDevices
           .getUserMedia({ video: { facingMode } })
           .then(handleSuccess)
@@ -177,35 +183,36 @@ export default {
               .getUserMedia({ video: true })
               .then(handleSuccess)
               .catch((error) => {
-                this.$emit('error-captured', error)
-              })
-          })
+                this.$emit('error-captured', error);
+              });
+          });
       }
     },
-    run () {
+    run() {
       if (this.active) {
-        requestAnimationFrame(this.tick)
+        requestAnimationFrame(this.tick);
       }
     },
-    found (code) {
+    found(code) {
       if (this.previousCode !== code) {
-        this.previousCode = code
-      } else if (this.previousCode === code) {
-        this.parity += 1
+        this.previousCode = code;
+      }
+ else if (this.previousCode === code) {
+        this.parity += 1;
       }
       if (this.parity > 2) {
-        this.active = !this.stopOnScanned
-        this.parity = 0
-        this.$emit('code-scanned', code)
+        this.active = !this.stopOnScanned;
+        this.parity = 0;
+        this.$emit('code-scanned', code);
       }
     },
-    fullStop () {
+    fullStop() {
       if (this.$refs.video && this.$refs.video.srcObject) {
-        this.$refs.video.srcObject.getTracks().forEach(t => t.stop())
+        this.$refs.video.srcObject.getTracks().forEach(t => t.stop());
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

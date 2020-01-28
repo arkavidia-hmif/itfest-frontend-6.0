@@ -36,10 +36,18 @@ export interface TenantAccount {
   name: string;
 }
 
+export interface TransactionActor {
+  id: number;
+  email: string;
+  username: string;
+  name: string;
+  role: string;
+}
+
 export interface Transaction {
   id: number;
   amount: number;
-  fromId: number;
-  toId: string;
+  from: TransactionActor;
+  to: TransactionActor;
   transfer: boolean;
 }
