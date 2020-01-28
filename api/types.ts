@@ -35,3 +35,11 @@ export interface TenantAccount {
   password: string;
   name: string;
 }
+
+export interface Transaction {
+  id: number;
+  amount: number;
+  fromId: number;
+  toId: string;
+  transfer: boolean;
+}

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   name: 'TenantTrxHistoryItem',
@@ -31,7 +31,7 @@ export default Vue.extend({
       required: true
     }
   }
-})
+});
 </script>
 
 <style scoped>
