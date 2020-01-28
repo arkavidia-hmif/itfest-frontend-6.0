@@ -3,7 +3,7 @@
     <v-container fluid fill-height class="login-container pa-0">
       <v-row justify="center" align="center" wrap no-gutters="">
         <v-col cols="10">
-          <AdminLogin />
+          <Login />
         </v-col>
       </v-row>
     </v-container>
@@ -18,11 +18,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AdminLogin from '~/components/admin-login/AdminLogin.vue';
+import Login from '~/components/login/Login.vue';
 
 export default Vue.extend({
   components: {
-    AdminLogin
+    Login
   }
 });
 </script>
