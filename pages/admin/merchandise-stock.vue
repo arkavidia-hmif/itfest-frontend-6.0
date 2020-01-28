@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Merchandise Stock" />
+    <BackToolbar title-text="Merchandise Stock" prev-page="/admin" />
     <v-content>
       <ListStocks />
     </v-content>

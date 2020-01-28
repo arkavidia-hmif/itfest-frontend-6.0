@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Redeem Points" />
+    <BackToolbar title-text="Redeem Points" prev-page="/admin" />
     <v-content>
       <RedeemPointsForm />
     </v-content>
