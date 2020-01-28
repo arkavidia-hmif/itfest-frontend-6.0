@@ -28,7 +28,7 @@
           <FeedbackComponent />
         </v-col>
         <v-col cols="12">
-          QR
+          <QRComponent />
         </v-col>
       </v-row>
     </v-container>
@@ -47,6 +47,7 @@ import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
+import QRComponent from '~/components/visitor-menu/QRComponent.vue';
 
 export default Vue.extend({
   name: 'VisitorMenu',
@@ -54,7 +55,8 @@ export default Vue.extend({
     SignedInAs,
     BalanceComponent,
     SubmenuComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    QRComponent
   }
 });
 </script>

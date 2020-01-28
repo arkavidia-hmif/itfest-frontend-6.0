@@ -5,9 +5,9 @@
       <v-container>
         <TransactionComponent
           :key="i"
+          :received="i%2===1 ? true : false"
           v-for="i in 10"
           class="my-4"
-          :received="i%2===1 ? true : false"
           points-from="388728"
           points-amount="12345"
           time="10:59"
