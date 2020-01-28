@@ -1,6 +1,10 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
 
+require('dotenv').config({ path: getDotEnvFilename() });
 export default {
+  extends: [
+    '@nuxtjs/eslint-config-typescript'
+  ],
   mode: 'universal',
   /*
   ** Headers of the page
@@ -33,13 +37,17 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    './plugins/definitions',
+    './plugins/api-auth',
+    './plugins/persisted-state'
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
+    '@nuxt/typescript-build',
     '@nuxtjs/vuetify'
   ],
   /*
@@ -50,7 +58,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    ['@nuxtjs/dotenv', { filename: getDotEnvFilename() }]
   ],
   /*
   ** Axios module configuration
@@ -83,10 +91,15 @@ export default {
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
+  },
+  router: {
+    middleware: 'auth'
   }
+};
+
+function getDotEnvFilename() {
+  if (process.env.NODE_ENV === 'production') {
+    return (process.env.BUILD_ENV === 'staging') ? '.env.staging' : '.env.production';
+  }
+  return '.env.development';
 }
