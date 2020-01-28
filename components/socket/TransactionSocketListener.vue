@@ -15,7 +15,6 @@
       color="info"
       top
       multi-line
-      timeout="4000"
       @click="snackbar = false"
     >
       {{ snackbarText }}
