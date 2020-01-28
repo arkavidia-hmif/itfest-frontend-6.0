@@ -5,11 +5,11 @@
       :key="option.value"
       :color="value.includes(option.value) ? 'light-green lighten-1' : 'grey darken-1'"
       :outlined="!value.includes(option.value)"
-      @click="() => toggle(option.value)"
       :data-option="option.value"
       class="text-none my-2"
       elevation="0"
       block
+      @click="() => toggle(option.value)"
     >
       {{ option.title }}
     </v-btn>
@@ -20,32 +20,41 @@
 export default {
   name: 'MultipleOptionPicker',
   props: {
-    value: Array,
-    options: Array,
+    value: {
+      type: Array,
+      default: () => []
+    },
+    options: {
+      type: Array,
+      default: () => []
+    },
     multiple: Boolean
   },
   methods: {
-    toggle (optionValue) {
-      let value = [...this.value]
+    toggle(optionValue) {
+      let value = [...this.value];
 
       if (value.includes(optionValue)) {
         if (this.multiple) {
-          value = value.filter(function (value, index, arr) {
-            return value !== optionValue
-          })
-        } else {
-          value = []
+          value = value.filter(function(value) {
+            return value !== optionValue;
+          });
         }
-      } else if (this.multiple) {
-        value.push(optionValue)
-      } else {
-        value = [optionValue]
+ else {
+          value = [];
+        }
+      }
+ else if (this.multiple) {
+        value.push(optionValue);
+      }
+ else {
+        value = [optionValue];
       }
 
-      this.$emit('input', value)
+      this.$emit('input', value);
     }
   }
-}
+};
 </script>
 
 <style scoped>

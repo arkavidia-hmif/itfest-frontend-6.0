@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthApi from './auth';
 import UserApi from '~/api/user';
+import SocketApi from "~/api/socket";
 
 const apiClient = axios.create({
   // Prevent sending cookies with cross-domain requests
@@ -13,8 +14,19 @@ const apiClient = axios.create({
 });
 
 export class ArkavidiaApi {
+  baseUrl: string;
+
+  auth: AuthApi;
+  user: UserApi = new UserApi(apiClient);
+  socket: SocketApi;
+
   constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
     apiClient.defaults.baseURL = baseUrl;
+
+    this.auth = new AuthApi(apiClient);
+    this.user = new UserApi(apiClient);
+    this.socket = new SocketApi(this.baseUrl);
   }
 
   set bearerToken(bearerToken: string|Function) {
@@ -27,9 +39,6 @@ export class ArkavidiaApi {
       return config;
     });
   }
-
-  auth: AuthApi = new AuthApi(apiClient);
-  user: UserApi = new UserApi(apiClient);
 }
 
 const arkavidiaApi = new ArkavidiaApi(process.env.API_BASE_URL || '');

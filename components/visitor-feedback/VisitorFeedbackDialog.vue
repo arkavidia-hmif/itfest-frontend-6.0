@@ -48,12 +48,12 @@
     </div>
     <v-row class="pa-4" no-gutters>
       <v-col :cols="6" class="pr-2">
-        <v-btn @click="skip" outlined block>
+        <v-btn outlined block @click="skip">
           Skip
         </v-btn>
       </v-col>
       <v-col :cols="6" class="pl-2">
-        <v-btn @click="submit" elevation="0" block color="primary">
+        <v-btn elevation="0" block color="primary" @click="submit">
           Submit
         </v-btn>
       </v-col>
@@ -61,46 +61,46 @@
   </v-card>
 </template>
 
-<script>
-import MultipleOptionPicker from './MultipleOptionPicker'
+<script lang="ts">
+  import { Component, Prop, Vue } from 'nuxt-property-decorator';
+  import MultipleOptionPicker from './MultipleOptionPicker.vue';
 
-export default {
-  name: 'VisitorFeedbackDialog',
-  components: { MultipleOptionPicker },
-  props: {
-    companyName: String,
-    pointsAwarded: Number,
-    whatsGoodOptions: Array
-  },
-  data () {
-    return {
-      rating: 0,
-      whatsGoodModel: [],
-      otherFeedback: ''
+  @Component({
+    components: { MultipleOptionPicker }
+  })
+  class VisitorFeedbackDialog extends Vue {
+    @Prop() companyName!: string;
+    @Prop() whatsGoodOptions!: { [key: string]: string }[];
+    @Prop() pointsAwarded!: number;
+
+    rating: number = 0;
+    whatsGoodModel: string[] = [];
+    otherFeedback: string = '';
+
+    skip() {
+      this.$emit('skip');
+      this.clear();
     }
-  },
-  methods: {
-    skip () {
-      this.$emit('skip')
-      this.clear()
-    },
-    submit () {
+
+    submit() {
       const submitData = {
         rating: this.rating,
         whatsGood: this.whatsGoodModel,
         otherFeedback: this.otherFeedback
-      }
+      };
 
-      this.$emit('submit', submitData)
-      this.clear()
-    },
-    clear () {
-      this.rating = 0
-      this.whatsGoodModel = []
-      this.otherFeedback = ''
+      this.$emit('submit', submitData);
+      this.clear();
+    }
+
+    clear() {
+      this.rating = 0;
+      this.whatsGoodModel = [];
+      this.otherFeedback = '';
     }
   }
-}
+
+  export default VisitorFeedbackDialog;
 </script>
 
 <style scoped>
