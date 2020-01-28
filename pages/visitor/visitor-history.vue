@@ -4,8 +4,8 @@
     <v-content>
       <v-container>
         <TransactionComponent
-          :key="i"
           v-for="i in 10"
+          :key="i"
           class="my-4"
           :received="i%2===1 ? true : false"
           points-from="388728"

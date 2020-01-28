@@ -1,24 +1,24 @@
 <template>
   <v-form v-model="isValid">
     <v-text-field
-      :rules="nameRules"
       v-model="fullName"
+      :rules="nameRules"
       label="Full name"
     />
     <v-text-field
-      :rules="emailRules"
       v-model="emailAddress"
+      :rules="emailRules"
       label="Email"
     />
     <v-text-field
-      :rules="passwordRules"
       v-model="password"
+      :rules="passwordRules"
       label="Password"
       type="password"
     />
     <v-text-field
-      :rules="[() => passwordMatch() || 'Passwords do not match!']"
       v-model.lazy="rePassword"
+      :rules="[() => passwordMatch() || 'Passwords do not match!']"
       label="Re-type Password"
       type="password"
     />
@@ -32,10 +32,10 @@
       <template v-slot:activator="{ on }">
         <v-text-field
           v-model="date"
-          v-on="on"
           label="Day of Birth"
           append-icon="mdi-calendar"
           readonly
+          v-on="on"
         />
       </template>
       <v-date-picker
@@ -47,7 +47,7 @@
         color="#FF0B51"
       >
         <v-spacer />
-        <v-btn @click="$refs.dialog.save(date)" color="#FF0B51" class="white--text">
+        <v-btn color="#FF0B51" class="white--text" @click="$refs.dialog.save(date)">
           OK
         </v-btn>
       </v-date-picker>
@@ -65,9 +65,9 @@
     <v-checkbox
       v-for="i in 5"
       :key="i"
+      v-model="interests"
       :label="interestsName[i-1]"
       :value="`interest-`+(i-1).toString()"
-      v-model="interests"
       hide-details
       class="mt-2"
       color="#3F32D5"
@@ -97,62 +97,63 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Component, Vue } from 'nuxt-property-decorator';
 
-export default Vue.extend({
-  name: 'VisitorRegisterForm',
-  data: () => ({
-    isValid: false,
-    fullName: '',
-    emailAddress: '',
-    password: '',
-    rePassword: '',
-    gender: '',
-    date: new Date().toISOString().substr(0, 10),
-    interests: [],
-    interestOther: false,
-    agreeTOA: false,
-    modal: false,
-    interestsName: [
-      'Financial Technology',
-      'Education Technology',
-      'Health Technology',
-      'E-commerce',
-      'Tourism'
-    ],
-    nameRules: [
-      v => !!v || 'Full name is required!'
-    ],
-    Rules: [
-      v => !!v || 'Full name is required!'
-    ],
-    emailRules: [
-      v => !!v || 'Email is required!',
-      v => /.+@.+/.test(v) || 'Must be a valid email address.'
-    ],
-    passwordRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length >= 8) || 'Password must have 8+ characters.',
-      v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character.',
-      v => /(?=.*\d)/.test(v) || 'Must have one number.',
-      v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
-    ]
-  }),
-  computed: {
-    passwordsFilled() {
-      return (this.password !== '' && this.rePassword !== '');
-    }
-  },
-  methods: {
-    passwordMatch() {
-      let samePassword = false;
-      if (this.passwordsFilled) {
-        if (this.password === this.rePassword) {
-          samePassword = true;
-        }
-      }
-      return samePassword;
-    }
+@Component({
+  components: { }
+})
+class VisitorRegisterForm extends Vue {
+  isValid: boolean = false;
+  fullName: string = '';
+  emailAddress: string = '';
+  password: string = '';
+  rePassword: string = '';
+  gender: string = '';
+  date: string = new Date().toISOString().substr(0, 10);
+  interests: string[] = [];
+  interestOther: boolean = false;
+  agreeTOA: boolean = false;
+  modal: boolean = false;
+  interestsName: string[] = [
+    'Financial Technology',
+    'Education Technology',
+    'Health Technology',
+    'E-commerce',
+    'Tourism'
+    ];
+  nameRules = [
+    v => !!v || 'Full name is required!'
+  ];
+  Rules = [
+    v => !!v || 'Full name is required!'
+  ];
+  emailRules = [
+    v => !!v || 'Email is required!',
+    v => /.+@.+/.test(v) || 'Must be a valid email address.'
+  ];
+  passwordRules = [
+    v => !!v || 'Password is required',
+    v => (v && v.length >= 8) || 'Password must have 8+ characters.',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character.',
+    v => /(?=.*\d)/.test(v) || 'Must have one number.',
+    v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
+  ];
+
+  get passwordsFilled(): boolean {
+    return (this.password !== '' && this.rePassword !== '');
   }
-});
+
+  passwordMatch() {
+    let samePassword = false;
+    if (this.passwordsFilled) {
+      if (this.password === this.rePassword) {
+        samePassword = true;
+      }
+    }
+    return samePassword;
+  }
+}
+
+export default VisitorRegisterForm;
+
 </script>
