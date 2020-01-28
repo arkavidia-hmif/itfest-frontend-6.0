@@ -1,8 +1,10 @@
 <template>
   <v-app-bar fixed app>
-    <v-app-bar-nav-icon>
-      <v-icon>mdi-chevron-left</v-icon>
-    </v-app-bar-nav-icon>
+    <nuxt-link :to="backTo">
+      <v-app-bar-nav-icon>
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-app-bar-nav-icon>
+   </nuxt-link>
     <v-toolbar-title class="toolbar-title">
       {{ titleText }}
     </v-toolbar-title>
@@ -23,6 +25,10 @@ export default Vue.extend({
   props: {
     titleText: {
       default: 'Title',
+      type: String
+    },
+    backTo: {
+      default: '/',
       type: String
     }
   }

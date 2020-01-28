@@ -7,7 +7,9 @@
       <p>
         This is your QRCode for your account.
       </p>
-      <QRCodeVue :value="url" :size="size" level="H" />
+      <div class="d-flex justify-center">
+        <QRCodeVue :value="url" :size="size" level="H" />
+      </div>
     </div>
   </div>
 </template>

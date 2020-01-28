@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Points History" />
+    <BackToolbar title-text="Points History" back-to="/visitor/menu" />
     <v-content>
       <v-container>
         <TransactionComponent

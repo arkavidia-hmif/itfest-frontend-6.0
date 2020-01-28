@@ -17,10 +17,12 @@
               <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-refresh" submenu-title="Trade Points" />
+              <nuxt-link to="/visitor/trx">
+                <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
+              </nuxt-link>
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
+              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" />
             </v-col>
           </v-row>
         </v-col>
@@ -28,7 +30,7 @@
           <FeedbackComponent />
         </v-col>
         <v-col cols="12">
-          <QRComponent />
+          <QRComponent url="www.google.com" :size="300" />
         </v-col>
       </v-row>
     </v-container>
