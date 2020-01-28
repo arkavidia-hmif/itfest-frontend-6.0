@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column align-center justify-center pa-2">
-    <div class="elevation-6 pa-2 icon-container">
+    <div class="elevation-4 pa-2 icon-container">
       <v-icon size="60" color="#4336D7">
         {{ submenuIcon }}
       </v-icon>
@@ -18,6 +18,11 @@
 .title-container {
   font-size:0.9em;
   font-weight:600;
+  text-decoration: none;
+  color: #000000;
+  a:visited {
+    text-decoration: none;
+  }
 }
 </style>
 

@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-btn icon>
-        <v-icon>mdi-arrow-left</v-icon>
-      </v-btn>
-      <v-toolbar-title>Transaction History</v-toolbar-title>
-      <v-spacer />
-    </v-toolbar>
+    <BackToolbar titleText="Transaction History"/>
     <div>
       <TenantTrxHistory />
     </div>
@@ -16,10 +10,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import TenantTrxHistory from '~/components/tenant-history/TenantTrxHistory.vue';
+import BackToolbar from '~/components/partials/BackToolbar.vue';
 
 export default Vue.extend({
   name: 'TenantTrxHistoryPage',
-  components: { TenantTrxHistory },
+  components: { 
+    TenantTrxHistory,
+    BackToolbar
+  },
   props: {},
   data() {
     return {
