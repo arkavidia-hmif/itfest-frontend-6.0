@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon>
         <v-icon>mdi-chevron-left</v-icon>
       </v-app-bar-nav-icon>
-   </nuxt-link>
+    </nuxt-link>
     <v-toolbar-title class="toolbar-title">
       {{ titleText }}
     </v-toolbar-title>

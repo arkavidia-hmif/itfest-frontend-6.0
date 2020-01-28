@@ -11,14 +11,14 @@
       label="Password"
       type="password"
     />
-      <v-btn
-        color="#FF084F"
-        class="white--text my-12"
-        x-large
-        block
-      >
-        Login!
-      </v-btn>
+    <v-btn
+      color="#FF084F"
+      class="white--text my-12"
+      x-large
+      block
+    >
+      Login!
+    </v-btn>
     </div>
   </v-form>
 </template>
