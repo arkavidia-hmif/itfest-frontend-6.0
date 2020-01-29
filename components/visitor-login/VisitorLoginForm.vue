@@ -31,9 +31,10 @@ import { Component, Action, Vue } from 'nuxt-property-decorator';
   components: { }
 })
 
-class VisitorRegisterForm extends Vue {
+class VisitorLoginForm extends Vue {
   emailAddress: string = '';
   password: string = '';
+  isValid: boolean = false;
   loggingIn: boolean = false;
   emailRules = [
     v => !!v || 'Email is required!',
@@ -46,7 +47,7 @@ class VisitorRegisterForm extends Vue {
   @Action('auth/login') loginAction;
   
   attemptLogin() {
-    if (!this.emailAddress || !this.password) {
+    if (!this.isValid) {
       return;
     }
 
@@ -55,7 +56,7 @@ class VisitorRegisterForm extends Vue {
     const pass = this.password;
     this.loginAction({ email, pass })
       .then(() => {
-        this.$router.push('/visitor/menu');
+        this.$router.push('/menu');
       })
       .catch(() => {
 
