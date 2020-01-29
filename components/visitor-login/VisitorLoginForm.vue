@@ -19,7 +19,6 @@
     >
       Login!
     </v-btn>
-    </div>
   </v-form>
 </template>
 
@@ -40,10 +39,6 @@ class VisitorRegisterForm extends Vue {
   passwordRules = [
     v => !!v || 'Password is required',
   ];
-
-  get passwordsFilled(): boolean {
-    return (this.password !== '' && this.rePassword !== '');
-  }
 }
 
 export default VisitorRegisterForm;
