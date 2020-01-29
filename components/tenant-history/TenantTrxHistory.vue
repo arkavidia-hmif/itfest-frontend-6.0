@@ -32,7 +32,7 @@ class TenantTrxHistory extends Vue {
   get items() {
     return this.transactions.map(transaction => {
       return {
-        visitorId: transaction.toId,
+        visitorId: transaction.to.name,
         points: transaction.amount
       };
     });

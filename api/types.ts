@@ -22,6 +22,7 @@ export enum Gender {
 }
 
 export interface VisitorAccount {
+  name: string;
   email: string;
   password: string;
   voucher: string;
@@ -36,11 +37,19 @@ export interface TenantAccount {
   name: string;
 }
 
+export interface TransactionActor {
+  id: number;
+  email: string;
+  username: string;
+  name: string;
+  role: string;
+}
+
 export interface Transaction {
   id: number;
   amount: number;
-  fromId: number;
-  toId: string;
+  from: TransactionActor;
+  to: TransactionActor;
   transfer: boolean;
 }
 
@@ -48,4 +57,8 @@ export interface TenantReview {
   score: number;
   praise: string[];
   comment?: string;
+}
+
+export enum LoginStatus {
+  NO_USER, ERROR
 }
