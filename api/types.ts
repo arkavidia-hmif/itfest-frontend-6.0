@@ -52,3 +52,7 @@ export interface Transaction {
   to: TransactionActor;
   transfer: boolean;
 }
+
+export enum LoginStatus {
+  NO_USER, ERROR
+}
