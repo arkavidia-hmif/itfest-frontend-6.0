@@ -63,7 +63,7 @@ class VisitorLoginForm extends Vue {
     const password = this.password;
     this.loginAction({ userid, password })
       .then(() => {
-        this.$router.push('/menu');
+        this.$router.push('/visitor/menu');
       })
       .catch((e) => {
         if (e instanceof ApiError) {
