@@ -43,3 +43,9 @@ export interface Transaction {
   toId: string;
   transfer: boolean;
 }
+
+export interface TenantReview {
+  score: number;
+  praise: string[];
+  comment?: string;
+}
