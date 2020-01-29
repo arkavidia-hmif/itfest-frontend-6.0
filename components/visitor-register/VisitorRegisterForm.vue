@@ -72,14 +72,14 @@
       :key="i"
       v-model="interests"
       :label="interestsName[i-1]"
-      :value="`interest-`+(i-1).toString()"
+      :value="interestsName[i-1]"
       hide-details
       class="mt-2"
       color="#3F32D5"
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field v-model="interests" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
+      <v-text-field :disabled="!interestOther" v-model="interestOtherValue" class="px-2 py-0" hide-details single-line />
     </div>
     <h4 class="mt-4">
       Disclaimer
@@ -88,6 +88,7 @@
       Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
     </p>
     <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details color="#3F32D5" />
+    <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <div class="d-flex justify-center py-4">
       <v-btn
         type="submit"
@@ -96,6 +97,7 @@
         :color="agreeTOA? `#FF084F` : ``"
         :class="(agreeTOA? `white--text` : ``)+` text-none`"
         x-large
+        block
       >
         Register!
       </v-btn>
@@ -105,10 +107,13 @@
 
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
-import { Gender } from '~/api/types.ts';
+import { VisitorAccount, Gender } from '~/api/types.ts'
+import Alert from '~/components/partials/Alert.vue';
+import { ApiError } from '~/api/base';
+import { LoginStatus } from '~/api/types';
 
 @Component({
-  components: { }
+  components: { Alert }
 })
 class VisitorRegisterForm extends Vue {
   isLoggingIn: boolean = false;
@@ -122,8 +127,10 @@ class VisitorRegisterForm extends Vue {
   date: string = new Date().toISOString().substr(0, 10);
   interests: string[] = [];
   interestOther: boolean = false;
+  interestOtherValue: string = '';
   agreeTOA: boolean = false;
   modal: boolean = false;
+  error: string = '';
   interestsName: string[] = [
     'Financial Technology',
     'Education Technology',
@@ -173,19 +180,30 @@ class VisitorRegisterForm extends Vue {
     const dob = this.date;
     const gender = genderEnum;
     const interest = this.interests;
+    if(!this.interestOtherValue)
+    {
+      interest.push(this.interestOtherValue);
+    }
 
     // Set action after submitting form
     this.isLoggingIn = true;
 
     this.registerAction({name, email, voucher, password, dob, gender, interest})
       .then(() => {
-        this.$router.push('/visitor/home');
+        this.$router.push('/visitor/menu');
       })
-      .catch(() => {
-        // eslint-disable-next-line no-console
-        console.log("yeh gbs gmn seh");
+      .catch((e) => {
+        if (e instanceof ApiError) {
+          if (e.errorCode === LoginStatus.NO_USER) {
+            this.error = 'User belum terdaftar';
+            return;
+          }
 
-        // TODO show alert
+          this.error = 'Silakan periksa kembali kode voucher yang Anda masukkan.';
+          return;
+        }
+
+        this.error = e.toString();
       })
       .finally(() => {
         this.isLoggingIn = false;
