@@ -1,5 +1,5 @@
 import arkavidiaApi from '~/api/api';
-import { TenantAccount, VisitorAccount } from '~/api/types';
+import { TenantAccount } from '~/api/types';
 
 export interface AuthState {
   loggedIn: boolean;
@@ -41,8 +41,7 @@ export const actions = {
   async login({ commit }, { userid, password }) {
 
     // eslint-disable-next-line no-useless-escape
-    const emailRegex =  	
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let bearerToken;
     if (emailRegex.test(userid)) {
       let email = userid;

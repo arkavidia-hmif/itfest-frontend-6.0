@@ -32,9 +32,9 @@ class AdminLoginForm extends Vue {
     }
 
     this.isLoggingIn = true;
-    const username = this.username;
+    const userid = this.username;
     const password = this.password;
-    this.loginAction({ username, password })
+    this.loginAction({ userid, password })
       .then(() => {
         this.$router.push('/');
       })

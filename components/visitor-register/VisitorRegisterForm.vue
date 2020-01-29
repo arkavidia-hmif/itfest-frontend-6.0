@@ -162,19 +162,17 @@ class VisitorRegisterForm extends Vue {
   get passwordsFilled(): boolean {
     return (this.password !== '' && this.rePassword !== '');
   }
-  
+
   @Action('auth/visitorRegister') registerAction;
 
   attemptLogin() {
-    console.log(this.isValid);
-    if(!this.isValid)
-    {
+    if (!this.isValid) {
       return;
     }
 
     // Init Visitor Account
     const genderEnum : Gender = (this.gender==="Male"?1:2);
-    
+
     const name = this.fullName;
     const email = this.emailAddress;
     const voucher = this.voucherCode;
@@ -189,7 +187,7 @@ class VisitorRegisterForm extends Vue {
 
     // Set action after submitting form
     this.isLoggingIn = true;
-    
+
     this.registerAction({name, email, voucher, password, dob, gender, interest})
       .then(() => {
         this.$router.push('/visitor/menu');
@@ -209,7 +207,7 @@ class VisitorRegisterForm extends Vue {
       })
       .finally(() => {
         this.isLoggingIn = false;
-      })
+      });
   }
 
   passwordMatch() {
