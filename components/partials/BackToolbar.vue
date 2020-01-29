@@ -1,12 +1,14 @@
 <template>
-  <v-toolbar height="75" class="px-4">
-    <v-btn :href="prevPage" icon>
-      <v-icon>mdi-chevron-left</v-icon>
-    </v-btn>
+  <v-app-bar fixed app>
+    <nuxt-link :to="backTo">
+      <v-app-bar-nav-icon>
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-app-bar-nav-icon>
+    </nuxt-link>
     <v-toolbar-title class="toolbar-title">
       {{ titleText }}
     </v-toolbar-title>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <style lang="scss" scoped>
@@ -27,6 +29,10 @@ export default Vue.extend({
     },
     titleText: {
       default: 'Title',
+      type: String
+    },
+    backTo: {
+      default: '/',
       type: String
     }
   }

@@ -5,11 +5,11 @@
         <ArkavidiaLoginImage class="my-2" />
       </v-col>
       <v-col cols="12">
-        <AdminLoginHeader />
+        <LoginHeader />
       </v-col>
       <v-col cols="12">
         <v-card-text>
-          <AdminLoginForm :button-text="'LOGIN'" :show-register-button="true" />
+          <LoginForm :button-text="'LOGIN'" :show-register-button="true" />
         </v-card-text>
       </v-col>
     </v-row>
@@ -22,16 +22,16 @@
 
 <script lang='ts'>
 import Vue from 'vue';
-import AdminLoginForm from './AdminLoginForm.vue';
+import LoginForm from './LoginForm.vue';
 import ArkavidiaLoginImage from './ArkavidiaLoginImage.vue';
-import AdminLoginHeader from './AdminLoginHeader.vue';
+import LoginHeader from './LoginHeader.vue';
 
 export default Vue.extend({
   name: 'AdminLogin',
   components: {
-    AdminLoginForm,
+    LoginForm,
     ArkavidiaLoginImage,
-    AdminLoginHeader
+    LoginHeader
   }
 });
 </script>
