@@ -21,7 +21,7 @@ export default class AuthApi extends ArkavidiaBaseApi {
 
       return jwt;
     }
-    catch(e) {
+    catch (e) {
       if (e.response) {
         if (e.response.data.code === 'user-not-found') {
           throw new ApiError<LoginStatus>(LoginStatus.NO_USER, e.toString());

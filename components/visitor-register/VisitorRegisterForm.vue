@@ -79,7 +79,7 @@
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field :disabled="!interestOther" v-model="interests" class="px-2 py-0" hide-details single-line />
+      <v-text-field v-model="interests" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
     </div>
     <h4 class="mt-4">
       Disclaimer
@@ -105,7 +105,7 @@
 
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
-import { VisitorAccount, Gender } from '~/api/types.ts'
+import { Gender } from '~/api/types.ts';
 
 @Component({
   components: { }
@@ -155,19 +155,17 @@ class VisitorRegisterForm extends Vue {
   get passwordsFilled(): boolean {
     return (this.password !== '' && this.rePassword !== '');
   }
-  
+
   @Action('auth/visitorRegister') registerAction;
 
   attemptLogin() {
-    console.log(this.isValid);
-    if(!this.isValid)
-    {
+    if (!this.isValid) {
       return;
     }
 
     // Init Visitor Account
     const genderEnum : Gender = (this.gender==="Male"?1:2);
-    
+
     const name = this.fullName;
     const email = this.emailAddress;
     const voucher = this.voucherCode;
@@ -178,17 +176,20 @@ class VisitorRegisterForm extends Vue {
 
     // Set action after submitting form
     this.isLoggingIn = true;
-    
+
     this.registerAction({name, email, voucher, password, dob, gender, interest})
       .then(() => {
         this.$router.push('/visitor/home');
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log("yeh gbs gmn seh");
+
+        // TODO show alert
       })
       .finally(() => {
         this.isLoggingIn = false;
-      })
+      });
   }
 
   passwordMatch() {

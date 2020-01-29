@@ -2,6 +2,7 @@ import axios from 'axios';
 import AuthApi from './auth';
 import UserApi from '~/api/user';
 import SocketApi from "~/api/socket";
+import GameApi from "~/api/game";
 
 const apiClient = axios.create({
   // Prevent sending cookies with cross-domain requests
@@ -17,7 +18,8 @@ export class ArkavidiaApi {
   baseUrl: string;
 
   auth: AuthApi;
-  user: UserApi = new UserApi(apiClient);
+  user: UserApi;
+  game: GameApi;
   socket: SocketApi;
 
   constructor(baseUrl: string) {
@@ -26,6 +28,7 @@ export class ArkavidiaApi {
 
     this.auth = new AuthApi(apiClient);
     this.user = new UserApi(apiClient);
+    this.game = new GameApi(apiClient);
     this.socket = new SocketApi(this.baseUrl);
   }
 

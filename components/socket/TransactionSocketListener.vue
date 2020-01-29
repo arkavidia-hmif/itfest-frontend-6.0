@@ -6,8 +6,8 @@
         :company-name="senderName"
         :points-awarded="pointsAwarded"
         :whats-good-options="whatsGoodOptions"
-        @skip="visitorFeedbackDialog = false"
-        @submit="(event) => onFeedbackSubmit(event)"
+        :tenant-id="tenantId"
+        @close="visitorFeedbackDialog = false"
       />
     </v-dialog>
     <v-snackbar
@@ -49,6 +49,7 @@ class TransactionSocketListener extends Vue {
   visitorFeedbackDialog = false;
   snackbar = false;
   snackbarText = '';
+  tenantId = 0;
 
   mounted() {
     if (this.isLoggedIn) {
@@ -83,17 +84,16 @@ class TransactionSocketListener extends Vue {
     });
 
     api.socket.addListener(TransactionEventType.PLAY, (data) => {
-      const name = data.from.name;
+      const name = data.tenant.name;
+      const tenantId = data.tenant.id;
       const amount = data.amount;
 
       this.senderName = name;
       this.pointsAwarded = amount;
+      this.tenantId = tenantId;
       this.visitorFeedbackDialog = true;
+      this.fetchUserAction();
     });
-  }
-
-  onFeedbackSubmit() {
-    this.visitorFeedbackDialog = false;
   }
 
   showSnackbar(message: string) {

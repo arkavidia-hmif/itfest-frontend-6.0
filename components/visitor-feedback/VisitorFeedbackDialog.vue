@@ -48,7 +48,7 @@
     </div>
     <v-row class="pa-4" no-gutters>
       <v-col :cols="6" class="pr-2">
-        <v-btn outlined block @click="skip">
+        <v-btn outlined block @click="close">
           Skip
         </v-btn>
       </v-col>
@@ -62,35 +62,38 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'nuxt-property-decorator';
+  import { Component, Prop, Vue, Action } from 'nuxt-property-decorator';
   import MultipleOptionPicker from './MultipleOptionPicker.vue';
+  import { TenantReview } from "~/api/types";
 
   @Component({
     components: { MultipleOptionPicker }
   })
   class VisitorFeedbackDialog extends Vue {
+    @Action("game/sendReview") sendReviewAction;
     @Prop() companyName!: string;
     @Prop() whatsGoodOptions!: { [key: string]: string }[];
     @Prop() pointsAwarded!: number;
+    @Prop() tenantId!: number;
 
     rating: number = 0;
     whatsGoodModel: string[] = [];
     otherFeedback: string = '';
 
-    skip() {
-      this.$emit('skip');
+    close() {
+      this.$emit('close');
       this.clear();
     }
 
     submit() {
-      const submitData = {
-        rating: this.rating,
-        whatsGood: this.whatsGoodModel,
-        otherFeedback: this.otherFeedback
+      const tenantReview: TenantReview = {
+        score: this.rating,
+        praise: this.whatsGoodModel,
+        comment: this.otherFeedback
       };
 
-      this.$emit('submit', submitData);
-      this.clear();
+      this.sendReviewAction({ tenantId: this.tenantId, tenantReview });
+      this.close();
     }
 
     clear() {

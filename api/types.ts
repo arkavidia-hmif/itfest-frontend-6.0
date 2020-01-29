@@ -53,6 +53,12 @@ export interface Transaction {
   transfer: boolean;
 }
 
+export interface TenantReview {
+  score: number;
+  praise: string[];
+  comment?: string;
+}
+
 export enum LoginStatus {
   NO_USER, ERROR
 }
