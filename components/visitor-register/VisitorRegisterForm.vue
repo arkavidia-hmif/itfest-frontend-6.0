@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isValid">
+  <v-form v-model="isValid" @submit.prevent="attemptLogin">
     <v-text-field
       v-model="fullName"
       :rules="nameRules"
@@ -79,7 +79,7 @@
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
+      <v-text-field :disabled="!interestOther" v-model="interests" class="px-2 py-0" hide-details single-line />
     </div>
     <h4 class="mt-4">
       Disclaimer
@@ -90,6 +90,8 @@
     <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details color="#3F32D5" />
     <div class="d-flex justify-center py-4">
       <v-btn
+        type="submit"
+        :loading="isLoggingIn"
         :disabled="!isValid"
         :color="agreeTOA? `#FF084F` : ``"
         :class="(agreeTOA? `white--text` : ``)+` text-none`"
@@ -102,14 +104,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Action, Vue } from 'nuxt-property-decorator';
+import { VisitorAccount, Gender } from '~/api/types.ts'
 
 @Component({
   components: { }
 })
 class VisitorRegisterForm extends Vue {
+  isLoggingIn: boolean = false;
   isValid: boolean = false;
   fullName: string = '';
+  voucherCode: string = '';
   emailAddress: string = '';
   password: string = '';
   rePassword: string = '';
@@ -129,9 +134,6 @@ class VisitorRegisterForm extends Vue {
   nameRules = [
     v => !!v || 'Full name is required!'
   ];
-  Rules = [
-    v => !!v || 'Full name is required!'
-  ];
   emailRules = [
     v => !!v || 'Email is required!',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
@@ -146,9 +148,49 @@ class VisitorRegisterForm extends Vue {
     v => /(?=.*\d)/.test(v) || 'Must have one number.',
     v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
   ];
+  rePasswordRules = [
+    v => !!v || 'Password confirmation is required!',
+  ];
 
   get passwordsFilled(): boolean {
     return (this.password !== '' && this.rePassword !== '');
+  }
+  
+  @Action('auth/visitorRegister') registerAction;
+
+  attemptLogin() {
+    console.log(this.isValid);
+    if(!this.isValid)
+    {
+      return;
+    }
+
+    // Init Visitor Account
+    let genderEnum : Gender = (this.gender==="Male"?1:2);
+    
+    let visitor : VisitorAccount = {
+      name : this.fullName,
+      email : this.emailAddress,
+      voucher : this.voucherCode,
+      password : this.password,
+      dob : this.date,
+      gender : genderEnum,
+      interest : this.interests,
+    };
+
+    // Set action after submitting form
+    this.isLoggingIn = true;
+    
+    this.registerAction(visitor)
+      .then(() => {
+        this.$router.push('/visitor/home');
+      })
+      .catch(() => {
+        console.log("yeh gbs gmn seh");
+      })
+      .finally(() => {
+        this.isLoggingIn = false;
+      })
   }
 
   passwordMatch() {

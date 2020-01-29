@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isValid">
+  <v-form v-model="isValid" @submit.prevent="attemptLogin">
     <v-text-field
       v-model="emailAddress"
       :rules="emailRules"
@@ -12,6 +12,8 @@
       type="password"
     />
     <v-btn
+      :loading="loggingIn"
+      type="submit"
       color="#FF084F"
       class="white--text my-12"
       x-large
@@ -19,20 +21,20 @@
     >
       Login!
     </v-btn>
-    </div>
   </v-form>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Action, Vue } from 'nuxt-property-decorator';
 
 @Component({
   components: { }
 })
+
 class VisitorRegisterForm extends Vue {
-  isValid: boolean = false;
   emailAddress: string = '';
   password: string = '';
+  loggingIn: boolean = false;
   emailRules = [
     v => !!v || 'Email is required!',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
@@ -40,6 +42,28 @@ class VisitorRegisterForm extends Vue {
   passwordRules = [
     v => !!v || 'Password is required',
   ];
+
+  @Action('auth/login') loginAction;
+  
+  attemptLogin() {
+    if (!this.emailAddress || !this.password) {
+      return;
+    }
+
+    this.loggingIn = true;
+    const email = this.emailAddress;
+    const pass = this.password;
+    this.loginAction({ email, pass })
+      .then(() => {
+        this.$router.push('/visitor/menu');
+      })
+      .catch(() => {
+
+      })
+      .finally(() => {
+        this.loggingIn = false;
+      });
+  }
 }
 
 export default VisitorRegisterForm;

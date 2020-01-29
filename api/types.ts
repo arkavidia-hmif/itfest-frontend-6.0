@@ -22,6 +22,7 @@ export enum Gender {
 }
 
 export interface VisitorAccount {
+  name: string;
   email: string;
   password: string;
   voucher: string;
