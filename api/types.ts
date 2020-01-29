@@ -22,6 +22,7 @@ export enum Gender {
 }
 
 export interface VisitorAccount {
+  name: string;
   email: string;
   password: string;
   voucher: string;
@@ -50,4 +51,8 @@ export interface Transaction {
   from: TransactionActor;
   to: TransactionActor;
   transfer: boolean;
+}
+
+export enum LoginStatus {
+  NO_USER, ERROR
 }

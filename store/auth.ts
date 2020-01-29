@@ -38,15 +38,18 @@ export const mutations = {
 };
 
 export const actions = {
-  async login({ commit }, { username, password }) {
-    // eslint-disable-next-line no-useless-escape
-    const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  async login({ commit }, { userid, password }) {
 
+    // eslint-disable-next-line no-useless-escape
+    const emailRegex =  	
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let bearerToken;
-    if (emailRegex.test(username)) {
-      bearerToken = await arkavidiaApi.auth.loginByEmail(username, password);
+    if (emailRegex.test(userid)) {
+      let email = userid;
+      bearerToken = await arkavidiaApi.auth.loginByEmail(email, password);
     }
     else {
+      let username = userid;
       bearerToken = await arkavidiaApi.auth.loginByUsername(username, password);
     }
 
@@ -57,8 +60,8 @@ export const actions = {
     await commit('setLogout');
   },
 
-  async visitorRegister({ commit }, visitorAccount: VisitorAccount) {
-    const bearerToken = await arkavidiaApi.auth.visitorRegister(visitorAccount);
+  async visitorRegister({ commit }, {name, email, voucher, password, dob, gender, interest}) {
+    const bearerToken = await arkavidiaApi.auth.visitorRegister({name, email, voucher, password, dob, gender, interest});
     commit('setLogin', { bearerToken });
   },
 

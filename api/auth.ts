@@ -1,5 +1,5 @@
-import { TenantAccount, VisitorAccount } from './types';
-import { ArkavidiaBaseApi } from './base';
+import { TenantAccount, VisitorAccount, LoginStatus } from './types';
+import { ApiError, ArkavidiaBaseApi } from './base';
 
 export default class AuthApi extends ArkavidiaBaseApi {
   async loginByUsername(username: string, password: string): Promise<string> {
@@ -14,12 +14,22 @@ export default class AuthApi extends ArkavidiaBaseApi {
 
   async loginByEmail(email: string, password: string): Promise<string> {
     const requestBody = { email, password };
-    const response = await this.axios.post(`/login`, requestBody);
-    const jwt = response.data.data.jwt;
+    try {
+      const response = await this.axios.post(`/login`, requestBody);
+      const jwt = response.data.data.jwt;
+      if (!jwt) { throw new Error('Empty JWT'); }
 
-    if (!jwt) { throw new Error('Empty JWT'); }
+      return jwt;
+    }
+    catch(e) {
+      if (e.response) {
+        if (e.response.data.code === 'user-not-found') {
+          throw new ApiError<LoginStatus>(LoginStatus.NO_USER, e.toString());
+        }
+      }
 
-    return jwt;
+      throw new ApiError<LoginStatus>(LoginStatus.ERROR, e.toString());
+    }
   }
 
   async visitorRegister(visitorAccount: VisitorAccount): Promise<string> {
