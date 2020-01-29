@@ -166,22 +166,20 @@ class VisitorRegisterForm extends Vue {
     }
 
     // Init Visitor Account
-    let genderEnum : Gender = (this.gender==="Male"?1:2);
+    const genderEnum : Gender = (this.gender==="Male"?1:2);
     
-    let visitor : VisitorAccount = {
-      name : this.fullName,
-      email : this.emailAddress,
-      voucher : this.voucherCode,
-      password : this.password,
-      dob : this.date,
-      gender : genderEnum,
-      interest : this.interests,
-    };
+    const name = this.fullName;
+    const email = this.emailAddress;
+    const voucher = this.voucherCode;
+    const password = this.password;
+    const dob = this.date;
+    const gender = genderEnum;
+    const interest = this.interests;
 
     // Set action after submitting form
     this.isLoggingIn = true;
     
-    this.registerAction(visitor)
+    this.registerAction({name, email, voucher, password, dob, gender, interest})
       .then(() => {
         this.$router.push('/visitor/home');
       })

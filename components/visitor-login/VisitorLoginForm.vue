@@ -37,7 +37,7 @@ class VisitorLoginForm extends Vue {
   isValid: boolean = false;
   loggingIn: boolean = false;
   emailRules = [
-    v => !!v || 'Email is required!',
+    v => !!v || 'Email is required  !',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
   ];
   passwordRules = [
@@ -67,6 +67,6 @@ class VisitorLoginForm extends Vue {
   }
 }
 
-export default VisitorRegisterForm;
+export default VisitorLoginForm;
 
 </script>
