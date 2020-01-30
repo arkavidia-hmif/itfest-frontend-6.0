@@ -66,7 +66,7 @@ import { UserData, Transaction } from '~/api/types';
   }
 })
 
-class VisitorMenuPage extends Vue{
+class VisitorIndexPage extends Vue{
   isUserLoaded : Boolean = false;
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
@@ -80,5 +80,5 @@ class VisitorMenuPage extends Vue{
 
 }
 
-export default VisitorMenuPage;
+export default VisitorIndexPage;
 </script>

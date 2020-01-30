@@ -86,11 +86,7 @@
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
   import {UserData, qrcode} from '../../api/types';
-<<<<<<< HEAD
   import VueQrReader from '~/components/VueQrReader.vue';
-=======
-  import VueQrReader from "~/components/VueQrReader.vue";
->>>>>>> a9bce3d475fee5de75856c24a0edfe30c8a216fb
 
   @Component({
     components: {

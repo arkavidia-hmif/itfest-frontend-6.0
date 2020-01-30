@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Points History" back-to="/visitor/menu" />
+    <BackToolbar title-text="Points History" back-to="/visitor/" />
     <v-content>
       <v-container v-if="isTransactionLoaded">
         <div v-if="transactionCount===0" class="d-flex flex-column align-center justify-center no-transaction-container" style="height:90vh">
