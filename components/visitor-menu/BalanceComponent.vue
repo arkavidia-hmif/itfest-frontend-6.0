@@ -1,7 +1,7 @@
 <template>
   <div class="balance-container elevation-12 d-flex flex-column align-center justify-center pa-4">
     <div>
-      Remaining Points:
+      Current Points:
     </div>
     <div class="balance-number">
       {{ points }}

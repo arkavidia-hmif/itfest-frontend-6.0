@@ -1,22 +1,21 @@
 <template>
-  <div class="d-flex">
-    <div class="d-flex align-center">
-      <h3 class="px-3">
+  <div class="d-flex justify-center signed-in-container">
+    <div class="px-1">
         Signed in as
-      </h3>
     </div>
-    <div class="d-flex align-center">
-      <h3 class="account-id">
-        341256
-      </h3>
+    <div class="account-id px-1">
+        {{ name }}
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.account-id {
-  font-size: 2em;
-  color: #FF0B51;
+.signed-in-container {
+  font-size:1.2em;
+  .account-id {
+    font-weight:600;
+    color: #FF0B51;
+  }
 }
 </style>
 
@@ -24,6 +23,12 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'SignedInAs'
+  name: 'SignedInAs',
+  props: {
+    name: {
+      default: '名',
+      type: String
+    }
+  }
 });
 </script>

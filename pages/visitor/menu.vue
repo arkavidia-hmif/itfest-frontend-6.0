@@ -4,12 +4,15 @@
       <div>
         <v-img :src="require('~/assets/logo-horz.svg')" aspect-ratio="15" contain class="py-2" />
       </div>
+      <div v-if="isUserRendered">
+        {{ user }}
+      </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
-          <SignedInAs />
+          <SignedInAs :name="user.name" v-if="isUserRendered"/>
         </v-col>
-        <v-col cols="12" class="py-2">
-          <BalanceComponent />
+        <v-col cols="12" class="pa-2 py-4">
+          <BalanceComponent :points="user.point" v-if="isUserRendered" />
         </v-col>
         <v-col cols="12" class="py-2">
           <v-row no-gutters>
@@ -50,9 +53,10 @@ import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
+import {Component, Action, Getter} from 'nuxt-property-decorator';
+import { UserData, Transaction } from '~/api/types';
 
-export default Vue.extend({
-  name: 'VisitorMenu',
+@Component({
   components: {
     SignedInAs,
     BalanceComponent,
@@ -60,5 +64,21 @@ export default Vue.extend({
     FeedbackComponent,
     QRComponent
   }
-});
+})
+
+class VisitorMenuPage extends Vue{
+  isUserRendered : Boolean = false;
+  @Action('user/fetchUser') fetchUserAction;
+  @Getter('user/getUser') user!: UserData;
+
+  mounted() {
+    this.fetchUserAction()
+      .finally(()=>{
+        this.isUserRendered=true;
+      });
+  }
+
+}
+
+export default VisitorMenuPage;
 </script>
