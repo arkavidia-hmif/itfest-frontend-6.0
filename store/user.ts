@@ -6,6 +6,7 @@ export interface UserState {
   transactions: Transaction[];
 }
 
+
 export const namespaced = true;
 
 export const state = () => ({
@@ -19,7 +20,8 @@ export const getters = {
   },
   getTransactions(state: UserState): Transaction[] {
     return state.transactions;
-  }
+  },
+
 };
 
 export const mutations = {
@@ -42,7 +44,7 @@ export const actions = {
   },
   async fetchTransactions({ commit }): Promise<Transaction[]> {
     const transactions = await arkavidiaApi.user.getTransactions();
-    commit('setTransactions', { transactions });
+    commit('setTransactions', {transactions});
     return transactions;
   }
 };

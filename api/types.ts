@@ -9,6 +9,7 @@ export interface UserData {
   role: UserRole;
   createdAt?: string;
   updatedAt?: string;
+  point?: number;
 }
 
 export enum UserRole {
@@ -61,4 +62,8 @@ export interface TenantReview {
 
 export enum LoginStatus {
   NO_USER, ERROR
+}
+
+export interface qrcode {
+  qrcode: string;
 }

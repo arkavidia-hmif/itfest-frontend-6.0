@@ -1,81 +1,86 @@
 <template>
-  <v-container fluid fill-height>
-    <v-row style="background-color:white">
-      <v-col :cols="12" class="pa-5">
-        <div class="headline">
-          Which difficulties did the visitor played?
-          <v-checkbox
-            v-model="selected"
-            class="black--checkbox"
-            label="Easy"
-            value="Easy"
-            @click.native="pointChange"
-          />
-          <v-checkbox
-            v-model="selected"
-            class="black--checkbox"
-            label="Medium"
-            value="Medium"
-            @click.native="pointChange"
-          />
-          <v-checkbox
-            v-model="selected"
-            class="black--checkbox"
-            label="Hard"
-            value="Hard"
-            @click.native="pointChange"
-          />
-        </div>
-      </v-col>
-      <v-col :cols="12" class="pa-5" style="color:black">
-        <div class="headline">
-          You're giving
-        </div>
-        <div class="display-1 mt-5">
-          <b style="color:#4854D6"> {{ pointTemp }} </b> points
-        </div>
-      </v-col>
-      <v-col :cols="12" class="pa-5" style="color:black">
-        <div class="headline">
-          Account destination
-        </div>
-        <div class="display-1 mt-5">
-          <b style="color:#E4491C"> {{ accountTemp }} </b>
-        </div>
-      </v-col>
-      <v-col :cols="12" class="pa-5" style="color:black">
-        <div class="headline">
-          Remaining points after giving
-        </div>
-        <div class="display-1 mt-5 font-weight-bold">
-          <b class="display-2 font-weight-black" style="color:#4854D6"> {{ remainingPoint }} </b> points
-        </div>
-      </v-col>
-      <v-col :cols="12" class="pa-5">
-        <v-row justify="center">
-          <v-btn color="#4854D6" style="text-transform: none;color: white">
-            Give Point
-          </v-btn>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <BackToolbar title-text="Transaction History"/>
+
+    <v-container fill-height fluid>
+      <v-row style="background-color:white">
+        <v-col :cols="12" class="pa-5">
+          <div class="headline">
+            Which difficulties did the visitor played?
+            <v-checkbox
+              @click.native="pointChange"
+              class="black--checkbox"
+              label="Easy"
+              v-model="selected"
+              value="Easy"
+            />
+            <v-checkbox
+              @click.native="pointChange"
+              class="black--checkbox"
+              label="Medium"
+              v-model="selected"
+              value="Medium"
+            />
+            <v-checkbox
+              @click.native="pointChange"
+              class="black--checkbox"
+              label="Hard"
+              v-model="selected"
+              value="Hard"
+            />
+          </div>
+        </v-col>
+        <v-col :cols="12" class="pa-5" style="color:black">
+          <div class="headline">
+            You're giving
+          </div>
+          <div class="display-1 mt-5">
+            <b style="color:#4854D6"> {{ pointTemp }} </b> points
+          </div>
+        </v-col>
+        <v-col :cols="12" class="pa-5" style="color:black">
+          <div class="headline">
+            Account destination
+          </div>
+          <div class="display-1 mt-5">
+            <b style="color:#E4491C"> {{ accountTemp }} </b>
+          </div>
+        </v-col>
+        <v-col :cols="12" class="pa-5" style="color:black">
+          <div class="headline">
+            Remaining points after giving
+          </div>
+          <div class="display-1 mt-5 font-weight-bold">
+            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp}} </b> points
+          </div>
+        </v-col>
+        <v-col :cols="12" class="pa-5">
+          <v-row justify="center">
+            <v-btn @click="submitPoint" color="#4854D6" style="text-transform: none;color: white">
+              Give Point
+            </v-btn>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
-<script>
-import Vue from 'vue';
-export default Vue.extend({
-  layout: 'submenu',
-  name: 'TransactionsHistory',
-  data() {
-    return {
-      selected: [],
-      pointTemp: 0,
-      accountTemp: 123123,
-      remainingPoint: 4900
-    };
-  },
-  methods: {
+<script lang="ts">
+  import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
+  import {UserData, qrcode} from '../../api/types';
+
+  @Component
+  class givePoint extends Vue {
+
+    @Getter('user/getUser') user!: UserData;
+    @Getter('game/getQrcode') qr!: qrcode;
+    @Action('game/play') play;
+
+    selected: Array<string> = [];
+    pointTemp: number = 0;
+    accountTemp: string = "123123";
+
     pointChange() {
       let x = 0;
       if (this.selected.includes('Easy')) {
@@ -89,8 +94,24 @@ export default Vue.extend({
       }
       this.pointTemp = x;
     }
+
+    submitPoint() {
+      let temp: number[] = [];
+      if (this.selected.includes('Easy')) {
+        temp.push(1);
+      }
+      if (this.selected.includes('Medium')) {
+        temp.push(2);
+      }
+      if (this.selected.includes('Hard')) {
+        temp.push(3);
+      }
+      this.play(this.qr.qrcode, temp);
+      this.$router.push('/tenant');
+    }
   }
-});
+
+  export default givePoint;
 </script>
 <style scoped>
   .black--checkbox /deep/ label {
