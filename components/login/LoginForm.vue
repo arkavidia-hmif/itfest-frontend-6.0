@@ -20,7 +20,7 @@ import { Component, Action, Vue } from 'nuxt-property-decorator';
 @Component({
   components: { }
 })
-class AdminLoginForm extends Vue {
+class LoginForm extends Vue {
   username: string = '';
   password: string = '';
   isLoggingIn: boolean = false;
@@ -47,6 +47,6 @@ class AdminLoginForm extends Vue {
   }
 }
 
-export default AdminLoginForm;
+export default LoginForm;
 
 </script>
