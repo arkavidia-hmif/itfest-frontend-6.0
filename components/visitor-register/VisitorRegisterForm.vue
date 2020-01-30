@@ -175,7 +175,7 @@ class VisitorRegisterForm extends Vue {
 
     const name = this.fullName;
     const email = this.emailAddress;
-    const voucher = this.voucherCode;
+    const voucher = this.voucherCode.toLowerCase();
     const password = this.password;
     const dob = this.date;
     const gender = genderEnum;

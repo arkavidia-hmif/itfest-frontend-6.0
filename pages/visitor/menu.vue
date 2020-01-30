@@ -4,15 +4,15 @@
       <div>
         <v-img :src="require('~/assets/logo-horz.svg')" aspect-ratio="15" contain class="py-2" />
       </div>
-      <div v-if="isUserRendered">
+      <div v-if="isUserLoaded">
         {{ user }}
       </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
-          <SignedInAs :name="user.name" v-if="isUserRendered"/>
+          <SignedInAs :name="user.name" v-if="isUserLoaded"/>
         </v-col>
         <v-col cols="12" class="pa-2 py-4">
-          <BalanceComponent :points="user.point" v-if="isUserRendered" />
+          <BalanceComponent :points="user.point.toString()" v-if="isUserLoaded" />
         </v-col>
         <v-col cols="12" class="py-2">
           <v-row no-gutters>
@@ -67,14 +67,14 @@ import { UserData, Transaction } from '~/api/types';
 })
 
 class VisitorMenuPage extends Vue{
-  isUserRendered : Boolean = false;
+  isUserLoaded : Boolean = false;
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
 
   mounted() {
     this.fetchUserAction()
       .finally(()=>{
-        this.isUserRendered=true;
+        this.isUserLoaded=true;
       });
   }
 
