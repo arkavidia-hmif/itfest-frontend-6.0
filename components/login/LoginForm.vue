@@ -1,6 +1,6 @@
 <template>
   <v-form class="px-4 justify-center" @submit.prevent="attemptLogin">
-    <v-text-field v-model="username" label="Email Address" type="text" />
+    <v-text-field v-model="username" label="Username" type="text" />
     <v-text-field v-model="password" label="Password" type="password" />
     <div class="text-center">
       <v-btn :loading="isLoggingIn" type="submit" color="success" class="mt-4 px-12 py-2 text-none" rounded>
@@ -20,7 +20,7 @@ import { Component, Action, Vue } from 'nuxt-property-decorator';
 @Component({
   components: { }
 })
-class AdminLoginForm extends Vue {
+class LoginForm extends Vue {
   username: string = '';
   password: string = '';
   isLoggingIn: boolean = false;
@@ -47,6 +47,6 @@ class AdminLoginForm extends Vue {
   }
 }
 
-export default AdminLoginForm;
+export default LoginForm;
 
 </script>

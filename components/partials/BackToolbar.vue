@@ -23,6 +23,10 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'BackToolbar',
   props: {
+    prevPage: {
+      default: '/admin',
+      type: String
+    },
     titleText: {
       default: 'Title',
       type: String

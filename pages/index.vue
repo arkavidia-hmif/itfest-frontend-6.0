@@ -1,12 +1,5 @@
 <template>
-  <v-container>
-    <nuxt-link to="/visitor-transfer">
-      Transfer
-    </nuxt-link>
-    <div>
-      Userdata: {{ user }}
-    </div>
-  </v-container>
+  <v-container />
 </template>
 
 <script lang="ts">
@@ -21,7 +14,22 @@ class IndexPage extends Vue {
   @Getter('user/getUser') user!: UserData;
 
   mounted() {
-    this.fetchUserAction();
+    this.fetchUserAction()
+      .then(() => {
+          const role = this.user.role;
+          if (role === 'tenant') {
+              this.$router.push('/tenant');
+          }
+          else if (role === 'admin') {
+              this.$router.push('/admin');
+          }
+          else {
+              this.$router.push('/visitor');
+          }
+      })
+      .catch(() => {
+          // TODO do something
+      });
   }
 }
 
