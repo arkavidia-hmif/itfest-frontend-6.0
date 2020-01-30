@@ -3,8 +3,6 @@
     <v-col class="py-5" cols="10">
       <qrcode-stream
         ref="qr"
-        @decode="onDecode"
-        @init="onInit"
         stop-on-scanned="true"
         use-back-camera="true"
         draw-on-found="true"
@@ -13,6 +11,8 @@
         video-height="480"
         video-width="640"
         responsive="true"
+        @decode="onDecode"
+        @init="onInit"
       />
       <div>Value: <a :href="result" target="_blank">{{ result }}</a></div>
     </v-col>
