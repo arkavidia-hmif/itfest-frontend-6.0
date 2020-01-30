@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="px-2" style="background-color:white">
       <v-col :cols="12" class="black--text title pb-12" style="background-color:white">
-        Signed in as <b style="color:red"> {{ user  || 'test'}} </b>
+        Signed in as <b style="color:red"> {{ user.name  || 'test'}} </b>
 <!--        Signed in as <b style="color:red"> {{ user.name }} </b>-->
       </v-col>
       <v-col :cols="12">
@@ -86,7 +86,11 @@
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
   import {UserData, qrcode} from '../../api/types';
+<<<<<<< HEAD
   import VueQrReader from '~/components/VueQrReader.vue';
+=======
+  import VueQrReader from "~/components/VueQrReader.vue";
+>>>>>>> a9bce3d475fee5de75856c24a0edfe30c8a216fb
 
   @Component({
     components: {
