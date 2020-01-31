@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Give Point"/>
+    <BackToolbar title-text="Give Point" back-to="/tenant/"/>
     <v-container fluid class="mt-12">
       <v-row style="background-color:white">
         <v-col :cols="12" class="pa-5">
@@ -116,7 +116,7 @@
       console.log('temp');
       console.log(temp);
       this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).finally( () =>{
-        this.$router.push('/tenant');
+        this.$router.push('/tenant/');
       });
     }
     mounted() {
