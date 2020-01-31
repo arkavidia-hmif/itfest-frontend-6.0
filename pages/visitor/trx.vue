@@ -40,13 +40,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Component, Getter, Action } from 'nuxt-property-decorator';
 import TransactionComponent from '~/components/visitor-history/TransactionComponent.vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
 import { Transaction, TransactionActor } from '~/api/types';
-import { Component, Getter, Action } from 'nuxt-property-decorator';
 
 @Component({
-  components:{
+  components: {
     TransactionComponent,
     BackToolbar,
   }
@@ -93,7 +93,7 @@ class VisitorTransferPage extends Vue {
       .finally(() =>{
         this.isTransactionLoaded = true;
         this.transactionCount = this.dummy.length;
-      })
+      });
   }
 }
 

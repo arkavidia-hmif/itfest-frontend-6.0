@@ -6,10 +6,10 @@
       </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
-          <SignedInAs :name="user.name" v-if="isUserLoaded"/>
+          <SignedInAs v-if="isUserLoaded" :name="user.name" />
         </v-col>
         <v-col cols="12" class="pa-2 py-4">
-          <BalanceComponent :points="user.point.toString()" v-if="isUserLoaded" />
+          <BalanceComponent v-if="isUserLoaded" :points="user.point.toString()" />
         </v-col>
         <v-col cols="12" class="py-2">
           <v-row no-gutters>
@@ -26,7 +26,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" v-if="isQRLoaded">
+        <v-col v-if="isQRLoaded" cols="12">
           <QRComponent :url="qrcode.qrid" :size="300" />
         </v-col>
       </v-row>
@@ -45,12 +45,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {Component, Action, Getter} from 'nuxt-property-decorator';
 import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
-import {Component, Action, Getter} from 'nuxt-property-decorator';
-import { UserData, Transaction, Qrcode } from '~/api/types';
+import { UserData, Qrcode } from '~/api/types';
 
 @Component({
   components: {

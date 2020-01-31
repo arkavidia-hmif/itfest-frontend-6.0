@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-center justify-center pa-2 submenu-container" v-ripple>
+  <div v-ripple class="d-flex flex-column align-center justify-center pa-2 submenu-container">
     <div class="elevation-4 pa-2 icon-container">
       <v-icon size="60" color="#4336D7">
         {{ submenuIcon }}
