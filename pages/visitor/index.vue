@@ -30,7 +30,7 @@
           <FeedbackComponent />
         </v-col>
         <v-col cols="12" v-if="isQRLoaded">
-          <QRComponent :value="qrcode.qrid" :size="300" />
+          <QRComponent :url="qrcode.qrid" :size="300" />
         </v-col>
       </v-row>
     </v-container>
