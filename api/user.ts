@@ -1,4 +1,4 @@
-import { UserData, qrcode } from './types';
+import { UserData, Qrcode } from './types';
 import { ArkavidiaBaseApi } from './base';
 import {Transaction} from "~/api/types";
 
@@ -13,8 +13,8 @@ export default class UserApi extends ArkavidiaBaseApi {
     return response.data.data.array;
   }
 
-  async getQRID(): Promise<qrcode> {
+  async getQRID(): Promise<Qrcode> {
     const response = await this.axios.get('/user/me/qrid');
-    return response.data;
+    return response.data.data;
   }
 }

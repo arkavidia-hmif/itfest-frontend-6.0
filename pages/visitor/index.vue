@@ -8,7 +8,7 @@
         {{ user }}
       </div>
       <div v-if="isQRLoaded">
-        {{ qrid }}
+        {{ qrcode.qrid }}
       </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
@@ -35,8 +35,8 @@
         <v-col cols="12">
           <FeedbackComponent />
         </v-col>
-        <v-col cols="12">
-          <QRComponent url="www.google.com" :size="300" />
+        <v-col cols="12" v-if="isQRLoaded">
+          <QRComponent :value="qrcode.qrid" :size="300" />
         </v-col>
       </v-row>
     </v-container>
@@ -57,7 +57,7 @@ import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
 import {Component, Action, Getter} from 'nuxt-property-decorator';
-import { UserData, Transaction, qrcode } from '~/api/types';
+import { UserData, Transaction, Qrcode } from '~/api/types';
 
 @Component({
   components: {
@@ -76,7 +76,7 @@ class VisitorIndexPage extends Vue{
   @Getter('user/getUser') user!: UserData;
 
   @Action('user/fetchQRID') fetchQRIDAction;
-  @Getter('user/getQRID') qrid!: qrcode;
+  @Getter('user/getQRID') qrcode!: Qrcode;
   mounted() {
     this.fetchUserAction()
       .finally(()=>{

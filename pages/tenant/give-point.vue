@@ -68,13 +68,13 @@
 
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
-  import {UserData, qrcode} from '../../api/types';
+  import {UserData, Qrcode} from '../../api/types';
 
   @Component
   class givePoint extends Vue {
 
     @Getter('user/getUser') user!: UserData;
-    @Getter('game/getQrcode') qr!: qrcode;
+    @Getter('game/getQrcode') qr!: Qrcode;
     @Action('game/play') play;
 
     selected: Array<string> = [];
@@ -106,7 +106,7 @@
       if (this.selected.includes('Hard')) {
         temp.push(3);
       }
-      this.play(this.qr.qrcode, temp);
+      this.play(this.qr.qrid, temp);
       this.$router.push('/tenant');
     }
   }

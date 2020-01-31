@@ -1,12 +1,12 @@
 import arkavidiaApi from '~/api/api';
-import {qrcode} from '~/api/types';
+import {Qrcode} from '~/api/types';
 
 export interface GameState {
   review: number;
 }
 
 export interface qrcodestate {
-  qr: qrcode;
+  qr: Qrcode;
 }
 export const namespaced = true;
 
@@ -19,7 +19,7 @@ export const getters = {
   getReview(state: GameState): number {
     return state.review;
   },
-  getQrcode(state:qrcodestate): qrcode{
+  getQrcode(state:qrcodestate): Qrcode{
     return state.qr;
   }
 };

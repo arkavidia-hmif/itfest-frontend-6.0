@@ -85,7 +85,7 @@
 
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
-  import {UserData, qrcode} from '../../api/types';
+  import {UserData, Qrcode} from '../../api/types';
   import VueQrReader from '~/components/VueQrReader.vue';
 
   @Component({
@@ -103,7 +103,7 @@
     scanned: string = '';
     show: boolean = false
     errorMessage: string = '';
-    qrtemp: qrcode = {qrcode: ''}
+    qrtemp: Qrcode = {qrid: ''}
 
 
     mounted() {
@@ -111,7 +111,7 @@
     }
 
     codeScanned(code) {
-      this.qrtemp.qrcode = code;
+      this.qrtemp.qrid = code;
       this.changeQrCode({qr: this.qrtemp});
       this.$router.push('/tenant/give-point');
     }
