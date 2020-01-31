@@ -4,12 +4,6 @@
       <div>
         <v-img :src="require('~/assets/logo-horz.svg')" aspect-ratio="15" contain class="py-2" />
       </div>
-      <div v-if="isUserLoaded">
-        {{ user }}
-      </div>
-      <div v-if="isQRLoaded">
-        {{ qrcode.qrid }}
-      </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
           <SignedInAs :name="user.name" v-if="isUserLoaded"/>
