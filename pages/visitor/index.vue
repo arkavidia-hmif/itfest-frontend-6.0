@@ -7,6 +7,9 @@
       <div v-if="isUserLoaded">
         {{ user }}
       </div>
+      <div v-if="isQRLoaded">
+        {{ qrid }}
+      </div>
       <v-row no-gutters class="py-4">
         <v-col cols="12">
           <SignedInAs :name="user.name" v-if="isUserLoaded"/>
@@ -54,7 +57,7 @@ import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
 import {Component, Action, Getter} from 'nuxt-property-decorator';
-import { UserData, Transaction } from '~/api/types';
+import { UserData, Transaction, qrcode } from '~/api/types';
 
 @Component({
   components: {
@@ -68,13 +71,20 @@ import { UserData, Transaction } from '~/api/types';
 
 class VisitorIndexPage extends Vue{
   isUserLoaded : Boolean = false;
+  isQRLoaded : Boolean = false;
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
 
+  @Action('user/fetchQRID') fetchQRIDAction;
+  @Getter('user/getQRID') qrid!: qrcode;
   mounted() {
     this.fetchUserAction()
       .finally(()=>{
         this.isUserLoaded=true;
+      });
+    this.fetchQRIDAction()
+      .finally(()=>{
+        this.isQRLoaded=true;
       });
   }
 
