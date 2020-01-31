@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="px-2" style="background-color:white">
       <v-col :cols="12" v-if="isUserLoaded" class="black--text title pb-12" style="background-color:white">
-        Signed in as <b style="color:red"> {{ user.name  || 'test'}} </b>
+        Signed in as <b style="color:red"> {{ user.name }} </b>
       </v-col>
       <v-col :cols="12">
         <v-card color="white" elevation="8">
@@ -14,7 +14,7 @@
             </v-col>
             <v-col :cols="6">
               <v-card-text v-if="isUserLoaded" class="display-2 font-weight-black" style="text-align: right;color:blue">
-                {{user.point || 'test'}}
+                {{user.point }}
               </v-card-text>
             </v-col>
           </v-row>

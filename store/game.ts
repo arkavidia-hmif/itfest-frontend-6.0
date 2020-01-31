@@ -12,8 +12,7 @@ export const namespaced = true;
 
 export const state = () => ({
   review: 0,
-  qr: {qrid: '',
-    name: ''}
+  qr: undefined
 });
 
 export const getters = {
@@ -36,8 +35,8 @@ export const mutations = {
 
 export const actions = {
   //eslint-disable-next-line no-empty-pattern
-  async playGame({ }, { qrId, difficultiyLevels }): Promise<void> {
-    await arkavidiaApi.game.play(qrId, difficultiyLevels);
+  async playGame({ }, { qrId, difficultyLevels }): Promise<void> {
+    await arkavidiaApi.game.play(qrId, difficultyLevels);
   },
   async fetchReview({ commit }, { tenantId }): Promise<number> {
     const review = await arkavidiaApi.game.getTenantReview(tenantId);
@@ -59,6 +58,4 @@ export const actions = {
     commit('setQrcode', {qr: data});
     return data;
   },
-
-  // async fetchQrCode({}, {}):
 };

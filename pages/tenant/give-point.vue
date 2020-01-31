@@ -1,8 +1,7 @@
 <template>
   <div>
-    <BackToolbar title-text="Transaction History"/>
-
-    <v-container fill-height fluid>
+    <BackToolbar title-text="Give Point"/>
+    <v-container fluid class="mt-12">
       <v-row style="background-color:white">
         <v-col :cols="12" class="pa-5">
           <div class="headline">
@@ -69,14 +68,19 @@
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
   import {UserData, Qrcode} from '../../api/types';
+  import BackToolbar from '~/components/partials/BackToolbar.vue';
 
-  @Component
+  @Component({
+    components: {
+      BackToolbar
+    }
+  })
   class givePoint extends Vue {
 
     @Action('user/fetchUser') fetchUserAction;
     @Getter('user/getUser') user!: UserData;
     @Getter('game/getQrcode') qr!: Qrcode;
-    @Action('game/play') play;
+    @Action('game/playGame') playAction;
 
     isQrCodeLoad: boolean = false
     selected: Array<string> = [];
@@ -109,7 +113,9 @@
       if (this.selected.includes('Hard')) {
         temp.push(3);
       }
-      this.play(this.qr.qrid, temp).finally( () =>{
+      console.log('temp');
+      console.log(temp);
+      this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).finally( () =>{
         this.$router.push('/tenant');
       });
     }

@@ -3,7 +3,7 @@ import {ArkavidiaBaseApi} from './base';
 
 export default class GameApi extends ArkavidiaBaseApi {
   async play(qrId: string, difficultyLevels: number[]): Promise<void> {
-    await this.axios.post(`/tenant/${qrId}/play`, { difficulty: difficultyLevels });
+    await this.axios.post(`/user/${qrId}/play`, { difficulty: difficultyLevels });
   }
 
   async getTenantReview(tenantId: number): Promise<number> {
