@@ -26,9 +26,6 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
-          <FeedbackComponent />
-        </v-col>
         <v-col cols="12" v-if="isQRLoaded">
           <QRComponent :url="qrcode.qrid" :size="300" />
         </v-col>
@@ -51,7 +48,6 @@ import Vue from 'vue';
 import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
-import FeedbackComponent from '~/components/visitor-menu/FeedbackComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
 import {Component, Action, Getter} from 'nuxt-property-decorator';
 import { UserData, Transaction, Qrcode } from '~/api/types';
@@ -61,7 +57,6 @@ import { UserData, Transaction, Qrcode } from '~/api/types';
     SignedInAs,
     BalanceComponent,
     SubmenuComponent,
-    FeedbackComponent,
     QRComponent
   }
 })
