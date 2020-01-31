@@ -1,5 +1,5 @@
 import {TenantReview} from './types';
-import { ArkavidiaBaseApi } from './base';
+import {ArkavidiaBaseApi} from './base';
 
 export default class GameApi extends ArkavidiaBaseApi {
   async play(qrId: string, difficultyLevels: number[]): Promise<void> {
@@ -13,5 +13,9 @@ export default class GameApi extends ArkavidiaBaseApi {
 
   async sendTenantReview(tenantId: number, tenantReview: TenantReview): Promise<void> {
     await this.axios.post(`/tenant/${tenantId}/review`, tenantReview);
+  }
+
+  async getPlayName(qrId:string): Promise<any>{
+    return await this.axios.get(`/user/${qrId}`);
   }
 }

@@ -1,22 +1,20 @@
 <template>
   <v-container fluid>
     <v-row class="px-2" style="background-color:white">
-      <v-col :cols="12" class="black--text title pb-12" style="background-color:white">
+      <v-col :cols="12" v-if="isUserLoaded" class="black--text title pb-12" style="background-color:white">
         Signed in as <b style="color:red"> {{ user.name  || 'test'}} </b>
-<!--        Signed in as <b style="color:red"> {{ user.name }} </b>-->
       </v-col>
       <v-col :cols="12">
         <v-card color="white" elevation="8">
           <v-row>
             <v-col :cols="6">
-              <v-card-text class="subtitle-1 font-weight-medium mt-1 black--text" style="text-align: left">
-                Remaining Points: {{user || 'test'}}
-<!--                Remaining Points: {{user.point }}-->
+              <v-card-text  class="subtitle-1 font-weight-medium mt-1 black--text" style="text-align: left">
+                Remaining Points:
               </v-card-text>
             </v-col>
             <v-col :cols="6">
-              <v-card-text class="display-2 font-weight-black" style="text-align: right;color:blue">
-
+              <v-card-text v-if="isUserLoaded" class="display-2 font-weight-black" style="text-align: right;color:blue">
+                {{user.point || 'test'}}
               </v-card-text>
             </v-col>
           </v-row>
@@ -99,21 +97,21 @@
     @Getter('user/getUser') user!: UserData;
     @Action('game/changeQrCode') changeQrCode;
 
-
+    isUserLoaded: boolean = false;
     scanned: string = '';
     show: boolean = false
     errorMessage: string = '';
-    qrtemp: Qrcode = {qrid: ''}
-
 
     mounted() {
-      this.fetchUserAction();
+      this.fetchUserAction().finally(()=>{
+        this.isUserLoaded = true;
+      });
     }
 
     codeScanned(code) {
-      this.qrtemp.qrid = code;
-      this.changeQrCode({qr: this.qrtemp});
-      this.$router.push('/tenant/give-point');
+      this.changeQrCode({qr: code}).finally( () =>{
+        this.$router.push('/tenant/give-point');
+      });
     }
 
     errorCaptured(error) {
@@ -138,8 +136,6 @@
         default:
           this.errorMessage = 'UNKNOWN ERROR: ' + error.message;
       }
-
-      // eslint-disable-next-line no-console
       console.error(this.errorMessage);
     }
   }

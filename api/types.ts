@@ -66,4 +66,5 @@ export enum LoginStatus {
 
 export interface Qrcode {
   qrid: string;
+  name?: string;
 }

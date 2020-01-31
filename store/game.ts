@@ -12,7 +12,8 @@ export const namespaced = true;
 
 export const state = () => ({
   review: 0,
-  qr: ''
+  qr: {qrid: '',
+    name: ''}
 });
 
 export const getters = {
@@ -30,7 +31,7 @@ export const mutations = {
   },
   setQrcode(state:qrcodestate, {qr}){
     state.qr = qr;
-  }
+  },
 };
 
 export const actions = {
@@ -47,7 +48,17 @@ export const actions = {
   async sendReview({ }, { tenantId, tenantReview }): Promise<void> {
     await arkavidiaApi.game.sendTenantReview(tenantId, tenantReview);
   },
-  changeQrCode({commit}, {qr}) {
-    commit('setQrcode', {qr: qr});
-  }
+
+  async changeQrCode({commit}, {qr}): Promise<Qrcode>{
+    const response = await arkavidiaApi.game.getPlayName(qr);
+
+    const data = {
+      qrid: qr,
+      name: response.data.data.name
+    };
+    commit('setQrcode', {qr: data});
+    return data;
+  },
+
+  // async fetchQrCode({}, {}):
 };

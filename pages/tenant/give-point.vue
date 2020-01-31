@@ -43,14 +43,14 @@
             Account destination
           </div>
           <div class="display-1 mt-5">
-            <b style="color:#E4491C"> {{ accountTemp }} </b>
+            <b style="color:#E4491C"> {{ qr.name }} </b>
           </div>
         </v-col>
         <v-col :cols="12" class="pa-5" style="color:black">
           <div class="headline">
             Remaining points after giving
           </div>
-          <div class="display-1 mt-5 font-weight-bold">
+          <div class="display-1 mt-5 font-weight-bold" v-if="isUserLoaded">
             <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp}} </b> points
           </div>
         </v-col>
@@ -73,13 +73,16 @@
   @Component
   class givePoint extends Vue {
 
+    @Action('user/fetchUser') fetchUserAction;
     @Getter('user/getUser') user!: UserData;
     @Getter('game/getQrcode') qr!: Qrcode;
     @Action('game/play') play;
 
+    isQrCodeLoad: boolean = false
     selected: Array<string> = [];
     pointTemp: number = 0;
     accountTemp: string = "123123";
+    isUserLoaded: boolean = false;
 
     pointChange() {
       let x = 0;
@@ -106,8 +109,15 @@
       if (this.selected.includes('Hard')) {
         temp.push(3);
       }
-      this.play(this.qr.qrid, temp);
-      this.$router.push('/tenant');
+      this.play(this.qr.qrid, temp).finally( () =>{
+        this.$router.push('/tenant');
+      });
+    }
+    mounted() {
+      this.fetchUserAction().finally(()=>{
+        this.isUserLoaded = true;
+      });
+      // this.
     }
   }
 
