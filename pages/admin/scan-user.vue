@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Scan User" prev-page="/admin" />
+    <BackToolbar title-text="Scan User" back-to="/admin/" />
     <v-content>
       <no-ssr placeholder="loading...">
         <ScanUserForm />

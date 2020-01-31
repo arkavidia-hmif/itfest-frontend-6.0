@@ -17,7 +17,7 @@
               <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
             </v-col>
             <v-col cols="4">
-              <nuxt-link to="/visitor/trx">
+              <nuxt-link to="/visitor/trx" class="no-underline">
                 <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
               </nuxt-link>
             </v-col>
@@ -40,6 +40,9 @@
 <style lang="scss" scoped>
 * {
   font-family: 'Raleway', sans-serif;
+}
+.no-underline {
+  text-decoration: none;
 }
 </style>
 
