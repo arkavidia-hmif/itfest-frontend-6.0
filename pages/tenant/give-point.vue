@@ -1,32 +1,31 @@
 <template>
   <div>
-    <BackToolbar title-text="Transaction History"/>
-
-    <v-container fill-height fluid>
+    <BackToolbar title-text="Give Point" back-to="/tenant/" />
+    <v-container fluid class="mt-12">
       <v-row style="background-color:white">
         <v-col :cols="12" class="pa-5">
           <div class="headline">
             Which difficulties did the visitor played?
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Easy"
-              v-model="selected"
               value="Easy"
+              @click.native="pointChange"
             />
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Medium"
-              v-model="selected"
               value="Medium"
+              @click.native="pointChange"
             />
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Hard"
-              v-model="selected"
               value="Hard"
+              @click.native="pointChange"
             />
           </div>
         </v-col>
@@ -43,20 +42,20 @@
             Account destination
           </div>
           <div class="display-1 mt-5">
-            <b style="color:#E4491C"> {{ accountTemp }} </b>
+            <b style="color:#E4491C"> {{ qr.name }} </b>
           </div>
         </v-col>
         <v-col :cols="12" class="pa-5" style="color:black">
           <div class="headline">
             Remaining points after giving
           </div>
-          <div class="display-1 mt-5 font-weight-bold">
-            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp}} </b> points
+          <div v-if="isUserLoaded" class="display-1 mt-5 font-weight-bold">
+            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp }} </b> points
           </div>
         </v-col>
         <v-col :cols="12" class="pa-5">
           <v-row justify="center">
-            <v-btn @click="submitPoint" color="#4854D6" style="text-transform: none;color: white">
+            <v-btn color="#4854D6" style="text-transform: none;color: white" @click="submitPoint">
               Give Point
             </v-btn>
           </v-row>
@@ -68,18 +67,26 @@
 
 <script lang="ts">
   import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
-  import {UserData, qrcode} from '../../api/types';
+  import {UserData, Qrcode} from '../../api/types';
+  import BackToolbar from '~/components/partials/BackToolbar.vue';
 
-  @Component
+  @Component({
+    components: {
+      BackToolbar
+    }
+  })
   class givePoint extends Vue {
 
+    @Action('user/fetchUser') fetchUserAction;
     @Getter('user/getUser') user!: UserData;
-    @Getter('game/getQrcode') qr!: qrcode;
-    @Action('game/play') play;
+    @Getter('game/getQrcode') qr!: Qrcode;
+    @Action('game/playGame') playAction;
 
+    isQrCodeLoad: boolean = false
     selected: Array<string> = [];
     pointTemp: number = 0;
     accountTemp: string = "123123";
+    isUserLoaded: boolean = false;
 
     pointChange() {
       let x = 0;
@@ -106,8 +113,16 @@
       if (this.selected.includes('Hard')) {
         temp.push(3);
       }
-      this.play(this.qr.qrcode, temp);
-      this.$router.push('/tenant');
+
+      this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).finally( () =>{
+        this.$router.push('/tenant/');
+      });
+    }
+    mounted() {
+      this.fetchUserAction().finally(()=>{
+        this.isUserLoaded = true;
+      });
+      // this.
     }
   }
 

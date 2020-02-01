@@ -1,10 +1,10 @@
 <template>
   <div class="d-flex justify-center signed-in-container">
     <div class="px-1">
-        Signed in as
+      Signed in as
     </div>
     <div class="account-id px-1">
-        {{ name }}
+      {{ name }}
     </div>
   </div>
 </template>

@@ -64,6 +64,7 @@ export enum LoginStatus {
   NO_USER, ERROR
 }
 
-export interface qrcode {
-  qrcode: string;
+export interface Qrcode {
+  qrid: string;
+  name?: string;
 }
