@@ -14,7 +14,9 @@
         <v-col cols="12" class="py-2">
           <v-row no-gutters>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
+              <nuxt-link to="/visitor/update-profile" class="no-underline">
+                <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
+              </nuxt-link>
             </v-col>
             <v-col cols="4">
               <nuxt-link to="/visitor/trx" class="no-underline">
