@@ -1,16 +1,26 @@
 <template>
   <v-row class="transaction-container pa-4">
-    <v-col cols="6" class="pa-2">
-      <div class="d-flex grantor-container">
-        <div>
-          Grantor:
+    <v-col cols="10" class="pa-2">
+      <div class="d-flex flex-column">
+        <div class="d-flex grantor-container">
+          <div>
+            From:
+          </div>
+          <div class="px-2 grantor-account">
+            {{ pointsFrom }}
+          </div>
         </div>
-        <div class="px-2 grantor-account">
-          {{ pointsFrom }}
+        <div class="d-flex grantor-container">
+          <div>
+            To:
+          </div>
+          <div class="px-2 grantor-account">
+            {{ pointsTo }}
+          </div>
         </div>
       </div>
     </v-col>
-    <v-col cols="6" class="text-right pa-2">
+    <v-col cols="2" class="text-right pa-2">
       {{ time }}
     </v-col>
     <v-col cols="12" class="pa-2 pt-0">
@@ -54,6 +64,10 @@ export default Vue.extend({
     pointsFrom: {
       type: String,
       default: 'citenjin'
+    },
+    pointsTo: {
+      type: String,
+      default: 'citenjin2'
     },
     pointsAmount: {
       type: String,

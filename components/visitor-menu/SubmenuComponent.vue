@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-center justify-center pa-2">
+  <div v-ripple class="d-flex flex-column align-center justify-center pa-2 submenu-container">
     <div class="elevation-4 pa-2 icon-container">
       <v-icon size="60" color="#4336D7">
         {{ submenuIcon }}
@@ -12,16 +12,19 @@
 </template>
 
 <style lang="scss" scoped>
-.icon-container {
-  border-radius:5px;
-}
-.title-container {
-  font-size:0.9em;
-  font-weight:600;
-  text-decoration: none;
-  color: #000000;
-  a:visited {
+.submenu-container{
+  border-radius: 10px;
+  .icon-container {
+    border-radius:5px;
+  }
+  .title-container {
+    font-size:1em;
+    font-weight:600;
     text-decoration: none;
+    color: #000000;
+    a:visited {
+      text-decoration: none;
+    }
   }
 }
 </style>

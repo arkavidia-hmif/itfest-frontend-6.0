@@ -1,9 +1,10 @@
 import arkavidiaApi from '~/api/api';
-import {Transaction, UserData} from '~/api/types';
+import {Transaction, UserData, Qrcode} from '~/api/types';
 
 export interface UserState {
   user?: UserData;
   transactions: Transaction[];
+  qrcode: Qrcode;
 }
 
 
@@ -11,7 +12,8 @@ export const namespaced = true;
 
 export const state = () => ({
   user: undefined,
-  transactions: []
+  transactions: [],
+  qrcode: undefined
 });
 
 export const getters = {
@@ -21,7 +23,9 @@ export const getters = {
   getTransactions(state: UserState): Transaction[] {
     return state.transactions;
   },
-
+  getQRID(state: UserState): Qrcode|undefined {
+    return state.qrcode;
+  }
 };
 
 export const mutations = {
@@ -30,6 +34,9 @@ export const mutations = {
   },
   setTransactions(state: UserState, { transactions }) {
     state.transactions = transactions;
+  },
+  setQRID(state: UserState, { qrcode }) {
+    state.qrcode = qrcode;
   },
   clearUser(state: UserState) {
     state.user = undefined;
@@ -46,5 +53,10 @@ export const actions = {
     const transactions = await arkavidiaApi.user.getTransactions();
     commit('setTransactions', {transactions});
     return transactions;
+  },
+  async fetchQRID({ commit }): Promise<Qrcode> {
+    const qrcode = await arkavidiaApi.user.getQRID();
+    commit('setQRID', {qrcode});
+    return qrcode;
   }
 };

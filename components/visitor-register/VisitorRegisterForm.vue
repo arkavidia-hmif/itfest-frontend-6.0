@@ -79,7 +79,7 @@
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field :disabled="!interestOther" v-model="interestOtherValue" class="px-2 py-0" hide-details single-line />
+      <v-text-field v-model="interestOtherValue" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
     </div>
     <h4 class="mt-4">
       Disclaimer
@@ -107,7 +107,7 @@
 
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
-import { VisitorAccount, Gender } from '~/api/types.ts'
+import { Gender } from '~/api/types.ts';
 import Alert from '~/components/partials/Alert.vue';
 import { ApiError } from '~/api/base';
 import { LoginStatus } from '~/api/types';
@@ -175,13 +175,12 @@ class VisitorRegisterForm extends Vue {
 
     const name = this.fullName;
     const email = this.emailAddress;
-    const voucher = this.voucherCode;
+    const voucher = this.voucherCode.toLowerCase();
     const password = this.password;
     const dob = this.date;
     const gender = genderEnum;
     const interest = this.interests;
-    if(!this.interestOtherValue)
-    {
+    if (!this.interestOtherValue) {
       interest.push(this.interestOtherValue);
     }
 

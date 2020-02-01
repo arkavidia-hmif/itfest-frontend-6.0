@@ -25,7 +25,7 @@ export default Vue.extend({
   },
   props: {
     url: {
-      default: 'arkavidia.id',
+      default: '',
       type: String
     },
     size: {

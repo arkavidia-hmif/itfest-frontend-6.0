@@ -1,9 +1,9 @@
 <template>
   <div>
     <BackToolbar title-text="Transaction History" />
-    <div>
+    <v-content>
       <TenantTrxHistory />
-    </div>
+    </v-content>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import BackToolbar from '~/components/partials/BackToolbar.vue';
 
 export default Vue.extend({
   name: 'TenantTrxHistoryPage',
-  components: { 
+  components: {
     TenantTrxHistory,
     BackToolbar
   },
