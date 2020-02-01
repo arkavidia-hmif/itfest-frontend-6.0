@@ -28,7 +28,7 @@
           </div>
           <div class="d-flex align-center">
             <div class="px-2 full-width">
-              <v-text-field full-width suffix="points" />
+              <v-text-field :v-model="price" full-width suffix="points" />
             </div>
           </div>
         </div>
@@ -66,6 +66,7 @@ import Vue from 'vue';
 export default Vue.extend({
   data: () => ({
     inputedAmount: 0,
+    price: 0,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     tenants: ['Company A', 'Company B', 'Company C']
   })

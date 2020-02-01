@@ -68,3 +68,20 @@ export interface Qrcode {
   qrid: string;
   name?: string;
 }
+
+export interface ItemData {
+  id: number;
+  name: string;
+  price: number;
+}
+
+export interface InventoryOwner {
+  name: string;
+  username: string;
+}
+
+export interface InventoryData {
+  qty: number;
+  item: ItemData;
+  owner: InventoryOwner;
+}

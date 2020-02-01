@@ -1,7 +1,8 @@
 <template>
   <v-row no-gutters style="margin-top: 16px;">
+    {{ inventory }}
     <v-container
-      v-for="(item, i) in lists"
+      v-for="(item, i) in inventory"
       :key="i"
       fluid
       class="listbox"
@@ -9,21 +10,13 @@
       pa-5
     >
       <v-row>
-        <div style="font-weight: 800; margin-right: 0.5rem">
-          Startup:
-        </div>
-        <div style="font-weight: 800; color: #FF0B51;">
-          {{ item.company }}
-        </div>
-      </v-row>
-      <v-row>
         <v-col cols="6">
           <v-row>
             <div style="margin-right: 0.5rem">
               Name:
             </div>
             <div style="color: #3F32D5;">
-              {{ item.product }}
+              {{ item.item.name }}
             </div>
           </v-row>
         </v-col>
@@ -33,7 +26,7 @@
               Price:
             </div>
             <div style="color: #3F32D5;">
-              {{ item.point }} points
+              {{ item.item.price }} points
             </div>
           </v-row>
         </v-col>
@@ -43,7 +36,7 @@
           Stock:
         </div>
         <div style="color: #3F32D5;">
-          {{ item.stock }}
+          {{ item.qty }}
         </div>
       </v-row>
     </v-container>
@@ -58,23 +51,38 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {Action} from "~/node_modules/vuex-class";
+import {InventoryData} from "~/api/types";
 
-export default Vue.extend({
-  data: () => ({
-    lists: [
-      {
-        'company': 'Amartha',
-        'product': 'Pulpen (X2)',
-        'point': 10,
-        'stock': 700
-      },
-      {
-        'company': 'Jenius',
-        'product': 'Pulpen (X2)',
-        'point': 10,
-        'stock': 700
+// export default Vue.extend({
+//   data: () => ({
+//     lists: [
+//       {
+//         'company': 'Amartha',
+//         'product': 'Pulpen (X2)',
+//         'point': 10,
+//         'stock': 700
+//       },
+//       {
+//         'company': 'Jenius',
+//         'product': 'Pulpen (X2)',
+//         'point': 10,
+//         'stock': 700
+//       }
+//     ]
+//   })
+// });
+
+  export default class ListStocks extends Vue {
+      @Action('stock/fetchInventory') fetchInventoryAction;
+
+      inventory: InventoryData[] = [];
+
+      mounted(): void {
+          this.fetchInventoryAction()
+              .then((inventory) => {
+                this.inventory = inventory;
+              });
       }
-    ]
-  })
-});
+  }
 </script>

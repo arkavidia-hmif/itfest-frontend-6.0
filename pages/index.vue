@@ -18,13 +18,13 @@ class IndexPage extends Vue {
       .then(() => {
           const role = this.user.role;
           if (role === 'tenant') {
-              this.$router.push('/tenant');
+              this.$router.push('/tenant/');
           }
           else if (role === 'admin') {
-              this.$router.push('/admin');
+              this.$router.push('/admin/');
           }
           else {
-              this.$router.push('/visitor');
+              this.$router.push('/visitor/');
           }
       })
       .catch(() => {

@@ -17,4 +17,9 @@ export default class UserApi extends ArkavidiaBaseApi {
     const response = await this.axios.get('/user/me/qrid');
     return response.data.data;
   }
+
+  async getAllTenants(): Promise<UserData[]> {
+    const response = await this.axios.get('/user/tenant');
+    return response.data.data.array;
+  }
 }
