@@ -1,3 +1,9 @@
+export interface ApiResponse<T> {
+  status: number,
+  code: string,
+  data: T
+}
+
 export interface UserData {
   id?: number;
   email?: string;

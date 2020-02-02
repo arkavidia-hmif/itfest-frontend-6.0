@@ -1,5 +1,8 @@
 <template>
   <v-row align="center" justify="center" no-gutters>
+    <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
+      {{ message.text }}
+    </v-alert>
     <v-col class="py-5" cols="10">
       <v-form>
         <div class="my-4">
@@ -87,15 +90,27 @@
     import {Action, Component, Getter, Vue} from 'nuxt-property-decorator';
     import {UserData} from "~/api/types";
     import arkavidiaApi from "~/api/api";
+    import Alert from "~/components/partials/Alert.vue";
+
+const errorMessages = {
+    'item-exists': 'Item already exist'
+}
 
 @Component({
-    components: { }
+    components: {
+        Alert
+    }
 })
 
 class AddStockForm extends Vue {
     @Action('stock/fetchInventory') fetchInventory;
     @Getter('stock/getInventory') inventory;
 
+    message = {
+        visible: false,
+        text: '',
+        type: 'info'
+    };
     amount: number = 1;
     price: number = 1;
     itemName: string = '';
@@ -123,7 +138,38 @@ class AddStockForm extends Vue {
     }
 
     submit(): void {
-      console.log(this.itemName, this.company, this.amount, this.price);
+      if (!this.itemName) {
+          this.message.visible = true;
+          this.message.type = 'error';
+          this.message.text = "Empty item name";
+          return;
+      }
+      else if (this.company == null) {
+          this.message.visible = true;
+          this.message.type = 'error';
+          this.message.text = "No startup selected";
+          return;
+      }
+      arkavidiaApi.stock.createItem({
+          amount: this.amount,
+          name: this.itemName,
+          owner: this.company.id,
+          price: this.price
+      }).then(() => {
+          this.message.visible = true;
+          this.message.type = 'success';
+          this.message.text = 'Item created';
+      }).catch(error => {
+          this.message.visible = true;
+          this.message.type = 'error';
+          const code = error.response.data.code;
+          if (code in errorMessages) {
+              this.message.text = errorMessages[error.response.data.code];
+          }
+          else {
+              this.message.text = 'Unknown error';
+          }
+      });
     }
 }
 
