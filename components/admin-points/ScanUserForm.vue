@@ -1,18 +1,12 @@
 <template>
   <v-row align="center" justify="center" no-gutters>
     <v-col class="py-5" cols="10">
-      <qrcode-stream
-        ref="qr"
-        stop-on-scanned="true"
-        use-back-camera="true"
-        draw-on-found="true"
-        line-color="#00FF00"
-        line-width="20"
-        video-height="480"
-        video-width="640"
-        responsive="true"
-        @decode="onDecode"
-        @init="onInit"
+      <v-card-text :v-if="errorMessage !== ''">
+        {{ errorMessage }}
+      </v-card-text>
+      <vue-qr-reader
+        @code-scanned="codeScanned"
+        @error-captured="captureError"
       />
       <div>Value: <a :href="result" target="_blank">{{ result }}</a></div>
     </v-col>
@@ -33,47 +27,51 @@
 </style>
 
 <script lang="ts">
-import Vue from 'vue';
-import { QrcodeStream } from 'vue-qrcode-reader';
 
-export default Vue.extend({
-  name: 'ScanUserForm',
+import {Component, Vue} from 'nuxt-property-decorator';
+import VueQrReader from '~/components/VueQrReader.vue';
+
+@Component({
   components: {
-    'qrcode-stream': QrcodeStream
-  },
-  data: () => ({
-    result: '',
-    error: ''
-  }),
-  methods: {
-    onDecode(result) {
-      this.result = result;
-    },
-    async onInit(promise) {
-      try {
-        await promise;
-      }
-      catch (error) {
-        if (error.name === 'NotAllowedError') {
-          this.error = 'ERROR: you need to grant camera access permisson';
-        }
-        else if (error.name === 'NotFoundError') {
-          this.error = 'ERROR: no camera on this device';
-        }
-        else if (error.name === 'NotSupportedError') {
-          this.error = 'ERROR: secure context required (HTTPS, localhost)';
-        }
-        else if (error.name === 'NotReadableError') {
-          this.error = 'ERROR: is the camera already in use?';
-        }
-        else if (error.name === 'OverconstrainedError') {
-          this.error = 'ERROR: installed cameras are not suitable';
-        }
-        else if (error.name === 'StreamApiNotSupportedError') {
-          this.error = 'ERROR: Stream API is not supported in this browser';
-        }
-      }
+    VueQrReader
+  }
+})
+class ScanUserForm extends Vue {
+  errorMessage: string = '';
+
+  mounted() {
+    console.log(this);
+  }
+
+  codeScanned(code) {
+    console.log(code);
+  }
+
+  captureError(error) {
+    console.log(error.name);
+    switch (error.name) {
+      case 'NotAllowedError':
+        this.errorMessage = 'Camera permission denied.';
+        break;
+      case 'NotFoundError':
+        this.errorMessage = 'There is no connected camera.';
+        break;
+      case 'NotSupportedError':
+        this.errorMessage =
+                'Seems like this page is served in non-secure context.';
+        break;
+      case 'NotReadableError':
+        this.errorMessage =
+                "Couldn't access your camera. Is it already in use?";
+        break;
+      case 'OverconstrainedError':
+        this.errorMessage = "Constraints don't match any installed camera.";
+        break;
+      default:
+        this.errorMessage = 'UNKNOWN ERROR: ' + error.message;
     }
   }
-});
+}
+
+export default ScanUserForm;
 </script>
