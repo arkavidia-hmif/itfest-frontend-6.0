@@ -24,13 +24,8 @@
             </v-col>
           </v-row>
         </v-col>
-<<<<<<< HEAD
-        <v-col v-if="isQRLoaded" cols="12">
-          <QRComponent :url="qrcode.qrid" :size="300" />
-=======
         <v-col cols="12" v-if="isQRLoaded">
           <QRComponent :url="qrcode.qrid" :size="250" />
->>>>>>> r/history-redesign
         </v-col>
       </v-row>
     </v-container>

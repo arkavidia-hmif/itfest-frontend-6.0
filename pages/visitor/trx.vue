@@ -44,15 +44,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Getter, Action } from 'nuxt-property-decorator';
 import TransactionComponent from '~/components/visitor-history/TransactionComponent.vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
-<<<<<<< HEAD
-import { Transaction, TransactionActor } from '~/api/types';
-=======
 import { Transaction, TransactionActor, TransactionPagination, UserData } from '~/api/types';
 import { Component, Getter, Action } from 'nuxt-property-decorator';
->>>>>>> r/history-redesign
 
 @Component({
   components: {
@@ -143,17 +138,12 @@ class VisitorTransferPage extends Vue {
     this.fetchTransactionAction()
       .finally(() =>{
         this.isTransactionLoaded = true;
-<<<<<<< HEAD
-        this.transactionCount = this.dummy.length;
-      });
-=======
         this.transactionCount = this.dummy.transactions.length;
       })
     this.fetchUserAction()
       .finally(() =>{
         this.isUserLoaded = true;
       })
->>>>>>> r/history-redesign
   }
 }
 

@@ -1,15 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div v-ripple class="d-flex flex-column align-center justify-center pa-2 submenu-container">
-    <div class="elevation-4 pa-2 icon-container">
-      <v-icon size="60" color="#4336D7">
-        {{ submenuIcon }}
-      </v-icon>
-    </div>
-    <div class="text-center my-2 title-container">
-      {{ submenuTitle }}
-    </div>
-=======
   <div v-ripple>
     <nuxt-link :to="targetLink" style="text-decoration:none;">
       <div class="d-flex flex-column align-center justify-center pa-2 submenu-container">
@@ -23,7 +12,6 @@
         </div>
       </div>
     </nuxt-link>
->>>>>>> r/history-redesign
   </div>
 
 </template>
