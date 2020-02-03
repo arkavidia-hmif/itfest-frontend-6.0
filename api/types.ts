@@ -5,7 +5,7 @@ export interface ApiResponse<T> {
 }
 
 export interface UserData {
-  id?: number;
+  id: number;
   email?: string;
   username: string;
   name: string;
@@ -90,4 +90,10 @@ export interface InventoryData {
   qty: number;
   item: ItemData;
   owner: InventoryOwner;
+}
+
+export interface Pagination<T> {
+  data: T[],
+  page: number,
+  totalPages: number
 }

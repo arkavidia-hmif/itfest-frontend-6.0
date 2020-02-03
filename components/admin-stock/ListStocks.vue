@@ -1,5 +1,10 @@
 <template>
   <v-row no-gutters style="margin-top: 16px;">
+    <v-pagination
+      v-model="page"
+      :length="totalPages"
+      @input="pageChanged"
+    />
     <v-container
       v-for="(item, i) in inventory"
       :key="i"
@@ -8,6 +13,14 @@
       ma-2
       pa-5
     >
+      <v-row>
+        <div style="font-weight: 800; margin-right: 0.5rem">
+          Startup:
+        </div>
+        <div style="font-weight: 800; color: #FF0B51;">
+          {{ getName(item.item.ownerId) }}
+        </div>
+      </v-row>
       <v-row>
         <v-col cols="6">
           <v-row>
@@ -41,8 +54,9 @@
     </v-container>
     <v-pagination
       v-model="page"
-      :length="6"
-    ></v-pagination>
+      :length="totalPages"
+      @input="pageChanged"
+    />
   </v-row>
 </template>
 
@@ -53,24 +67,51 @@
 </style>
 
 <script lang="ts">
-    import { Component, Action, Vue } from 'nuxt-property-decorator';
+    import {Component, Vue} from 'nuxt-property-decorator';
     import {InventoryData} from "~/api/types";
+    import arkavidiaApi from "~/api/api";
 
-
-    @Component({
-    })
+    @Component({})
     class ListStocks extends Vue {
-        @Action('stock/fetchInventory') fetchInventoryAction;
 
         inventory: InventoryData[] = [];
         numberOfItems: number = 10;
         page: number = 1;
+        totalPages: number = 0;
+        companies: Map<number, string> = new Map<number, string>();
+
+        loadStocks() {
+            arkavidiaApi.stock.getInventory({
+                page: this.page,
+                itemPerPage: this.numberOfItems
+            })
+                .then(result => {
+                    this.page = result.page;
+                    this.totalPages = result.totalPages;
+                    this.inventory = result.data;
+                });
+        }
 
         created() {
-            this.fetchInventoryAction()
-                .then((inventory) => {
-                  this.inventory = inventory;
+            arkavidiaApi.user.getAllTenants()
+                .then((tenants) => {
+                    for (let tenant of tenants) {
+                        this.companies.set(tenant.id, tenant.name);
+                    }
                 });
+            this.loadStocks();
+
+        }
+
+        pageChanged() {
+            this.loadStocks();
+        }
+
+        getName(tenantId) {
+            if (tenantId in this.companies) {
+                return this.companies[tenantId];
+            }
+            return 'Arkavidia Admin';
         }
     }
 

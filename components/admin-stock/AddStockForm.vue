@@ -88,7 +88,7 @@
 </style>
 
 <script lang="ts">
-    import {Action, Component, Getter, Vue} from 'nuxt-property-decorator';
+    import {Component, Vue} from 'nuxt-property-decorator';
     import {UserData} from "~/api/types";
     import arkavidiaApi from "~/api/api";
     import Alert from "~/components/partials/Alert.vue";
@@ -104,8 +104,6 @@ const errorMessages = {
 })
 
 class AddStockForm extends Vue {
-    @Action('stock/fetchInventory') fetchInventory;
-    @Getter('stock/getInventory') inventory;
 
     message = {
         visible: false,
@@ -134,10 +132,6 @@ class AddStockForm extends Vue {
                 this.company = undefined;
             }
           });
-
-        if (this.inventory == null) {
-            this.inventory = this.fetchInventory();
-        }
     }
 
     submit(): void {
