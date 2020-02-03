@@ -197,7 +197,7 @@ export default class RedeemPointsForm extends Vue {
                         if (!owners.has(ownerId)) {
                             owner = {
                                 id: ownerId,
-                                name: "Dummy " + ownerId,
+                                name: "admin",
                                 items: []
                             };
                             owners.set(inventory.item.ownerId, owner);
@@ -216,6 +216,18 @@ export default class RedeemPointsForm extends Vue {
                 for (const inventory of owners.values()) {
                     this.inventories.push(inventory);
                 }
+
+                arkavidiaApi.user.getAllTenants()
+                    .then(tenants => {
+                       for (const tenant of tenants) {
+                           if (owners.has(tenant.id)) {
+                               const owner = owners.get(tenant.id);
+                               if (owner) {
+                                   owner.name = tenant.name;
+                               }
+                           }
+                       }
+                    });
             });
     }
 
