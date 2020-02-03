@@ -42,10 +42,10 @@
                 </v-col>
               </template>
               <v-card>
-                <v-card-text :v-if="errorMessage !== ''">
+                <v-card-text class="display-2 center" style="color:red;text-align: center">
                   {{ errorMessage }}
                 </v-card-text>
-                <v-card-actions style="text-align: center">
+                <v-card-actions style="text-align: center" v-if="errorMessage === ''">
                   <vue-qr-reader
                     @code-scanned="codeScanned"
                     @error-captured="errorCaptured"
@@ -96,10 +96,11 @@
     @Action('user/fetchUser') fetchUserAction;
     @Getter('user/getUser') user!: UserData;
     @Action('game/changeQrCode') changeQrCode;
+    @Action('game/getStatus') getStatusAction;
 
     isUserLoaded: boolean = false;
     scanned: string = '';
-    show: boolean = false
+    show: boolean = false;
     errorMessage: string = '';
 
     mounted() {
@@ -109,9 +110,23 @@
     }
 
     codeScanned(code) {
-      this.changeQrCode({qr: code}).finally( () =>{
-        this.$router.push('/tenant/give-point');
+      this.getStatusAction({qr: code}).then((val) =>{
+        // eslint-disable-next-line no-console
+        console.log(val);
+        if (val.status === 404) {
+          this.errorMessage = 'visitor-not-found';
+        }else if(val.status == 400){
+          this.errorMessage = 'invalid-qrid';
+        } else {
+          if (this.errorMessage === ''){
+            this.changeQrCode({qr: code}).finally( () =>{
+              this.$router.push('/tenant/give-point');
+            });
+          }
+        }
       });
+
+
     }
 
     errorCaptured(error) {
