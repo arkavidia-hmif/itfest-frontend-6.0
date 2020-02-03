@@ -1,5 +1,16 @@
 <template>
   <v-row align="center" justify="center" no-gutters>
+    <ConfirmationDialog
+      ref="deleteDialog"
+      title="Delete merchandise?"
+      confirm-text="Delete"
+      confirm-color="red darken-1"
+      cancel-text="Cancel"
+      cancel-color="green darken-1"
+      @confirmed="deleteStock"
+    >
+      The merchandise will be deleted and the data will be lost
+    </ConfirmationDialog>
     <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
       {{ message.text }}
     </v-alert>
@@ -77,45 +88,10 @@
       </v-btn>
     </v-col>
     <v-col class="d-flex justify-center mt-4" cols="10">
-      <v-btn color="#FF0B51" class="white--text text-none" height="50px" width="100%" @click="deleteDialog = true">
+      <v-btn color="#FF0B51" class="white--text text-none" height="50px" width="100%" @click="$refs.deleteDialog && $refs.deleteDialog.show()">
         Delete Merch Stock
       </v-btn>
     </v-col>
-
-    <v-dialog
-      v-model="deleteDialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">
-          Delete merchandise?
-        </v-card-title>
-
-        <v-card-text>
-          The merchandise will be deleted and the data will be lost
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="deleteDialog = false"
-          >
-            Cancel
-          </v-btn>
-
-          <v-btn
-            color="red darken-1"
-            text
-            @click="deleteStock"
-          >
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-row>
 </template>
 
@@ -131,6 +107,7 @@
 
   import {Component, Vue} from 'nuxt-property-decorator';
   import arkavidiaApi from "~/api/api";
+  import ConfirmationDialog from "~/components/ConfirmationDialog.vue";
 
   interface Company {
     id: number;
@@ -141,10 +118,13 @@
     'item-exists': 'Item already exist'
   };
 
-  @Component({})
+  @Component({
+      components: {
+          ConfirmationDialog
+      }
+  })
   export default class UpdateStockForm extends Vue {
 
-    deleteDialog: boolean = false;
     message = {
       visible: false,
       text: '',
@@ -179,12 +159,12 @@
           this.ownerId = inventory.item.ownerId;
           return arkavidiaApi.user.getUser({id: this.ownerId});
         }).then(owner => {
-        this.company = {
-          id: owner.id,
-          name: owner.name
-        };
-        this.isItemLoaded = true;
-      });
+          this.company = {
+            id: owner.id,
+            name: owner.name
+          };
+          this.isItemLoaded = true;
+        });
     }
 
     submit(): void {
