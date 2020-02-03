@@ -8,15 +8,18 @@
         <v-col cols="12">
           <SignedInAs v-if="isUserLoaded" :name="user.name" />
         </v-col>
-        <v-col cols="12" class="pa-2 py-4">
+        <v-col v-if="user && (user.name == null || user.dob == null || user.gender == null || user.interest.length == 0)" cols="12" class="pa-2 py-4">
+          <nuxt-link to="/visitor/update-profile/" class="no-underline">
+            <PersonalDataBanner />
+          </nuxt-link>
+        </v-col>
+        <v-col cols="12" class="pa-2">
           <BalanceComponent v-if="isUserLoaded" :points="user.point.toString()" />
         </v-col>
         <v-col cols="12" class="py-2">
           <v-row no-gutters>
             <v-col cols="4">
-              <nuxt-link to="/visitor/update-profile" class="no-underline">
-                <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
-              </nuxt-link>
+              <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" target-link="/visitor/update-profile/" />
             </v-col>
             <v-col cols="4">
               <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" target-link="/visitor/trx/" />
@@ -50,6 +53,7 @@ import SignedInAs from '~/components/visitor-menu/SignedInAs.vue';
 import BalanceComponent from '~/components/visitor-menu/BalanceComponent.vue';
 import SubmenuComponent from '~/components/visitor-menu/SubmenuComponent.vue';
 import QRComponent from '~/components/visitor-menu/QRComponent.vue';
+import PersonalDataBanner from '~/components/visitor-menu/PersonalDataBanner.vue';
 import { UserData, Qrcode } from '~/api/types';
 
 @Component({
@@ -57,7 +61,8 @@ import { UserData, Qrcode } from '~/api/types';
     SignedInAs,
     BalanceComponent,
     SubmenuComponent,
-    QRComponent
+    QRComponent,
+    PersonalDataBanner
   }
 })
 
