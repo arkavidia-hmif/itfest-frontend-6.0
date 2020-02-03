@@ -34,4 +34,8 @@ export default class StockApi extends ArkavidiaBaseApi {
     };
     return this.axios.put(`/item/${id}`, payload);
   }
+
+  async deleteItem({id}): Promise<ApiResponse<void>> {
+    return this.axios.delete(`/item/${id}`);
+  }
 }

@@ -14,7 +14,9 @@
       pa-5
     >
       <v-row>
-        <v-icon small class="mr-2 mb-1" @click="edit(item.item.id)">fa-edit</v-icon>
+        <v-icon small class="mr-2 mb-1" @click="edit(item.item.id)">
+          fa-edit
+        </v-icon>
         <div style="font-weight: 800; margin-right: 0.5rem">
           Owner:
         </div>

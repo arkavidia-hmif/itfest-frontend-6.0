@@ -1,8 +1,8 @@
 <template>
   <div>
-    <BackToolbar title-text="Merchandise Stock" back-to="/admin/"/>
+    <BackToolbar title-text="Merchandise Stock" back-to="/admin/" />
     <v-content>
-      <ListStocks/>
+      <ListStocks />
     </v-content>
   </div>
 </template>

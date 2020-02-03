@@ -3,7 +3,7 @@
     <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
       {{ message.text }}
     </v-alert>
-    <v-progress-linear :active="!isCompanyLoaded" indeterminate/>
+    <v-progress-linear :active="!isCompanyLoaded" indeterminate />
     <v-col class="py-5" cols="10">
       <v-form>
         <div class="my-4">
@@ -12,7 +12,7 @@
           </div>
           <div class="d-flex align-center">
             <div class="px-2 full-width">
-              <v-text-field v-model="itemName" full-width label="item" type="text"/>
+              <v-text-field v-model="itemName" full-width label="item" type="text" />
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@
       </v-form>
     </v-col>
     <v-col class="d-flex justify-center" cols="10">
-      <v-btn @click="submit" color="#4336D7" class="white--text text-none" height="50px" width="100%">
+      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="submit">
         Add Merch Stock
       </v-btn>
     </v-col>
@@ -168,7 +168,8 @@
         const code = error.response.data.code;
         if (code in errorMessages) {
           this.message.text = errorMessages[error.response.data.code];
-        } else {
+        }
+ else {
           this.message.text = 'Unknown error';
         }
       });
