@@ -1,8 +1,8 @@
 export interface UserData {
   id?: number;
   email?: string;
-  username: string;
-  name: string;
+  username?: string;
+  name?: string;
   dob?: string;
   gender?: number;
   interest?: string[];
@@ -23,13 +23,13 @@ export enum Gender {
 }
 
 export interface VisitorAccount {
-  name: string;
+  name?: string;
   email: string;
   password: string;
   voucher: string;
-  dob: string;
-  gender: Gender;
-  interest: string[];
+  dob?: string;
+  gender?: Gender;
+  interest?: string[];
 }
 
 export interface TenantAccount {

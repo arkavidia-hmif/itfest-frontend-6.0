@@ -29,7 +29,7 @@ import VisitorUpdateProfileForm from '~/components/visitor-profile/VisitorUpdate
 import BackToolbar from '~/components/partials/BackToolbar.vue';
 
 export default Vue.extend({
-  name: 'VIsitorUpdateProfile',
+  name: 'VisitorUpdateProfile',
   components: {
       BackToolbar,
       VisitorUpdateProfileForm

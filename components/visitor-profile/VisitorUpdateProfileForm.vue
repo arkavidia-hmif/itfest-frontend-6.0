@@ -76,21 +76,12 @@
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
       <v-text-field v-model="interestOtherValue" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
     </div>
-    <h4 class="mt-4">
-      Disclaimer
-    </h4>
-    <p class="mt-3">
-      Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
-    </p>
-    <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details color="#3F32D5" />
     <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <div class="d-flex justify-center py-4">
       <v-btn
         type="submit"
         :loading="isUpdating"
         :disabled="!isValid"
-        :color="agreeTOA? `#FF084F` : ``"
-        :class="(agreeTOA? `white--text` : ``)+` text-none`"
         x-large
         block
       >
@@ -124,7 +115,6 @@ class VisitorUpdateProfileForm extends Vue {
   interests: string[] = [];
   interestOther: boolean = false;
   interestOtherValue: string = '';
-  agreeTOA: boolean = false;
   modal: boolean = false;
   error: string = '';
   interestsName: string[] = [
@@ -159,7 +149,7 @@ class VisitorUpdateProfileForm extends Vue {
   @Getter('user/getVisitorData') user!: User;
   @Action('user/editVisitorProfile') updateProfileAction;
 
-    attemptUpdateProfile() {
+  attemptUpdateProfile() {
     if (!this.isValid) {
       return;
     }
