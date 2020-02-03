@@ -1,21 +1,21 @@
 <template>
-  <v-row class="transaction-container pa-4">
+  <v-row class="transaction-container pa-1">
     <v-col cols="10" class="pa-2">
       <div class="d-flex flex-column">
-        <div class="d-flex grantor-container">
+        <div class="d-flex grantor-container align-start">
           <div>
             From:
           </div>
           <div class="px-2 grantor-account">
-            {{ pointsFrom }}
+            {{ typePrefix(fromType) }} {{ pointsFrom }}
           </div>
         </div>
-        <div class="d-flex grantor-container">
+        <div class="d-flex grantor-container align-start">
           <div>
             To:
           </div>
           <div class="px-2 grantor-account">
-            {{ pointsTo }}
+            {{ typePrefix(toType) }} {{ pointsTo }}
           </div>
         </div>
       </div>
@@ -41,6 +41,7 @@
   font-weight: 600;
   font-size:1.3em;
   .grantor-account {
+    font-size:1.1rem;
     color: #FE1256;
   }
 }
@@ -61,9 +62,17 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'TransactionComponent',
   props: {
+    fromType: {
+      type: String,
+      default: 'visitor'
+    },
     pointsFrom: {
       type: String,
       default: 'citenjin'
+    },
+    toType: {
+      type: String,
+      default: 'visitor'
     },
     pointsTo: {
       type: String,
@@ -77,9 +86,23 @@ export default Vue.extend({
       type: String,
       default: '10:10'
     },
+    type: {
+      type: String,
+      default: 'give'
+    },
     received: {
       type: Boolean,
       default: true
+    }
+  },
+  methods: {
+    typePrefix(type){
+      let result = '';
+      if(type==='admin') result = '[A]'
+      else if(type==='tenant') result = '[T]'
+      else result = '[V]'
+
+      return result;
     }
   }
 });

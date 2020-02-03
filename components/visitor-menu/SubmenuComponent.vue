@@ -1,14 +1,19 @@
 <template>
-  <div v-ripple class="d-flex flex-column align-center justify-center pa-2 submenu-container">
-    <div class="elevation-4 pa-2 icon-container">
-      <v-icon size="60" color="#4336D7">
-        {{ submenuIcon }}
-      </v-icon>
-    </div>
-    <div class="text-center my-2 title-container">
-      {{ submenuTitle }}
-    </div>
+  <div v-ripple>
+    <nuxt-link :to="targetLink" style="text-decoration:none;">
+      <div class="d-flex flex-column align-center justify-center pa-2 submenu-container">
+        <div class="elevation-4 pa-2 icon-container">
+          <v-icon size="80" color="#4336D7">
+            {{ submenuIcon }}
+          </v-icon>
+        </div>
+        <div class="text-center my-2 title-container">
+          {{ submenuTitle }}
+        </div>
+      </div>
+    </nuxt-link>
   </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -41,6 +46,10 @@ export default Vue.extend({
     },
     submenuTitle: {
       default: 'Submenu Title',
+      type: String
+    },
+    targetLink: {
+      default: '/visitor/',
       type: String
     }
   }

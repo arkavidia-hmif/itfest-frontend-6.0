@@ -18,4 +18,8 @@ export default class GameApi extends ArkavidiaBaseApi {
   async getPlayName(qrId:string): Promise<any>{
     return await this.axios.get(`/user/${qrId}`);
   }
+
+  async getPlayStatus(qrId:string): Promise<any>{
+    return await  this.axios.get(`/user/${qrId}/play/status`);
+  }
 }
