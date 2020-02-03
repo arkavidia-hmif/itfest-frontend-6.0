@@ -79,17 +79,12 @@ export interface ItemData {
   id: number;
   name: string;
   price: number;
-}
-
-export interface InventoryOwner {
-  name: string;
-  username: string;
+  ownerId: number;
 }
 
 export interface InventoryData {
   qty: number;
   item: ItemData;
-  owner: InventoryOwner;
 }
 
 export interface Pagination<T> {

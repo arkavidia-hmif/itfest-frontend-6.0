@@ -8,6 +8,11 @@ export default class UserApi extends ArkavidiaBaseApi {
     return response.data.data;
   }
 
+  async getUser({id}): Promise<UserData> {
+    const response = await this.axios.get(`/user/${id}`);
+    return response.data.data;
+  }
+
   async getTransactions(): Promise<Transaction[]> {
     const response = await this.axios.get(`/user/me/transaction`);
     return response.data.data.array;

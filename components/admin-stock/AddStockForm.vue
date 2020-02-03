@@ -3,6 +3,7 @@
     <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
       {{ message.text }}
     </v-alert>
+    <v-progress-linear :active="!isCompanyLoaded" indeterminate/>
     <v-col class="py-5" cols="10">
       <v-form>
         <div class="my-4">
@@ -11,18 +12,17 @@
           </div>
           <div class="d-flex align-center">
             <div class="px-2 full-width">
-              <v-text-field v-model="itemName" full-width label="item" type="text" />
+              <v-text-field v-model="itemName" full-width label="item" type="text"/>
             </div>
           </div>
         </div>
         <div class="my-4">
           <div class="form-label">
-            From Company
+            Owner
           </div>
           <div class="d-flex align-center">
             <div class="px-2 full-width">
               <v-combobox
-                v-if="isCompanyLoaded"
                 v-model="company"
                 :items="companies"
                 item-value="id"
@@ -88,87 +88,92 @@
 </style>
 
 <script lang="ts">
-    import {Component, Vue} from 'nuxt-property-decorator';
-    import {UserData} from "~/api/types";
-    import arkavidiaApi from "~/api/api";
-    import Alert from "~/components/partials/Alert.vue";
+  import {Component, Vue} from 'nuxt-property-decorator';
+  import arkavidiaApi from "~/api/api";
+  import Alert from "~/components/partials/Alert.vue";
 
-const errorMessages = {
+  const errorMessages = {
     'item-exists': 'Item already exist'
-}
+  };
 
-@Component({
+
+  interface Company {
+    id: number;
+    name: string;
+  }
+
+  @Component({
     components: {
-        Alert
+      Alert
     }
-})
+  })
 
-class AddStockForm extends Vue {
+  class AddStockForm extends Vue {
 
     message = {
-        visible: false,
-        text: '',
-        type: 'info'
+      visible: false,
+      text: '',
+      type: 'info'
     };
     amount: number = 1;
     price: number = 1;
     itemName: string = '';
     isCompanyLoaded: boolean = false;
-    company?: UserData = undefined;
-    companies: UserData[] = [];
+    company: Company = {
+      id: 1,
+      name: "Admin Arkavidia"
+    };
+    companies: Company[] = [this.company];
     naturalNumber = [
-        v => (v > 0) || 'Value must more than 0'
+      v => (v > 0) || 'Value must more than 0'
     ];
 
     created(): void {
       arkavidiaApi.user.getAllTenants()
-          .then((tenants) => {
-            this.companies = tenants;
-            if (this.companies) {
-                this.company = this.companies[0];
-                this.isCompanyLoaded = true;
-            }
-            else {
-                this.company = undefined;
-            }
-          });
+        .then((tenants) => {
+          this.companies.pop();
+          for (const tenant of tenants) {
+            const company = {
+              id: tenant.id,
+              name: tenant.name
+            };
+            this.companies.push(company);
+          }
+          if (this.companies) {
+            this.company = this.companies[0];
+          }
+          this.isCompanyLoaded = true;
+        });
     }
 
     submit(): void {
       if (!this.itemName) {
-          this.message.visible = true;
-          this.message.type = 'error';
-          this.message.text = "Empty item name";
-          return;
-      }
-      else if (this.company == null) {
-          this.message.visible = true;
-          this.message.type = 'error';
-          this.message.text = "No startup selected";
-          return;
+        this.message.visible = true;
+        this.message.type = 'error';
+        this.message.text = "Empty item name";
+        return;
       }
       arkavidiaApi.stock.createItem({
-          amount: this.amount,
-          name: this.itemName,
-          owner: this.company.id,
-          price: this.price
+        amount: this.amount,
+        name: this.itemName,
+        ownerId: this.company.id,
+        price: this.price
       }).then(() => {
-          this.message.visible = true;
-          this.message.type = 'success';
-          this.message.text = 'Item created';
+        this.message.visible = true;
+        this.message.type = 'success';
+        this.message.text = 'Item created';
       }).catch(error => {
-          this.message.visible = true;
-          this.message.type = 'error';
-          const code = error.response.data.code;
-          if (code in errorMessages) {
-              this.message.text = errorMessages[error.response.data.code];
-          }
-          else {
-              this.message.text = 'Unknown error';
-          }
+        this.message.visible = true;
+        this.message.type = 'error';
+        const code = error.response.data.code;
+        if (code in errorMessages) {
+          this.message.text = errorMessages[error.response.data.code];
+        } else {
+          this.message.text = 'Unknown error';
+        }
       });
     }
-}
+  }
 
-export default AddStockForm;
+  export default AddStockForm;
 </script>

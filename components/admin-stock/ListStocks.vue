@@ -14,8 +14,9 @@
       pa-5
     >
       <v-row>
+        <v-icon small class="mr-2 mb-1" @click="edit(item.item.id)">fa-edit</v-icon>
         <div style="font-weight: 800; margin-right: 0.5rem">
-          Startup:
+          Owner:
         </div>
         <div style="font-weight: 800; color: #FF0B51;">
           {{ getName(item.item.ownerId) }}
@@ -53,6 +54,7 @@
       </v-row>
     </v-container>
     <v-pagination
+      v-if="inventory.length > 0"
       v-model="page"
       :length="totalPages"
       @input="pageChanged"
@@ -107,9 +109,13 @@
             this.loadStocks();
         }
 
+        edit(id) {
+          this.$router.push(`/admin/edit/${id}`);
+        }
+
         getName(tenantId) {
-            if (tenantId in this.companies) {
-                return this.companies[tenantId];
+            if (this.companies.has(tenantId)) {
+                return this.companies.get(tenantId);
             }
             return 'Arkavidia Admin';
         }

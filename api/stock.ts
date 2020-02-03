@@ -11,13 +11,27 @@ export default class StockApi extends ArkavidiaBaseApi {
     };
   }
 
-  async createItem({amount, owner, name, price}): Promise<ApiResponse<void>> {
+  async createItem({amount, ownerId, name, price}): Promise<ApiResponse<void>> {
     const payload = {
-      name: name,
-      price: price,
-      ownerId: owner.id,
+      name,
+      price,
+      ownerId,
       qty: amount
     };
     return this.axios.post(`/item`, payload);
+  }
+
+  async getItem({id}): Promise<InventoryData> {
+    const response = await this.axios.get(`/item/${id}`);
+    return response.data.data;
+  }
+
+  async updateItem({id, amount, name, price}): Promise<ApiResponse<void>> {
+    const payload = {
+      name: name,
+      price: price,
+      qty: amount
+    };
+    return this.axios.put(`/item/${id}`, payload);
   }
 }
