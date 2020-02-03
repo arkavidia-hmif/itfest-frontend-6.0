@@ -25,7 +25,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'PersonalDataBanner',
   props: {
-    message: {
+    text: {
       default: 'MESSAGE',
       type: String
     }

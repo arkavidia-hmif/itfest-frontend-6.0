@@ -1,5 +1,11 @@
+export interface ApiResponse<T> {
+  status: number,
+  code: string,
+  data: T
+}
+
 export interface UserData {
-  id?: number;
+  id: number;
   email?: string;
   username?: string;
   name?: string;
@@ -77,4 +83,22 @@ export enum LoginStatus {
 export interface Qrcode {
   qrid: string;
   name?: string;
+}
+
+export interface ItemData {
+  id: number;
+  name: string;
+  price: number;
+  ownerId: number;
+}
+
+export interface InventoryData {
+  qty: number;
+  item: ItemData;
+}
+
+export interface Pagination<T> {
+  data: T[],
+  page: number,
+  totalPages: number
 }
