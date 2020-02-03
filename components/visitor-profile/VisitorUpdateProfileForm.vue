@@ -56,8 +56,8 @@
       Gender
     </h4>
     <v-radio-group v-model="gender" row class="mt-2" hide-details>
-      <v-radio label="Male" color="#3F32D5" />
-      <v-radio label="Female" color="#3F32D5" />
+      <v-radio value="Male" label="Male" color="#3F32D5" />
+      <v-radio value="Female"   label="Female" color="#3F32D5" />
     </v-radio-group>
     <h4 class="mt-4">
       Interests
@@ -93,10 +93,9 @@
 
 <script lang="ts">
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
-import { Gender, User } from '~/api/types.ts';
+import { Gender } from '~/api/types.ts';
 import Alert from '~/components/partials/Alert.vue';
-import { ApiError } from '~/api/base';
-import { LoginStatus } from '~/api/types';
+import { UserData } from '~/api/types';
 
 @Component({
   components: { Alert }
@@ -112,6 +111,7 @@ class VisitorUpdateProfileForm extends Vue {
   rePassword: string = '';
   gender: string = '';
   date: string = new Date().toISOString().substr(0, 10);
+  rawInterests: string[] = [];
   interests: string[] = [];
   interestOther: boolean = false;
   interestOtherValue: string = '';
@@ -146,8 +146,42 @@ class VisitorUpdateProfileForm extends Vue {
     return (this.password !== '' && this.rePassword !== '');
   }
 
-  @Getter('user/getVisitorData') user!: User;
+  @Action('user/fetchUser') fetchUserAction;
+  @Getter('user/getUser') user!: UserData;
   @Action('user/editVisitorProfile') updateProfileAction;
+
+  mounted() {
+    this.fetchUserAction()
+        .finally(()=>{
+          if (this.user) {
+              if (this.user.name) {
+                this.fullName = this.user.name;
+              }
+              if (this.user.email) {
+                this.emailAddress = this.user.email;
+              }
+              if (this.user.dob) {
+                this.date = this.user.dob;
+              }
+              if (this.user.gender) {
+                this.gender = (this.user.gender===1?"Male":"Female");
+              }
+              if (this.user.interest.length > 0) {
+                  this.rawInterests = this.user.interest;
+                  let rawInterest;
+                  for (rawInterest in this.rawInterests) {
+                      if (rawInterest === "0" || rawInterest === "1" || rawInterest === "2" || rawInterest === "3" || rawInterest === "4") {
+                          this.interests.push(this.interestsName[parseInt(rawInterest, 10)]);
+                      }
+                      else {
+                          this.interestOther = true;
+                          this.interests.push(rawInterest);
+                      }
+                  }
+              }
+          }
+        });
+  }
 
   attemptUpdateProfile() {
     if (!this.isValid) {
@@ -172,7 +206,7 @@ class VisitorUpdateProfileForm extends Vue {
 
     this.updateProfileAction({name, email, password, dob, gender, interest})
       .then(() => {
-        this.$router.push('/visitor/edit-profile');
+        this.$router.push('/visitor/edit-profile/');
       })
       .catch((e) => {
         this.error = e.toString();
