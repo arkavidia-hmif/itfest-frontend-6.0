@@ -26,7 +26,7 @@ export default Vue.extend({
   name: 'SignedInAs',
   props: {
     name: {
-      default: '名',
+      default: 'user',
       type: String
     }
   }

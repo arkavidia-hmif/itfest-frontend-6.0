@@ -3,6 +3,13 @@
     <BackToolbar title-text="Give Point" back-to="/tenant/" />
     <v-container fluid class="mt-12">
       <v-row style="background-color:white">
+        <v-col :cols="12" v-if="errorMessage !== ''">
+          <v-alert
+            type="error"
+          >
+           {{errorMessage}}
+          </v-alert>
+        </v-col>
         <v-col :cols="12" class="pa-5">
           <div class="headline">
             Which difficulties did the visitor played?
@@ -87,6 +94,7 @@
     pointTemp: number = 0;
     accountTemp: string = "123123";
     isUserLoaded: boolean = false;
+    errorMessage: string = '';
 
     pointChange() {
       let x = 0;
@@ -113,9 +121,12 @@
       if (this.selected.includes('Hard')) {
         temp.push(3);
       }
-
-      this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).finally( () =>{
-        this.$router.push('/tenant/');
+      this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).then( (val) =>{
+        if (val.data.status !== 200){
+          this.errorMessage = val.data.code;
+        } else{
+          this.$router.push('/tenant');
+        }
       });
     }
     mounted() {
