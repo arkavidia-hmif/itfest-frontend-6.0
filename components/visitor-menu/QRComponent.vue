@@ -5,7 +5,7 @@
     </h3>
     <div>
       <p>
-        This is your QRCode for your account.
+        This is your QR Code for your account.
       </p>
       <div class="d-flex justify-center">
         <QRCodeVue :value="url" :size="size" level="H" />

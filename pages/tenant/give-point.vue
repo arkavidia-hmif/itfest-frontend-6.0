@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Give Point"/>
+    <BackToolbar title-text="Give Point" back-to="/tenant/" />
     <v-container fluid class="mt-12">
       <v-row style="background-color:white">
         <v-col :cols="12" v-if="errorMessage !== ''">
@@ -14,25 +14,25 @@
           <div class="headline">
             Which difficulties did the visitor played?
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Easy"
-              v-model="selected"
               value="Easy"
+              @click.native="pointChange"
             />
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Medium"
-              v-model="selected"
               value="Medium"
+              @click.native="pointChange"
             />
             <v-checkbox
-              @click.native="pointChange"
+              v-model="selected"
               class="black--checkbox"
               label="Hard"
-              v-model="selected"
               value="Hard"
+              @click.native="pointChange"
             />
           </div>
         </v-col>
@@ -56,13 +56,13 @@
           <div class="headline">
             Remaining points after giving
           </div>
-          <div class="display-1 mt-5 font-weight-bold" v-if="isUserLoaded">
-            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp}} </b> points
+          <div v-if="isUserLoaded" class="display-1 mt-5 font-weight-bold">
+            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp }} </b> points
           </div>
         </v-col>
         <v-col :cols="12" class="pa-5">
           <v-row justify="center">
-            <v-btn @click="submitPoint" color="#4854D6" style="text-transform: none;color: white">
+            <v-btn color="#4854D6" style="text-transform: none;color: white" @click="submitPoint">
               Give Point
             </v-btn>
           </v-row>
@@ -122,7 +122,6 @@
         temp.push(3);
       }
       this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).then( (val) =>{
-        console.log(val);
         if (val.data.status !== 200){
           this.errorMessage = val.data.code;
         } else{
