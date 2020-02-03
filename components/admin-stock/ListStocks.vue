@@ -1,6 +1,5 @@
 <template>
   <v-row no-gutters style="margin-top: 16px;">
-    {{ inventory }}
     <v-container
       v-for="(item, i) in inventory"
       :key="i"
@@ -40,6 +39,10 @@
         </div>
       </v-row>
     </v-container>
+    <v-pagination
+      v-model="page"
+      :length="6"
+    ></v-pagination>
   </v-row>
 </template>
 
@@ -50,39 +53,26 @@
 </style>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Action} from "~/node_modules/vuex-class";
-import {InventoryData} from "~/api/types";
+    import { Component, Action, Vue } from 'nuxt-property-decorator';
+    import {InventoryData} from "~/api/types";
 
-// export default Vue.extend({
-//   data: () => ({
-//     lists: [
-//       {
-//         'company': 'Amartha',
-//         'product': 'Pulpen (X2)',
-//         'point': 10,
-//         'stock': 700
-//       },
-//       {
-//         'company': 'Jenius',
-//         'product': 'Pulpen (X2)',
-//         'point': 10,
-//         'stock': 700
-//       }
-//     ]
-//   })
-// });
 
-  export default class ListStocks extends Vue {
-      @Action('stock/fetchInventory') fetchInventoryAction;
+    @Component({
+    })
+    class ListStocks extends Vue {
+        @Action('stock/fetchInventory') fetchInventoryAction;
 
-      inventory: InventoryData[] = [];
+        inventory: InventoryData[] = [];
+        numberOfItems: number = 10;
+        page: number = 1;
 
-      mounted(): void {
-          this.fetchInventoryAction()
-              .then((inventory) => {
-                this.inventory = inventory;
-              });
-      }
-  }
+        created() {
+            this.fetchInventoryAction()
+                .then((inventory) => {
+                  this.inventory = inventory;
+                });
+        }
+    }
+
+    export default ListStocks;
 </script>
