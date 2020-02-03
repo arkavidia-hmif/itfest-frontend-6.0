@@ -3,7 +3,7 @@
     <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
       {{ message.text }}
     </v-alert>
-    <v-progress-linear :active="!isItemLoaded" indeterminate />
+    <v-progress-linear :active="!isCompanyLoaded" indeterminate />
     <v-col class="py-5" cols="10">
       <v-form>
         <div class="my-4">
@@ -24,7 +24,7 @@
             <div class="px-2 full-width">
               <v-combobox
                 v-model="company"
-                disabled
+                :items="companies"
                 item-value="id"
                 item-text="name"
                 full-width
@@ -73,49 +73,9 @@
     </v-col>
     <v-col class="d-flex justify-center" cols="10">
       <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="submit">
-        Update Merch Stock
+        Add Merch Stock
       </v-btn>
     </v-col>
-    <v-col class="d-flex justify-center mt-4" cols="10">
-      <v-btn color="#FF0B51" class="white--text text-none" height="50px" width="100%" @click="deleteDialog = true">
-        Delete Merch Stock
-      </v-btn>
-    </v-col>
-
-    <v-dialog
-      v-model="deleteDialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">
-          Delete merchandise?
-        </v-card-title>
-
-        <v-card-text>
-          The merchandise will be deleted and the data will be lost
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="deleteDialog = false"
-          >
-            Cancel
-          </v-btn>
-
-          <v-btn
-            color="red darken-1"
-            text
-            @click="deleteStock"
-          >
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-row>
 </template>
 
@@ -128,63 +88,62 @@
 </style>
 
 <script lang="ts">
-
   import {Component, Vue} from 'nuxt-property-decorator';
   import arkavidiaApi from "~/api/api";
+  import Alert from "~/components/partials/Alert.vue";
+
+  const errorMessages = {
+    'item-exists': 'Item already exist'
+  };
+
 
   interface Company {
     id: number;
     name: string;
   }
 
-  const errorMessages = {
-    'item-exists': 'Item already exist'
-  };
+  @Component({
+    components: {
+      Alert
+    }
+  })
 
-  @Component({})
-  export default class UpdateStockForm extends Vue {
+  class AddStockForm extends Vue {
 
-    deleteDialog: boolean = false;
     message = {
       visible: false,
       text: '',
       type: 'info'
     };
-    isItemLoaded: boolean = false;
     amount: number = 1;
     price: number = 1;
-    itemId: number = NaN;
     itemName: string = '';
-    ownerId: number = NaN;
+    isCompanyLoaded: boolean = false;
     company: Company = {
       id: 1,
       name: "Admin Arkavidia"
     };
+    companies: Company[] = [this.company];
     naturalNumber = [
       v => (v > 0) || 'Value must more than 0'
     ];
 
     created(): void {
-      if ('id' in this.$route.params) {
-        this.itemId = parseInt(this.$route.params.id);
-      }
-      if (isNaN(this.itemId)) {
-        this.$router.push("/admin/");
-      }
-      arkavidiaApi.stock.getItem({id: this.itemId})
-        .then(inventory => {
-          this.itemName = inventory.item.name;
-          this.price = inventory.item.price;
-          this.amount = inventory.qty;
-          this.ownerId = inventory.item.ownerId;
-          return arkavidiaApi.user.getUser({id: this.ownerId});
-        }).then(owner => {
-        this.company = {
-          id: owner.id,
-          name: owner.name
-        };
-        this.isItemLoaded = true;
-      });
+      arkavidiaApi.user.getAllTenants()
+        .then((tenants) => {
+          this.companies.pop();
+          for (const tenant of tenants) {
+            const company = {
+              id: tenant.id,
+              name: tenant.name
+            };
+            this.companies.push(company);
+          }
+          if (this.companies) {
+            this.company = this.companies[0];
+          }
+          this.isCompanyLoaded = true;
+        });
     }
 
     submit(): void {
@@ -194,15 +153,15 @@
         this.message.text = "Empty item name";
         return;
       }
-      arkavidiaApi.stock.updateItem({
-        id: this.itemId,
+      arkavidiaApi.stock.createItem({
         amount: this.amount,
         name: this.itemName,
+        ownerId: this.company.id,
         price: this.price
       }).then(() => {
         this.message.visible = true;
         this.message.type = 'success';
-        this.message.text = 'Item updated';
+        this.message.text = 'Item created';
       }).catch(error => {
         this.message.visible = true;
         this.message.type = 'error';
@@ -210,16 +169,12 @@
         if (code in errorMessages) {
           this.message.text = errorMessages[error.response.data.code];
         }
-        else {
+ else {
           this.message.text = 'Unknown error';
         }
       });
     }
-
-    deleteStock(): void {
-      arkavidiaApi.stock.deleteItem({id: this.itemId});
-      this.$router.push(`/admin/merchandise-stock`);
-    }
   }
 
+  export default AddStockForm;
 </script>
