@@ -15,7 +15,7 @@ export default class UserApi extends ArkavidiaBaseApi {
 
   async getTransactions(): Promise<Transaction[]> {
     const response = await this.axios.get(`/user/me/transaction`);
-    return response.data.data.array;
+    return response.data.data;
   }
 
   async getQRID(): Promise<Qrcode> {

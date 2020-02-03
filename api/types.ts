@@ -47,17 +47,27 @@ export interface TenantAccount {
 export interface TransactionActor {
   id: number;
   email: string;
-  username: string;
+  username?: string;
   name: string;
   role: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Transaction {
   id: number;
+  createdAt: string;
   amount: number;
+  type: string;
   from: TransactionActor;
   to: TransactionActor;
-  transfer: boolean;
+}
+
+export interface TransactionPagination {
+  transactions: Transaction[];
+  page: number;
+  itemPerPage: number;
+  total: number;
 }
 
 export interface TenantReview {

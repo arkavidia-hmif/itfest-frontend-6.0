@@ -17,17 +17,15 @@
               <SubmenuComponent submenu-icon="mdi-account-outline" submenu-title="Personal Data" />
             </v-col>
             <v-col cols="4">
-              <nuxt-link to="/visitor/trx" class="no-underline">
-                <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" />
-              </nuxt-link>
+              <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" target-link="/visitor/trx/" />
             </v-col>
             <v-col cols="4">
               <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" />
             </v-col>
           </v-row>
         </v-col>
-        <v-col v-if="isQRLoaded" cols="12">
-          <QRComponent :url="qrcode.qrid" :size="300" />
+        <v-col cols="12" v-if="isQRLoaded">
+          <QRComponent :url="qrcode.qrid" :size="250" />
         </v-col>
       </v-row>
     </v-container>
