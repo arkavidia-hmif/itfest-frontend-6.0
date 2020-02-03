@@ -16,19 +16,11 @@
         <v-spacer />
 
         <v-btn
-          :color="cancelColor"
+          :color="dismissColor"
           text
-          @click="cancelDialog"
+          @click="dismissDialog"
         >
-          {{ cancelText }}
-        </v-btn>
-
-        <v-btn
-          :color="confirmColor"
-          text
-          @click="confirmDialog"
-        >
-          {{ confirmText }}
+          {{ dismissText }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -40,20 +32,16 @@
     import {Component} from "~/node_modules/nuxt-property-decorator";
 
     @Component({})
-    export default class ConfirmationDialog extends Vue {
+    export default class MessageDialog extends Vue {
 
         @Provide()
         visible: boolean = false;
         @Prop({type: String, required: true})
         title!: string;
-        @Prop({type: String, default: "Yes"})
-        confirmText!: string;
-        @Prop({type: String, default: "green darken-1"})
-        confirmColor!: string;
-        @Prop({type: String, default: "No"})
-        cancelText!: string;
-        @Prop({type: String, default: "red darken-1"})
-        cancelColor!: string;
+        @Prop({type: String, default: "Dismiss"})
+        dismissText!: string;
+        @Prop({type: String, default: "black darken-1"})
+        dismissColor!: string;
 
         show() {
             this.visible = true;
@@ -63,13 +51,8 @@
             this.visible = false;
         }
 
-        @Emit("cancelled")
-        cancelDialog() {
-            this.visible = false;
-        }
-
-        @Emit("confirmed")
-        confirmDialog() {
+        @Emit("dismissed")
+        dismissDialog() {
             this.visible = false;
         }
 

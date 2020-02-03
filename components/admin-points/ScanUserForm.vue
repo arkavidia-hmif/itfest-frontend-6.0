@@ -1,19 +1,14 @@
 <template>
   <v-row align="center" justify="center" no-gutters>
-    <v-col class="py-5" cols="10">
+    <v-col cols="10">
       <v-card-text :v-if="errorMessage !== ''">
         {{ errorMessage }}
       </v-card-text>
       <vue-qr-reader
+        ref = "qr"
         @code-scanned="codeScanned"
         @error-captured="captureError"
       />
-      <div>Value: <a :href="result" target="_blank">{{ result }}</a></div>
-    </v-col>
-    <v-col class="d-flex justify-center" cols="10">
-      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%">
-        Search User
-      </v-btn>
     </v-col>
   </v-row>
 </template>
@@ -28,8 +23,9 @@
 
 <script lang="ts">
 
-import {Component, Vue} from 'nuxt-property-decorator';
+    import {Component, Getter, Mutation, Vue} from 'nuxt-property-decorator';
 import VueQrReader from '~/components/VueQrReader.vue';
+import arkavidiaApi from "~/api/api";
 
 @Component({
   components: {
@@ -39,16 +35,22 @@ import VueQrReader from '~/components/VueQrReader.vue';
 class ScanUserForm extends Vue {
   errorMessage: string = '';
 
-  mounted() {
-    console.log(this);
-  }
+    @Mutation("redemption/setTarget") setRedemptionTarget;
 
   codeScanned(code) {
-    console.log(code);
+    arkavidiaApi.user.getUser({id: code})
+        .then(user => {
+            this.$store.commit("redemption/setTarget", {
+                qrid: code,
+                username: user.username,
+                name: user.name,
+                role: user.role
+            });
+            this.$router.push(`/admin/redeem-points`);
+        });
   }
 
   captureError(error) {
-    console.log(error.name);
     switch (error.name) {
       case 'NotAllowedError':
         this.errorMessage = 'Camera permission denied.';
