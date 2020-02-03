@@ -22,6 +22,7 @@
           <div class="d-flex align-center">
             <div class="px-2 full-width">
               <v-combobox
+                v-if="isCompanyLoaded"
                 v-model="company"
                 :items="companies"
                 item-value="id"
@@ -114,18 +115,20 @@ class AddStockForm extends Vue {
     amount: number = 1;
     price: number = 1;
     itemName: string = '';
+    isCompanyLoaded: boolean = false;
     company?: UserData = undefined;
     companies: UserData[] = [];
     naturalNumber = [
         v => (v > 0) || 'Value must more than 0'
     ];
 
-    mounted(): void {
+    created(): void {
       arkavidiaApi.user.getAllTenants()
           .then((tenants) => {
             this.companies = tenants;
             if (this.companies) {
                 this.company = this.companies[0];
+                this.isCompanyLoaded = true;
             }
             else {
                 this.company = undefined;
