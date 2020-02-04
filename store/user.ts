@@ -70,7 +70,7 @@ export const actions = {
     commit('setUser', { user });
     return user;
   },
-  async updateProfileAction({ commit }, { name, email, password, dob, gender, interest }): Promise<void> {
+  async updateProfile({ commit }, { name, email, password, dob, gender, interest }): Promise<void> {
     await arkavidiaApi.user.updateProfile({name, email, password, dob, gender, interest});
     commit('setUserPartially', {name, email, dob, gender, interest});
   },

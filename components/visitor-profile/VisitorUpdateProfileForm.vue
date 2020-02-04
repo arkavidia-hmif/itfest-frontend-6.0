@@ -64,11 +64,11 @@
       Interests
     </h4>
     <v-checkbox
-      v-for="i in 5"
-      :key="i"
+      v-for="label of interestsName"
+      :key="label"
       v-model="interests"
-      :label="interestsName[i-1]"
-      :value="interestsName[i-1]"
+      :label="label"
+      :value="label"
       hide-details
       class="mt-2"
       color="#3F32D5"
@@ -125,6 +125,13 @@ class VisitorUpdateProfileForm extends Vue {
     'E-commerce',
     'Tourism'
     ];
+  // interestsMap: Map<string, number> = new Map<string, number>([
+  //     ['Financial Technology', 0],
+  //     ['Education Technology', 1],
+  //     ['Health Technology', 2],
+  //     ['E-commerce', 3],
+  //     ['Tourism', 4]
+  // ]);
   nameRules = [
     v => !!v || 'Full name is required!'
   ];
@@ -142,7 +149,7 @@ class VisitorUpdateProfileForm extends Vue {
 
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
-  @Action('user/editVisitorProfile') updateProfileAction;
+  @Action('user/updateProfile') updateProfileAction;
 
   mounted() {
     this.fetchUserAction()
@@ -163,14 +170,13 @@ class VisitorUpdateProfileForm extends Vue {
               if (this.user.interest) {
                 if (this.user.interest.length > 0) {
                   this.rawInterests = this.user.interest;
-                  let rawInterest;
-                  for (rawInterest in this.rawInterests) {
-                      if (rawInterest === "0" || rawInterest === "1" || rawInterest === "2" || rawInterest === "3" || rawInterest === "4") {
-                          this.interests.push(this.interestsName[parseInt(rawInterest, 10)]);
+                  for (const rawInterest of this.rawInterests) {
+                      if (this.interestsName.includes(rawInterest)) {
+                          this.interests.push(rawInterest);
                       }
                       else {
                           this.interestOther = true;
-                          this.interests.push(rawInterest);
+                          this.interestOtherValue = rawInterest;
                       }
                   }
                 }
@@ -193,16 +199,16 @@ class VisitorUpdateProfileForm extends Vue {
     const dob = this.date;
     const gender = genderEnum;
     const interest = this.interests;
-    if (!this.interestOtherValue) {
+    if (this.interestOtherValue !== '') {
       interest.push(this.interestOtherValue);
     }
-
+    console.log('KIRIM', interest);
     // Set action after submitting form
     this.isUpdating = true;
 
     this.updateProfileAction({name, email, password, dob, gender, interest})
       .then(() => {
-        this.$router.push('/visitor/edit-profile/');
+        this.$router.push('/visitor/update-profile/');
       })
       .catch((e) => {
         this.error = e.toString();
