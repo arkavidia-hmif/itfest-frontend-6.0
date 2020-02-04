@@ -44,10 +44,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Component, Getter, Action } from 'nuxt-property-decorator';
 import TransactionComponent from '~/components/visitor-history/TransactionComponent.vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
-import { Transaction, TransactionActor, TransactionPagination, UserData } from '~/api/types';
-import { Component, Getter, Action } from 'nuxt-property-decorator';
+import { TransactionActor, TransactionPagination, UserData } from '~/api/types';
 
 @Component({
   components: {
@@ -132,18 +132,18 @@ class VisitorTransferPage extends Vue {
     itemPerPage: 1,
     total: 4
   }
-  
+
 
   mounted() {
     this.fetchTransactionAction()
       .finally(() =>{
         this.isTransactionLoaded = true;
         this.transactionCount = this.dummy.transactions.length;
-      })
+      });
     this.fetchUserAction()
       .finally(() =>{
         this.isUserLoaded = true;
-      })
+      });
   }
 }
 

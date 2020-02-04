@@ -45,7 +45,7 @@
                 <v-card-text class="display-2 center" style="color:red;text-align: center">
                   {{ errorMessage }}
                 </v-card-text>
-                <v-card-actions style="text-align: center" v-if="errorMessage === ''">
+                <v-card-actions v-if="errorMessage === ''" style="text-align: center">
                   <vue-qr-reader
                     v-if="show"
                     @code-scanned="codeScanned"
@@ -115,9 +115,11 @@
         console.log(val);
         if (val.status === 404) {
           this.errorMessage = 'visitor-not-found';
-        }else if(val.status == 400){
+        }
+else if (val.status === 400){
           this.errorMessage = 'invalid-qrid';
-        } else {
+        }
+ else {
           if (this.errorMessage === ''){
             this.changeQrCode({qr: code}).finally( () =>{
               this.$router.push('/tenant/give-point');

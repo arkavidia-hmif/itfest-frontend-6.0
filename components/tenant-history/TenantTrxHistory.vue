@@ -18,12 +18,13 @@ import TenantTrxHistoryItem from './TenantTrxHistoryItem.vue';
 })
 class TenantTrxHistory extends Vue {
   isLoading: boolean = false;
+  currentPage: number = 0;
   @Action('user/fetchTransactions') fetchTransactionAction;
   @Getter('user/getTransactions') transactions!: Transaction[];
 
   mounted() {
     this.isLoading = true;
-    this.fetchTransactionAction()
+    this.fetchTransactionAction({ page: this.currentPage })
       .finally(() => {
         this.isLoading = false;
       });
