@@ -101,7 +101,7 @@ class VisitorRegisterForm extends Vue {
     // Set action after submitting form
     this.isLoggingIn = true;
 
-    this.registerAction({name, email, voucher, password})
+    this.registerAction({email, voucher, password})
       .then(() => {
         this.$router.push('/visitor/menu');
       })
