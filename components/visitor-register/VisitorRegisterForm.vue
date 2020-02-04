@@ -103,7 +103,7 @@ class VisitorRegisterForm extends Vue {
 
     this.registerAction({email, voucher, password})
       .then(() => {
-        this.$router.push('/visitor/menu');
+        this.$router.push('/visitor/');
       })
       .catch((e) => {
         if (e instanceof ApiError) {
