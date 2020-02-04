@@ -29,13 +29,13 @@ export enum Gender {
 }
 
 export interface VisitorAccount {
-  name: string;
+  name?: string;
   email: string;
   password: string;
   voucher: string;
-  dob: string;
-  gender: Gender;
-  interest: string[];
+  dob?: string;
+  gender?: Gender;
+  interest?: string[];
 }
 
 export interface TenantAccount {

@@ -1,11 +1,6 @@
 <template>
   <v-form v-model="isValid" @submit.prevent="attemptLogin">
     <v-text-field
-      v-model="fullName"
-      :rules="nameRules"
-      label="Full name"
-    />
-    <v-text-field
       v-model="voucherCode"
       :rules="voucherRules"
       label="Voucher Code"
@@ -27,65 +22,11 @@
       label="Re-type Password"
       type="password"
     />
-    <v-dialog
-      ref="dialog"
-      v-model="modal"
-      :return-value.sync="date"
-      persistent
-      width="290px"
-    >
-      <template v-slot:activator="{ on }">
-        <v-text-field
-          v-model="date"
-          label="Day of Birth"
-          append-icon="mdi-calendar"
-          readonly
-          v-on="on"
-        />
-      </template>
-      <v-date-picker
-        v-model="date"
-        :max="new Date().toISOString().substr(0, 10)"
-        no-title
-        scrollable
-        show-current="false"
-        color="#FF0B51"
-      >
-        <v-spacer />
-        <v-btn color="#FF0B51" class="white--text" @click="$refs.dialog.save(date)">
-          OK
-        </v-btn>
-      </v-date-picker>
-    </v-dialog>
-    <h4 class="mt-4">
-      Gender
-    </h4>
-    <v-radio-group v-model="gender" row class="mt-2" hide-details>
-      <v-radio label="Male" color="#3F32D5" />
-      <v-radio label="Female" color="#3F32D5" />
-    </v-radio-group>
-    <h4 class="mt-4">
-      Interests
-    </h4>
-    <v-checkbox
-      v-for="i in 5"
-      :key="i"
-      v-model="interests"
-      :label="interestsName[i-1]"
-      :value="interestsName[i-1]"
-      hide-details
-      class="mt-2"
-      color="#3F32D5"
-    />
-    <div class="d-flex">
-      <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field v-model="interestOtherValue" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
-    </div>
     <h4 class="mt-4">
       Disclaimer
     </h4>
     <p class="mt-3">
-      Personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
+      All personal data that you have input could be used by startup tenats to carry out product promotions and disseminate information related to recruitment.
     </p>
     <v-checkbox v-model="agreeTOA" label="I agree to the statement above." hide-details color="#3F32D5" />
     <Alert v-if="error" type="error" class="mt-4" :message="error" />
@@ -107,7 +48,6 @@
 
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
-import { Gender } from '~/api/types.ts';
 import Alert from '~/components/partials/Alert.vue';
 import { ApiError } from '~/api/base';
 import { LoginStatus } from '~/api/types';
@@ -118,29 +58,12 @@ import { LoginStatus } from '~/api/types';
 class VisitorRegisterForm extends Vue {
   isLoggingIn: boolean = false;
   isValid: boolean = false;
-  fullName: string = '';
   voucherCode: string = '';
   emailAddress: string = '';
   password: string = '';
   rePassword: string = '';
-  gender: string = '';
-  date: string = new Date().toISOString().substr(0, 10);
-  interests: string[] = [];
-  interestOther: boolean = false;
-  interestOtherValue: string = '';
   agreeTOA: boolean = false;
-  modal: boolean = false;
   error: string = '';
-  interestsName: string[] = [
-    'Financial Technology',
-    'Education Technology',
-    'Health Technology',
-    'E-commerce',
-    'Tourism'
-    ];
-  nameRules = [
-    v => !!v || 'Full name is required!'
-  ];
   emailRules = [
     v => !!v || 'Email is required!',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
@@ -171,25 +94,16 @@ class VisitorRegisterForm extends Vue {
     }
 
     // Init Visitor Account
-    const genderEnum : Gender = (this.gender==="Male"?1:2);
-
-    const name = this.fullName;
     const email = this.emailAddress;
     const voucher = this.voucherCode.toLowerCase();
     const password = this.password;
-    const dob = this.date;
-    const gender = genderEnum;
-    const interest = this.interests;
-    if (!this.interestOtherValue) {
-      interest.push(this.interestOtherValue);
-    }
 
     // Set action after submitting form
     this.isLoggingIn = true;
 
-    this.registerAction({name, email, voucher, password, dob, gender, interest})
+    this.registerAction({email, voucher, password})
       .then(() => {
-        this.$router.push('/visitor/menu');
+        this.$router.push('/visitor/');
       })
       .catch((e) => {
         if (e instanceof ApiError) {

@@ -6,7 +6,7 @@
       </v-icon>
     </div>
     <div class="px-2">
-      {{ message }}
+      Fill in your personal data to earn 20 points for FREE!
     </div>
   </div>
 </template>
