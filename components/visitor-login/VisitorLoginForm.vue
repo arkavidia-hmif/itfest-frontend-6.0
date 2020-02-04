@@ -1,30 +1,32 @@
 <template>
-  <v-container>
+  <div>
     <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <v-form v-model="isValid" @submit.prevent="attemptLogin">
       <v-text-field
         v-model="emailAddress"
         :rules="emailRules"
-        label="Email"
+        label="Username or Email"
+        outlined
       />
       <v-text-field
         v-model="password"
         :rules="passwordRules"
         label="Password"
         type="password"
+        outlined
       />
       <v-btn
         :loading="loggingIn"
         type="submit"
         color="#FF084F"
-        class="white--text my-12"
+        class="white--text"
         x-large
         block
       >
         Login!
       </v-btn>
     </v-form>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -44,15 +46,14 @@ class VisitorLoginForm extends Vue {
   isValid: boolean = false;
   loggingIn: boolean = false;
   emailRules = [
-    v => !!v || 'Email is required  !',
-    v => /.+@.+/.test(v) || 'Must be a valid email address.'
+    v => !!v || 'Email is required!'
   ];
   passwordRules = [
-    v => !!v || 'Password is required',
+    v => !!v || 'Password is required'
   ];
 
   @Action('auth/login') loginAction;
-  
+
   attemptLogin() {
     if (!this.isValid) {
       return;
@@ -63,12 +64,12 @@ class VisitorLoginForm extends Vue {
     const password = this.password;
     this.loginAction({ userid, password })
       .then(() => {
-        this.$router.push('/visitor/');
+        this.$router.push('/');
       })
       .catch((e) => {
         if (e instanceof ApiError) {
           if (e.errorCode === LoginStatus.NO_USER) {
-            this.error = 'User belum terdaftar';
+            this.error = 'User not registered';
             return;
           }
 

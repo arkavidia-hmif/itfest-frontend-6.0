@@ -8,9 +8,6 @@
 </template>
 
 <style lang="scss" scoped>
-* {
-  font-family: 'Raleway', sans-serif;
-}
 .no-transaction-container {
   font-size:1.4em;
   span {
@@ -24,6 +21,7 @@ import Vue from 'vue';
 import { Component, Getter, Action } from 'nuxt-property-decorator';
 import VisitorTrxHistory from '~/components/visitor-history/VisitorTrxHistory.vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
+import { UserData } from "~/api/types";
 
 @Component({
   components: {

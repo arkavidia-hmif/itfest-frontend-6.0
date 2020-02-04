@@ -1,28 +1,36 @@
 <template>
   <v-content>
-    <v-container fluid fill-height class="login-container pa-0">
-      <v-row justify="center" align="center" wrap no-gutters="">
-        <v-col cols="10">
-          <Login />
-        </v-col>
-      </v-row>
-    </v-container>
+    <div class="pa-4 my-12">
+      <v-img :src="require('~/assets/logo-horz.svg')" width="60%" />
+      <div class="form-title mt-8 mb-8">
+        <div class="headline font-weight-bold">
+          Welcome to Arkavidia 6.0 IT Festival!
+        </div>
+        <div class="subtitle mt-2">
+          Please login to continue
+        </div>
+      </div>
+      <VisitorLoginForm />
+      <div class="mt-4">
+        Are you a new visitor? <nuxt-link to="/visitor/register">
+          Register here!
+        </nuxt-link>
+      </div>
+    </div>
   </v-content>
 </template>
 
-<style lang="scss" scoped>
-.login-container{
-  background-image:linear-gradient(#7cddcd,#ff0850);
-}
+<style scoped>
 </style>
 
 <script lang="ts">
 import Vue from 'vue';
-import Login from '~/components/login/Login.vue';
+import VisitorLoginForm from '~/components/visitor-login/VisitorLoginForm.vue';
 
 export default Vue.extend({
+  name: 'Login',
   components: {
-    Login
+    VisitorLoginForm
   }
 });
 </script>

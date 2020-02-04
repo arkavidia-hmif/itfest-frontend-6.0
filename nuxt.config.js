@@ -10,15 +10,15 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    titleTemplate: '%s - IT Fest Arkavidia 6.0',
+    title: 'IT Fest Arkavidia 6.0',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/png', href: '/logo.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Raleway:400,700' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Baloo+Da|Raleway&display=swap' }
@@ -71,7 +71,7 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['./assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
@@ -84,6 +84,16 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
+      }
+    },
+    treeShake: true,
+    breakpoint: {
+      thresholds: {
+        xs: 0,
+        sm: 600,
+        md: 600,
+        lg: 600,
+        xl: 50000
       }
     }
   },
