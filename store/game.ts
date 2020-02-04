@@ -39,7 +39,8 @@ export const actions = {
     try {
       const response = await arkavidiaApi.game.play(qrId, difficultyLevels);
       return response;
-    } catch (e) {
+    }
+ catch (e) {
       return e.response;
     }
   },

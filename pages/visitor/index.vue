@@ -29,7 +29,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" v-if="isQRLoaded">
+        <v-col v-if="isQRLoaded" cols="12">
           <QRComponent :url="qrcode.qrid" :size="250" />
         </v-col>
       </v-row>

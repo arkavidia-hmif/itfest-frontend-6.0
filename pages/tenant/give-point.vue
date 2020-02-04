@@ -3,11 +3,11 @@
     <BackToolbar title-text="Give Point" back-to="/tenant/" />
     <v-container fluid class="mt-12">
       <v-row style="background-color:white">
-        <v-col :cols="12" v-if="errorMessage !== ''">
+        <v-col v-if="errorMessage !== ''" :cols="12">
           <v-alert
             type="error"
           >
-           {{errorMessage}}
+            {{ errorMessage }}
           </v-alert>
         </v-col>
         <v-col :cols="12" class="pa-5">
@@ -124,7 +124,8 @@
       this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).then( (val) =>{
         if (val.data.status !== 200){
           this.errorMessage = val.data.code;
-        } else{
+        }
+ else {
           this.$router.push('/tenant');
         }
       });

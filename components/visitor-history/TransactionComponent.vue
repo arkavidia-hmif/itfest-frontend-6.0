@@ -98,9 +98,9 @@ export default Vue.extend({
   methods: {
     typePrefix(type){
       let result = '';
-      if(type==='admin') result = '[A]'
-      else if(type==='tenant') result = '[T]'
-      else result = '[V]'
+      if (type==='admin') result = '[A]';
+      else if (type==='tenant') result = '[T]';
+      else result = '[V]';
 
       return result;
     }

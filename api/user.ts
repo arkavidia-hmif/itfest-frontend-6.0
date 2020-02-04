@@ -12,10 +12,10 @@ export default class UserApi extends ArkavidiaBaseApi {
     const response = await this.axios.get(`/user/${id}`);
     return response.data.data;
   }
-
-  async getTransactions(): Promise<Transaction[]> {
-    const response = await this.axios.get(`/user/me/transaction`);
-    return response.data.data;
+  
+  async getTransactions(page: number = 1, itemPerPage: number = 20): Promise<Transaction[]> {
+    const response = await this.axios.get(`/user/me/transaction?page=${page}&itemPerPage=${itemPerPage}`);
+    return response.data.data.array;
   }
 
   async getQRID(): Promise<Qrcode> {
