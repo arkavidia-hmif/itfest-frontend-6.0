@@ -133,10 +133,7 @@ class VisitorUpdateProfileForm extends Vue {
   ];
   passwordRules = [
     v => !!v || 'Password is required',
-    v => (v && v.length >= 8) || 'Password must have 8+ characters.',
-    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character.',
-    v => /(?=.*\d)/.test(v) || 'Must have one number.',
-    v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
+    v => (v && v.length >= 8) || 'Password must have 8+ characters.'
   ];
   rePasswordRules = [
     v => !!v || 'Password confirmation is required!',
@@ -161,7 +158,7 @@ class VisitorUpdateProfileForm extends Vue {
                 this.emailAddress = this.user.email;
               }
               if (this.user.dob) {
-                this.date = this.user.dob;
+                this.date = new Date(this.user.dob).toISOString().substr(0, 10);
               }
               if (this.user.gender) {
                 this.gender = (this.user.gender===1?"Male":"Female");

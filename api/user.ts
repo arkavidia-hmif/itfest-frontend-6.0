@@ -12,7 +12,7 @@ export default class UserApi extends ArkavidiaBaseApi {
     const response = await this.axios.get(`/user/${id}`);
     return response.data.data;
   }
-  
+
   async getTransactions(page: number = 1, itemPerPage: number = 20): Promise<Transaction[]> {
     const response = await this.axios.get(`/user/me/transaction?page=${page}&itemPerPage=${itemPerPage}`);
     return response.data.data.array;
@@ -33,6 +33,7 @@ export default class UserApi extends ArkavidiaBaseApi {
       item: itemId,
       qty: amount
     };
-    return await this.axios.post(`/user/${id}/redeem`, payload);
+    const response = await this.axios.post(`/user/${id}/redeem`, payload);
+    return response.data;
   }
 }

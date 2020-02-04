@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Give Points" />
+    <BackToolbar title-text="Give Points" back-to="/visitor/" />
     <v-content>
       <TransferForm />
     </v-content>
@@ -8,9 +8,6 @@
 </template>
 
 <style lang="scss" scoped>
-* {
-  font-family: 'Raleway', sans-serif;
-}
 </style>
 
 <style scoped>

@@ -1,11 +1,9 @@
 <template>
   <v-app-bar fixed app>
-    <nuxt-link :to="backTo" class="no-underline">
-      <v-app-bar-nav-icon>
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-app-bar-nav-icon>
-    </nuxt-link>
-    <v-toolbar-title class="toolbar-title">
+    <v-btn icon :to="backTo" exact>
+      <v-icon>mdi-chevron-left</v-icon>
+    </v-btn>
+    <v-toolbar-title class="toolbar-title pl-0">
       {{ titleText }}
     </v-toolbar-title>
   </v-app-bar>

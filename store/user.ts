@@ -3,7 +3,7 @@ import {Transaction, UserData, Qrcode} from '~/api/types';
 
 export interface UserState {
   user?: UserData;
-  transactions: Transaction[]; //{ [page: number] : Transaction[] };
+  transactions: { [page: number] : Transaction[] };
   qrcode: Qrcode;
 }
 
@@ -21,14 +21,16 @@ export const getters = {
     return state.user;
   },
   getTransactions(state: UserState): Transaction[] {
-    // const transactions = Object.keys(state.transactions)
-    //   .sort()
-    //   .map(key => state.transactions[key])
-    //   .reduce((accumulator: Transaction[], currentValue: Transaction[]) => {
-    //     return accumulator.concat(currentValue);
-    //   }, []);
+    const transactions = Object.keys(state.transactions)
+      .sort()
+      .map(key => state.transactions[key])
+      .reduce((accumulator: Transaction[], currentValue: Transaction[]) => {
+        return accumulator.concat(currentValue);
+      }, []);
 
-    return state.transactions;
+    return transactions;
+
+    // return state.transactions;
   },
   getQRID(state: UserState): Qrcode|undefined {
     return state.qrcode;
@@ -39,8 +41,10 @@ export const mutations = {
   setUser(state: UserState, { user }) {
     state.user = user;
   },
-  setTransactions(state: UserState, { transactions }) {
-    state.transactions = transactions;
+  setTransactions(state: UserState, { page, transactions }) {
+    const currentTransactions = { ...state.transactions };
+    currentTransactions[page] = transactions;
+    state.transactions = currentTransactions;
   },
   setQRID(state: UserState, { qrcode }) {
     state.qrcode = qrcode;
@@ -58,7 +62,7 @@ export const actions = {
   },
   async fetchTransactions({ commit }, { page, itemPerPage }): Promise<Transaction[]> {
     const transactions = await arkavidiaApi.user.getTransactions(page, itemPerPage);
-    commit('setTransactions', { transactions });
+    commit('setTransactions', { page, transactions });
     return transactions;
   },
   async fetchQRID({ commit }): Promise<Qrcode> {
