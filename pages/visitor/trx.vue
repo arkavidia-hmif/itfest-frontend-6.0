@@ -24,7 +24,7 @@ import Vue from 'vue';
 import { Component, Getter, Action } from 'nuxt-property-decorator';
 import VisitorTrxHistory from '~/components/visitor-history/VisitorTrxHistory.vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
-import { UserData} from "~/api/types";
+import { UserData } from "~/api/types";
 
 @Component({
   components: {

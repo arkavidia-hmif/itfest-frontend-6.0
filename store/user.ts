@@ -41,6 +41,16 @@ export const mutations = {
   setUser(state: UserState, { user }) {
     state.user = user;
   },
+  setUserPartially(state: UserState, {name, email, dob, gender, interest}) {
+    if (state.user) {
+      state.user.name = name;
+      state.user.email = email;
+      state.user.dob = dob;
+      state.user.gender = gender;
+      state.user.interest = interest;
+    }
+  },
+
   setTransactions(state: UserState, { page, transactions }) {
     const currentTransactions = { ...state.transactions };
     currentTransactions[page] = transactions;
@@ -59,6 +69,10 @@ export const actions = {
     const user = await arkavidiaApi.user.getProfile();
     commit('setUser', { user });
     return user;
+  },
+  async updateProfileAction({ commit }, { name, email, password, dob, gender, interest }): Promise<void> {
+    await arkavidiaApi.user.updateProfile({name, email, password, dob, gender, interest});
+    commit('setUserPartially', {name, email, dob, gender, interest});
   },
   async fetchTransactions({ commit }, { page, itemPerPage }): Promise<Transaction[]> {
     const transactions = await arkavidiaApi.user.getTransactions(page, itemPerPage);

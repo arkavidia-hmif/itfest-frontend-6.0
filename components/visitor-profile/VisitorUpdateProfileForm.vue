@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isValid" @submit.prevent="attemptUpdateProfile">
+  <v-form ref="form" v-model="isValid" @submit.prevent="attemptUpdateProfile">
     <v-text-field
       v-model="fullName"
       :rules="nameRules"
@@ -15,6 +15,7 @@
       :rules="passwordRules"
       label="Password"
       type="password"
+      @input="$refs.form && $refs.form.validate()"
     />
     <v-text-field
       v-model.lazy="rePassword"
@@ -132,14 +133,7 @@ class VisitorUpdateProfileForm extends Vue {
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
   ];
   passwordRules = [
-    v => !!v || 'Password is required',
-    v => (v && v.length >= 8) || 'Password must have 8+ characters.',
-    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character.',
-    v => /(?=.*\d)/.test(v) || 'Must have one number.',
-    v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
-  ];
-  rePasswordRules = [
-    v => !!v || 'Password confirmation is required!',
+    v => ((v === '') || (v && v.length >= 8)) || 'New Password must have 8+ characters.',
   ];
 
   get passwordsFilled(): boolean {
@@ -220,10 +214,8 @@ class VisitorUpdateProfileForm extends Vue {
 
   passwordMatch() {
     let samePassword = false;
-    if (this.passwordsFilled) {
-      if (this.password === this.rePassword) {
-        samePassword = true;
-      }
+    if (this.password === this.rePassword) {
+      samePassword = true;
     }
     return samePassword;
   }
