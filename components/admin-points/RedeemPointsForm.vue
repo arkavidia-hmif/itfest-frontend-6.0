@@ -48,7 +48,7 @@
                   {{ item.name }}
                 </template>
                 <template slot="item" slot-scope="{ item }">
-                  <span>{{ item.name }}</span> <v-spacer></v-spacer> <span class="float-right">{{ item.price }} pts</span>
+                  <span>{{ item.name }}</span> <v-spacer /> <span class="float-right">{{ item.price }} pts</span>
                 </template>
               </v-select>
             </div>
@@ -65,10 +65,8 @@
                 :rules="naturalNumber"
                 full-width
                 type="number"
-                :suffix="`out of ${this.selectedItem.qty} pcs`"
                 step="1"
                 min="1"
-                :disabled="this.selectedItem.qty == 0"
               />
             </div>
           </div>
@@ -125,7 +123,7 @@
 <script lang="ts">
     import {Vue, Component, Getter} from 'nuxt-property-decorator';
     import arkavidiaApi from "~/api/api";
-    import { Tenant, Item} from "~/api/types";
+    import { Tenant, Item } from "~/api/types";
     import ConfirmationDialog from "~/components/ConfirmationDialog.vue";
     import MessageDialog from "~/components/MessageDialog.vue";
 

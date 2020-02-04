@@ -57,7 +57,7 @@
     </h4>
     <v-radio-group v-model="gender" row class="mt-2" hide-details>
       <v-radio value="Male" label="Male" color="#3F32D5" />
-      <v-radio value="Female"   label="Female" color="#3F32D5" />
+      <v-radio value="Female" label="Female" color="#3F32D5" />
     </v-radio-group>
     <h4 class="mt-4">
       Interests

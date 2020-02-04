@@ -9,7 +9,7 @@
       </v-card-title>
 
       <v-card-text>
-        <slot></slot>
+        <slot />
       </v-card-text>
 
       <v-card-actions>

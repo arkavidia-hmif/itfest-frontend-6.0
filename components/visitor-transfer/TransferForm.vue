@@ -31,7 +31,7 @@
       </v-form>
     </v-col>
     <v-col class="d-flex justify-center" cols="10">
-      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%">
+      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="process">
         Give Points!
       </v-btn>
     </v-col>
@@ -56,9 +56,15 @@
 </style>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component } from 'nuxt-property-decorator';
 
-export default Vue.extend({
 
-});
+@Component({})
+class TransferPoints extends Vue {
+  process() {
+    this.$router.push('/visitor/');
+  }
+}
+
+export default TransferPoints;
 </script>

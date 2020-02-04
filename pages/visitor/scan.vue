@@ -50,6 +50,9 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="process">
+        Next
+      </v-btn>
     </v-container>
   </v-content>
 </template>
@@ -77,7 +80,6 @@
 </style>
 
 <script lang="ts">
-import jsQR from 'jsqr'
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import { UserData } from '~/api/types';
 import VueQrReader from '~/components/VueQrReader.vue';
@@ -111,9 +113,11 @@ class VisitorScanPage extends Vue {
       console.log(val);
       if (val.status === 404) {
         this.errorMessage = 'visitor-not-found';
-      }else if(val.status == 400){
+      }
+      else if (val.status === 400) {
         this.errorMessage = 'invalid-qrid';
-      } else {
+      }
+      else {
         if (this.errorMessage === ''){
           this.changeQrCode({qr: code}).finally( () =>{
             this.$router.push('/visitor/transfer');
@@ -145,6 +149,10 @@ class VisitorScanPage extends Vue {
       default:
         this.errorMessage = 'UNKNOWN ERROR: ' + error.message;
     }
+  }
+
+  process() {
+    this.$router.push('/visitor/transfer/');
   }
 }
 

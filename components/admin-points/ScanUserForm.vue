@@ -5,7 +5,7 @@
         {{ errorMessage }}
       </v-card-text>
       <vue-qr-reader
-        ref = "qr"
+        ref="qr"
         @code-scanned="codeScanned"
         @error-captured="captureError"
       />
@@ -22,8 +22,7 @@
 </style>
 
 <script lang="ts">
-
-    import {Component, Getter, Mutation, Vue} from 'nuxt-property-decorator';
+import {Component, Mutation, Vue} from 'nuxt-property-decorator';
 import VueQrReader from '~/components/VueQrReader.vue';
 import arkavidiaApi from "~/api/api";
 

@@ -25,9 +25,7 @@
             this.isLoading = true;
             this.fetchTransactionAction()
                 .finally(() => {
-                    this.isLoading = false;
-                    console.log(this.transactions);
-                    console.log(this.items);
+                  this.isLoading = false;
                 });
         }
 

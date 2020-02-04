@@ -1,19 +1,19 @@
 <template>
   <v-content>
     <v-container fluid fill-height>
-    <v-row no-gutters class="pa-4">
-      <v-col cols="12">
-        <div class="form-title my-4 mb-8">
-          <h1>
-            Registration time!
-          </h1>
-        </div>
-      </v-col>
-      <v-col cols="12">
-        <VisitorRegisterForm />
-      </v-col>
-    </v-row>
-  </v-container>
+      <v-row no-gutters class="pa-4">
+        <v-col cols="12">
+          <div class="form-title my-4 mb-8">
+            <h1>
+              Registration time!
+            </h1>
+          </div>
+        </v-col>
+        <v-col cols="12">
+          <VisitorRegisterForm />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-content>
 </template>
 
