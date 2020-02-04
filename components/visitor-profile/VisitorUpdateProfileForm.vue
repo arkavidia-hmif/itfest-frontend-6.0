@@ -84,7 +84,6 @@
         single-line
       />
     </div>
-    <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <div class="d-flex justify-center py-4">
       <v-btn
         type="submit"
