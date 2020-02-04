@@ -35,4 +35,9 @@ export default class UserApi extends ArkavidiaBaseApi {
     };
     return await this.axios.post(`/user/${id}/redeem`, payload);
   }
+  
+  async getVisitorQR(qrId:string): Promise<any>{
+    return await this.axios.get(`/user/${qrId}`);
+  }
+  
 }

@@ -54,7 +54,7 @@ export const actions = {
   },
 
   async changeQrCode({commit}, {qr}): Promise<Qrcode>{
-    const response = await arkavidiaApi.game.getPlayName(qr);
+    const response = await arkavidiaApi.user.getVisitorQR(qr);
 
     const data = {
       qrid: qr,

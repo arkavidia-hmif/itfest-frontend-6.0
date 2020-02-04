@@ -79,7 +79,7 @@
 <script lang="ts">
 import jsQR from 'jsqr'
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
-import { UserData } from '~/api/types';
+import { UserData, Qrcode } from '~/api/types';
 import VueQrReader from '~/components/VueQrReader.vue';
 
 @Component({
@@ -89,38 +89,35 @@ import VueQrReader from '~/components/VueQrReader.vue';
 })
 
 class VisitorScanPage extends Vue {
-  @Action('user/fetchUser') fetchUserAction;
-  @Getter('user/getUser') user!: UserData;
-  @Action('game/changeQrCode') changeQrCode;
-  @Action('game/getStatus') getStatusAction;
-
-  isUserLoaded: boolean = false;
+  @Action('give/fetchVisitorQR') fetchVisitorQRAction;
+  @Getter('user/getVisitorQR') qr!: Qrcode;
+  
+  isGiveLoaded: boolean = false;
   scanned: string = '';
   show: boolean = false;
   errorMessage: string = '';
 
   mounted() {
-    this.fetchUserAction().finally(()=>{
-      this.isUserLoaded = true;
+    this.fetchVisitorQRAction().finally(()=>{
+      this.isGiveLoaded = true;
     });
   }
 
   codeScanned(code) {
-    this.getStatusAction({qr: code}).then((val) =>{
-      // eslint-disable-next-line no-console
-      console.log(val);
-      if (val.status === 404) {
-        this.errorMessage = 'visitor-not-found';
-      }else if(val.status == 400){
-        this.errorMessage = 'invalid-qrid';
-      } else {
-        if (this.errorMessage === ''){
-          this.changeQrCode({qr: code}).finally( () =>{
+    try {
+      this.fetchVisitorQRAction({qr:code})
+        .then((val) => {
+          if(val.name) {
             this.$router.push('/visitor/transfer');
-          });
-        }
-      }
-    });
+          }
+          else {
+            console.log('User gak ketemu'); // dibuat v-alert
+          }
+        })
+    }
+    catch(e) {
+      console.log(e); // dibuat v-alert
+    }
   }
 
   errorCaptured(error) {
