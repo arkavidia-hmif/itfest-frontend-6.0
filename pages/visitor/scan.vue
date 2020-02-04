@@ -76,7 +76,7 @@
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import { UserData } from '~/api/types';
 import VueQrReader from '~/components/VueQrReader.vue';
-import BackToolbar from '~/components/Partials/BackToolbar.vue';
+import BackToolbar from '~/components/partials/BackToolbar.vue';
 
 @Component({
   components: {
