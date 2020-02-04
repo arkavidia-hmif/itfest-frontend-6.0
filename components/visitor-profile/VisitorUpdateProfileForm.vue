@@ -163,7 +163,7 @@ class VisitorUpdateProfileForm extends Vue {
                 this.emailAddress = this.user.email;
               }
               if (this.user.dob) {
-                this.date = this.user.dob;
+                this.date = new Date(this.user.dob).toISOString().substr(0, 10);
               }
               if (this.user.gender) {
                 this.gender = (this.user.gender===1?"Male":"Female");

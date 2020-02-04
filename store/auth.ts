@@ -5,6 +5,7 @@ export interface AuthState {
   loggedIn: boolean;
   loggedInAt?: number;
   bearerToken?: string;
+  userRole?: string;
 }
 
 export const namespaced = true;
@@ -21,6 +22,9 @@ export const getters = {
   },
   getToken(state: AuthState) {
     return state.bearerToken;
+  },
+  getUserRole(state: AuthState) {
+    return state.userRole;
   }
 };
 
@@ -29,6 +33,9 @@ export const mutations = {
     state.loggedIn = true;
     state.loggedInAt = Date.now();
     state.bearerToken = bearerToken;
+  },
+  setUserRole(state: AuthState, { userRole }) {
+    state.userRole = userRole;
   },
   setLogout(state: AuthState) {
     state.loggedIn = false;
@@ -53,6 +60,10 @@ export const actions = {
     }
 
     commit('setLogin', { bearerToken });
+
+    const userData = await arkavidiaApi.user.getProfile();
+
+    commit('setUserRole', { userRole: userData.role.toString() });
   },
 
   async logout({ commit }) {

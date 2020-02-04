@@ -18,9 +18,6 @@
 </template>
 
 <style lang="scss" scoped>
-* {
-  font-family: 'Raleway', sans-serif;
-}
 .form-title::after {
     content: "";
     position: absolute;

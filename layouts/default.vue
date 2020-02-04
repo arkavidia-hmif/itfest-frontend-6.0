@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <TransactionSocketListener />
-    <nuxt />
+    <v-container class="pa-0" style="max-width: 600px">
+      <nuxt />
+    </v-container>
   </v-app>
 </template>
 

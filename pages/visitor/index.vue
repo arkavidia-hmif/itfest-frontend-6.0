@@ -33,14 +33,14 @@
           <QRComponent :url="qrcode.qrid" :size="250" />
         </v-col>
       </v-row>
+      <v-btn color="red" class="white--text mt-8" block @click="doLogout">
+        Logout
+      </v-btn>
     </v-container>
   </v-content>
 </template>
 
 <style lang="scss" scoped>
-* {
-  font-family: 'Raleway', sans-serif;
-}
 .no-underline {
   text-decoration: none;
 }
@@ -74,6 +74,9 @@ class VisitorIndexPage extends Vue{
 
   @Action('user/fetchQRID') fetchQRIDAction;
   @Getter('user/getQRID') qrcode!: Qrcode;
+
+  @Action("auth/logout") logoutAction;
+
   mounted() {
     this.fetchUserAction()
       .finally(()=>{
@@ -83,6 +86,11 @@ class VisitorIndexPage extends Vue{
       .finally(()=>{
         this.isQRLoaded=true;
       });
+  }
+
+  doLogout() {
+    this.logoutAction();
+    this.$router.push('/');
   }
 }
 

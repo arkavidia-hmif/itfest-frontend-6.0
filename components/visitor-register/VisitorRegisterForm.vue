@@ -4,23 +4,27 @@
       v-model="voucherCode"
       :rules="voucherRules"
       label="Voucher Code"
+      outlined
     />
     <v-text-field
       v-model="emailAddress"
       :rules="emailRules"
       label="Email"
+      outlined
     />
     <v-text-field
       v-model="password"
       :rules="passwordRules"
       label="Password"
       type="password"
+      outlined
     />
     <v-text-field
       v-model.lazy="rePassword"
       :rules="[() => passwordMatch() || 'Passwords do not match!']"
       label="Re-type Password"
       type="password"
+      outlined
     />
     <h4 class="mt-4">
       Disclaimer
@@ -42,6 +46,11 @@
       >
         Register!
       </v-btn>
+    </div>
+    <div class="mt-4">
+      Have an account? <nuxt-link to="/login">
+        Login now.
+      </nuxt-link>
     </div>
   </v-form>
 </template>
@@ -73,10 +82,7 @@ class VisitorRegisterForm extends Vue {
   ];
   passwordRules = [
     v => !!v || 'Password is required',
-    v => (v && v.length >= 8) || 'Password must have 8+ characters.',
-    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character.',
-    v => /(?=.*\d)/.test(v) || 'Must have one number.',
-    v => /([!@#$%^&*])/.test(v) || 'Must have one special character [!@#$%^&*].'
+    v => (v && v.length >= 8) || 'Password must have 8+ characters.'
   ];
   rePasswordRules = [
     v => !!v || 'Password confirmation is required!',

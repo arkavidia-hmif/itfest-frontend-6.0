@@ -1,13 +1,12 @@
 <template>
   <v-content class="ma-4">
     <v-btn
-      :href="href"
-      fluid
+      :to="href"
       width="100%"
       x-large
       raised
-      class="px-8 py-10"
       style="color: #3F32D5"
+      @click="$emit('click')"
     >
       <v-icon left x-large class="mr-6">
         {{ icon }}
@@ -31,7 +30,8 @@ export default {
     },
     href: {
       type: String,
-      required: true
+      required: false,
+      default: ''
     }
   }
 };

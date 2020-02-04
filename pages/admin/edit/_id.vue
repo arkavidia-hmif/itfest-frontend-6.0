@@ -23,9 +23,6 @@
 
 <style lang="scss" scoped>
 
-  * {
-    font-family: 'Raleway', sans-serif;
-  }
 </style>
 
 <style scoped>

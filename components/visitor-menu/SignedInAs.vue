@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center signed-in-container">
+  <div class="signed-in-container" align="center">
     <div class="px-1">
       Signed in as
     </div>

@@ -54,9 +54,6 @@
 </template>
 
 <style lang="scss" scoped>
-* {
-  font-family: 'Raleway', sans-serif;
-}
 
 .title-container::after {
   content: "";

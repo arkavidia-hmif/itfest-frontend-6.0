@@ -48,7 +48,7 @@
                   <vue-qr-reader
                     v-if="show"
                     @code-scanned="codeScanned"
-                    @error-captured="errorCaptured"
+                    @error-captured="qrErrorCaptured"
                   />
                 </v-card-actions>
               </v-card>
@@ -74,6 +74,13 @@
           </v-row>
         </v-card>
       </v-col>
+      <v-col :cols="12">
+        <v-card color="red" class="white--text pa-5 mt-8" elevation="3" @click="doLogout">
+          <div class="headline font-weight-bold">
+            Logout
+          </div>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -88,12 +95,12 @@
       VueQrReader
     }
   })
-
   class TenantMenu extends Vue {
     @Action('user/fetchUser') fetchUserAction;
     @Getter('user/getUser') user!: UserData;
     @Action('game/changeQrCode') changeQrCode;
     @Action('game/getStatus') getStatusAction;
+    @Action('auth/logout') logoutAction;
 
     isUserLoaded: boolean = false;
     scanned: string = '';
@@ -107,28 +114,32 @@
     }
 
     codeScanned(code) {
-      this.getStatusAction({qr: code}).then((val) =>{
-        // eslint-disable-next-line no-console
-        console.log(val);
-        if (val.status === 404) {
-          this.errorMessage = 'visitor-not-found';
-        }
-else if (val.status === 400){
-          this.errorMessage = 'invalid-qrid';
-        }
- else {
-          if (this.errorMessage === ''){
-            this.changeQrCode({qr: code}).finally( () =>{
-              this.$router.push('/tenant/give-point');
-            });
+      this.getStatusAction({qr: code})
+        .then((val) => {
+          // eslint-disable-next-line no-console
+          console.log(val);
+          if (val.status === 404) {
+            this.errorMessage = 'visitor-not-found';
           }
-        }
-      });
-
-
+          else if (val.status === 400) {
+            this.errorMessage = 'invalid-qrid';
+          }
+          else {
+            if (this.errorMessage === ''){
+              this.changeQrCode({qr: code}).finally( () =>{
+                this.$router.push('/tenant/give-point');
+              });
+            }
+          }
+        });
     }
 
-    errorCaptured(error) {
+    doLogout() {
+      this.logoutAction();
+      this.$router.push('/');
+    }
+
+    qrErrorCaptured(error) {
       switch (error.name) {
         case 'NotAllowedError':
           this.errorMessage = 'Camera permission denied.';
