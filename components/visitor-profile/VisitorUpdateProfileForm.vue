@@ -9,6 +9,7 @@
       v-model="emailAddress"
       :rules="emailRules"
       label="Email"
+      disabled
     />
     <v-text-field
       v-model="password"

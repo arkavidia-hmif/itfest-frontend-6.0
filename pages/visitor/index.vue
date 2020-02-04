@@ -8,7 +8,7 @@
         <v-col cols="12">
           <SignedInAs v-if="isUserLoaded" :name="user.name" />
         </v-col>
-        <v-col v-if="user && (user.name == null || user.dob == null || user.gender == null || user.interest.length == 0)" cols="12" class="pa-2 py-4">
+        <v-col v-if="user && !user.filled" cols="12" class="pa-2 py-4">
           <nuxt-link to="/visitor/update-profile/" class="no-underline">
             <PersonalDataBanner />
           </nuxt-link>
