@@ -180,8 +180,6 @@ export default class RedeemPointsForm extends Vue {
                     inventory.items = inventory.items.filter(item => item.qty > 0);
                 }
                 this.inventories = inventories.filter(inventory => inventory.items.length > 0);
-
-                console.log(this.inventories);
             });
     }
 
