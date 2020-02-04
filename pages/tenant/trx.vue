@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackToolbar title-text="Transaction History" />
+    <BackToolbar title-text="Transaction History" back-to="/tenant" />
     <v-content>
       <TenantTrxHistory />
     </v-content>

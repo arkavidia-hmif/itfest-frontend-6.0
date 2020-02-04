@@ -1,60 +1,56 @@
 <template>
-  <v-content>
-    <v-container>
-      <v-row no-gutters>
-        <v-col cols="12">
-          <div class="title-container pa-4">
-            <h1>
-              Scan QR Code
-            </h1>
-          </div>
-        </v-col>
-        <v-col cols="12">
-          <div class="d-flex align-center justify-center my-6 pa-2">
-            <div style="width:360px;height:360px" class="reader-container">
-              <vue-qr-reader
-                :video-width="360"
-                :video-height="360"
-                @code-scanned="codeScanned"
-                @error-captured="errorCaptured"
-              />
+  <div>
+    <BackToolbar title-text="Scan QR Code" back-to="/visitor/" />
+    <v-content>
+      <v-container>
+        <v-row no-gutters>
+          <v-col cols="12">
+            <div class="d-flex align-center justify-center my-6 pa-2">
+              <div style="width:360px;height:360px" class="reader-container">
+                <vue-qr-reader
+                  :video-width="360"
+                  :video-height="360"
+                  @code-scanned="codeScanned"
+                  @error-captured="errorCaptured"
+                />
+              </div>
             </div>
-          </div>
-        </v-col>
-        <v-col cols="12">
-          <div class="pa-4">
-            Scan QR codes to play games at IT Festival and work on those <i>sweet</i> prizes!
-          </div>
-          <v-card tile color="#fffd70" elevation="3" class="my-4">
-            <v-row no-gutters class="pa-2">
-              <v-col cols="4">
-                <div class="d-flex align-center justify-center pa-4">
-                  <v-icon size="75" color="#b0af5b">
-                    mdi-lightbulb-on-outline
-                  </v-icon>
-                </div>
-              </v-col>
-              <v-col cols="8">
-                <div class="d-flex flex-column tip-container">
-                  <div>
-                    <h3>
-                      Pro Tip:
-                    </h3>
+          </v-col>
+          <v-col cols="12">
+            <div class="pa-4">
+              Scan QR codes to play games at IT Festival and work on those <i>sweet</i> prizes!
+            </div>
+            <v-card tile color="#fffd70" elevation="3" class="my-4">
+              <v-row no-gutters class="pa-2">
+                <v-col cols="4">
+                  <div class="d-flex align-center justify-center pa-4">
+                    <v-icon size="75" color="#b0af5b">
+                      mdi-lightbulb-on-outline
+                    </v-icon>
                   </div>
-                  <div>
-                    Use this as an opportunity to work with others to get various prizes!
+                </v-col>
+                <v-col cols="8">
+                  <div class="d-flex flex-column tip-container">
+                    <div>
+                      <h3>
+                        Pro Tip:
+                      </h3>
+                    </div>
+                    <div>
+                      Use this as an opportunity to work with others to get various prizes!
+                    </div>
                   </div>
-                </div>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="process">
-        Next
-      </v-btn>
-    </v-container>
-  </v-content>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="process">
+          Next
+        </v-btn>
+      </v-container>
+    </v-content>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -83,10 +79,12 @@
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import { UserData } from '~/api/types';
 import VueQrReader from '~/components/VueQrReader.vue';
+import BackToolbar from '~/components/Partials/BackToolbar.vue';
 
 @Component({
   components: {
-    VueQrReader
+    VueQrReader,
+    BackToolbar
   }
 })
 

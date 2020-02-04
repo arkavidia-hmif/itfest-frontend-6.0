@@ -1,7 +1,22 @@
 <template>
   <div class="mt-4">
+    <div v-if="items.length === 0" class="d-flex flex-column align-center justify-center no-transaction-container" style="height:90vh">
+      <div>
+        No transaction yet..
+      </div>
+      <div>
+        <i>Visit our tenants and play the games!</i>
+      </div>
+    </div>
     <template v-for="(item, i) in items">
-      <TenantTrxHistoryItem :key="i" :visitor-id="item.visitorId" :points="item.points" :time="item.time" class="my-2" />
+      <VisitorTrxHistoryItem
+        :key="i"
+        :from="item.from"
+        :to="item.to"
+        :points="item.points"
+        :time="item.time"
+        class="my-2"
+      />
     </template>
     <div v-if="isLoading" class="pa-4" align="center">
       <v-progress-circular indeterminate color="primary" />
@@ -18,12 +33,12 @@ import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import moment from 'moment';
 
 import { Transaction } from "../../api/types";
-import TenantTrxHistoryItem from './TenantTrxHistoryItem.vue';
+import VisitorTrxHistoryItem from './VisitorTrxHistoryItem.vue';
 
 @Component({
-  components: { TenantTrxHistoryItem }
+  components: { VisitorTrxHistoryItem }
 })
-class TenantTrxHistory extends Vue {
+class VisitorTrxHistory extends Vue {
   isLoading: boolean = false;
   currentPage: number = 0;
   @Action('user/fetchTransactions') fetchTransactionAction;
@@ -40,7 +55,8 @@ class TenantTrxHistory extends Vue {
   get items() {
     return this.transactions.map(transaction => {
       return {
-        visitorId: transaction.to.name || `#${transaction.to.id}`,
+        from: transaction.from.name || `#${transaction.from.id}`,
+        to: transaction.to.name || `#${transaction.to.id}`,
         points: transaction.amount,
         time: moment(transaction.createdAt).format("HH:mm")
       };
@@ -59,7 +75,7 @@ class TenantTrxHistory extends Vue {
   }
 }
 
-export default TenantTrxHistory;
+export default VisitorTrxHistory;
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="balance-container elevation-12 d-flex flex-column align-center justify-center pa-4">
+  <div style="background: #FF084F" class="white--text balance-container elevation-3 d-flex flex-column align-center justify-center pa-4">
     <div>
       Current Points:
     </div>
@@ -13,10 +13,8 @@
 .balance-number {
   // position: relative;
   // bottom: 30px;
-  line-height: 140%;
-  color:#4336D7;
   font-weight: 600;
-  font-size: 4em;
+  font-size: 3em;
   padding-top: -10px;
 }
 .balance-container {
