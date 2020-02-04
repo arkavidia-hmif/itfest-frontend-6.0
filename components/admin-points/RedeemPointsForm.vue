@@ -65,8 +65,10 @@
                 :rules="naturalNumber"
                 full-width
                 type="number"
+                :suffix="'out of ' + selectedItem.qty + ' pcs'"
                 step="1"
                 min="1"
+                :disabled="selectedItem.qty == 0"
               />
             </div>
           </div>
@@ -170,7 +172,7 @@ export default class RedeemPointsForm extends Vue {
 
     created(): void {
         if (this.redemptionTarget == null) {
-            this.$router.push(`/admin/scan-user`);
+            this.$router.push(`/admin/`);
         }
         arkavidiaApi.stock.getItemPerOwner()
             .then(inventories => {
