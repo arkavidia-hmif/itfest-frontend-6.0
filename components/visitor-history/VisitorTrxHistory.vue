@@ -40,7 +40,7 @@ import VisitorTrxHistoryItem from './VisitorTrxHistoryItem.vue';
 })
 class VisitorTrxHistory extends Vue {
   isLoading: boolean = false;
-  currentPage: number = 0;
+  currentPage: number = 1;
   @Action('user/fetchTransactions') fetchTransactionAction;
   @Getter('user/getTransactions') transactions!: Transaction[];
 

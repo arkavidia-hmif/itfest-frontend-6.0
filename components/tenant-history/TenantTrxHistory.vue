@@ -25,7 +25,7 @@ import TenantTrxHistoryItem from './TenantTrxHistoryItem.vue';
 })
 class TenantTrxHistory extends Vue {
   isLoading: boolean = false;
-  currentPage: number = 0;
+  currentPage: number = 1;
   @Action('user/fetchTransactions') fetchTransactionAction;
   @Getter('user/getTransactions') transactions!: Transaction[];
 
