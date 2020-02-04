@@ -9,7 +9,7 @@
       class="px-8 py-10"
       style="color: #3F32D5"
     >
-      <v-icon left x-large class="mr-4">
+      <v-icon left x-large class="mr-6">
         {{ icon }}
       </v-icon>
       {{ label }}

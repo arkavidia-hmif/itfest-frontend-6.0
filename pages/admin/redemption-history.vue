@@ -1,8 +1,8 @@
 <template>
   <div>
-    <BackToolbar title-text="Merchandise Stock" back-to="/admin/" />
+    <BackToolbar title-text="History Redeem" back-to="/admin/" />
     <v-content>
-      <ListStocks />
+      <RedeemHistory />
     </v-content>
   </div>
 </template>
@@ -29,13 +29,13 @@
 <script>
     import Vue from 'vue';
     import BackToolbar from '~/components/partials/BackToolbar.vue';
-    import ListStocks from '~/components/admin-stock/ListStocks.vue';
+    import RedeemHistory from '~/components/admin-points/RedeemHistory.vue';
 
     export default Vue.extend({
-        name: 'MerchandiseStock',
+        name: 'RedemptionHistory',
         components: {
             BackToolbar,
-            ListStocks
+            RedeemHistory
         }
     });
 </script>
