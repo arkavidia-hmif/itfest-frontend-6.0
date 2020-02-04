@@ -102,3 +102,16 @@ export interface Pagination<T> {
   page: number,
   totalPages: number
 }
+
+export interface Item {
+  id: number,
+  name: string,
+  price: number,
+  qty: number
+}
+
+export interface Tenant {
+  id: number,
+  name: string,
+  items: Item[]
+}

@@ -1,5 +1,5 @@
 import {ArkavidiaBaseApi} from './base';
-import {ApiResponse, InventoryData, Pagination} from "~/api/types";
+import {ApiResponse, InventoryData, Pagination, Tenant} from "~/api/types";
 
 export default class StockApi extends ArkavidiaBaseApi {
   async getInventory({page, itemPerPage = 10}): Promise<Pagination<InventoryData>> {
@@ -37,5 +37,10 @@ export default class StockApi extends ArkavidiaBaseApi {
 
   async deleteItem({id}): Promise<ApiResponse<void>> {
     return this.axios.delete(`/item/${id}`);
+  }
+
+  async getItemPerOwner(): Promise<Tenant[]> {
+    const response = await this.axios.get(`/user/item`);
+    return response.data.data.array;
   }
 }

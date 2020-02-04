@@ -107,7 +107,7 @@
     <MessageDialog
       ref="messageDialog"
       title="Merchandise redeemed"
-      @dismissed="$router.push(`/admin/scan-user`)"
+      @dismissed="$router.push(`/admin/scan-user/`)"
     >
       The merchandise has been redeemed
     </MessageDialog>
@@ -125,21 +125,9 @@
 <script lang="ts">
     import {Vue, Component, Getter} from 'nuxt-property-decorator';
     import arkavidiaApi from "~/api/api";
+    import { Tenant, Item} from "~/api/types";
     import ConfirmationDialog from "~/components/ConfirmationDialog.vue";
     import MessageDialog from "~/components/MessageDialog.vue";
-
-interface Item {
-    id: number,
-    name: string,
-    price: number,
-    qty: number
-}
-
-interface Tenant {
-    id: number,
-    name: string,
-    items: Item[]
-}
 
 const errorMessages = {
     "invalid-jwt": "Not authorized",
@@ -186,48 +174,14 @@ export default class RedeemPointsForm extends Vue {
         if (this.redemptionTarget == null) {
             this.$router.push(`/admin/scan-user`);
         }
-        arkavidiaApi.stock.getInventory({page: 1, itemPerPage: 10000})
-            .then(response => {
-                const inventories = response.data;
-                const owners = new Map<number, Tenant>();
+        arkavidiaApi.stock.getItemPerOwner()
+            .then(inventories => {
                 for (const inventory of inventories) {
-                    if (inventory.qty > 0) {
-                        let owner;
-                        const ownerId = inventory.item.ownerId;
-                        if (!owners.has(ownerId)) {
-                            owner = {
-                                id: ownerId,
-                                name: "admin",
-                                items: []
-                            };
-                            owners.set(inventory.item.ownerId, owner);
-                        }
-                        else {
-                            owner = owners.get(ownerId);
-                        }
-                        owner.items.push({
-                            id: inventory.item.id,
-                            name: inventory.item.name,
-                            price: inventory.item.price,
-                            qty: inventory.qty
-                        });
-                    }
+                    inventory.items = inventory.items.filter(item => item.qty > 0);
                 }
-                for (const inventory of owners.values()) {
-                    this.inventories.push(inventory);
-                }
+                this.inventories = inventories.filter(inventory => inventory.items.length > 0);
 
-                arkavidiaApi.user.getAllTenants()
-                    .then(tenants => {
-                       for (const tenant of tenants) {
-                           if (owners.has(tenant.id)) {
-                               const owner = owners.get(tenant.id);
-                               if (owner) {
-                                   owner.name = tenant.name;
-                               }
-                           }
-                       }
-                    });
+                console.log(this.inventories);
             });
     }
 
