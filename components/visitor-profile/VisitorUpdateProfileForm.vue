@@ -76,7 +76,13 @@
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field v-model="interestOtherValue" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
+      <v-text-field
+        v-model="interestOtherValue"
+        :disabled="!interestOther"
+        class="px-2 py-0"
+        hide-details
+        single-line
+      />
     </div>
     <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <div class="d-flex justify-center py-4">
@@ -90,6 +96,25 @@
         Update Profile
       </v-btn>
     </div>
+
+    <MessageDialog
+      ref="messageDialog"
+      title="Profile Updated"
+      @dismissed="$router.push('/visitor/')"
+    >
+    </MessageDialog>
+    <MessageDialog
+      ref="errorDialog"
+    >
+      <template slot="title" class="red--text">
+        <v-card-title class="headline red--text">
+          Failed to Update
+        </v-card-title>
+      </template>
+      <v-card-text>
+        {{ error }}
+      </v-card-text>
+    </MessageDialog>
   </v-form>
 </template>
 
@@ -97,10 +122,11 @@
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import { Gender } from '~/api/types.ts';
 import Alert from '~/components/partials/Alert.vue';
+import MessageDialog from "~/components/MessageDialog.vue";
 import { UserData } from '~/api/types';
 
 @Component({
-  components: { Alert }
+  components: { Alert, MessageDialog }
 })
 class VisitorUpdateProfileForm extends Vue {
   isUpdating: boolean = false;
@@ -126,13 +152,6 @@ class VisitorUpdateProfileForm extends Vue {
     'E-commerce',
     'Tourism'
     ];
-  // interestsMap: Map<string, number> = new Map<string, number>([
-  //     ['Financial Technology', 0],
-  //     ['Education Technology', 1],
-  //     ['Health Technology', 2],
-  //     ['E-commerce', 3],
-  //     ['Tourism', 4]
-  // ]);
   nameRules = [
     v => !!v || 'Full name is required!'
   ];
@@ -199,20 +218,20 @@ class VisitorUpdateProfileForm extends Vue {
     const password = this.password;
     const dob = this.date;
     const gender = genderEnum;
-    const interest = this.interests;
-    if (this.interestOtherValue !== '') {
+    const interest = this.interests.slice();
+    if (this.interestOther) {
       interest.push(this.interestOtherValue);
     }
-    console.log('KIRIM', interest);
     // Set action after submitting form
     this.isUpdating = true;
 
     this.updateProfileAction({name, email, password, dob, gender, interest})
       .then(() => {
-        this.$router.push('/visitor/update-profile/');
+        (this.$refs.messageDialog as Vue & { show: () => boolean }).show();
       })
       .catch((e) => {
         this.error = e.toString();
+        (this.$refs.errorDialog as Vue & { show: () => boolean }).show();
       })
       .finally(() => {
         this.isUpdating = false;
