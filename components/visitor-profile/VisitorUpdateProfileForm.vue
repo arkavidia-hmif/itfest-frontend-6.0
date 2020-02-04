@@ -166,7 +166,8 @@ class VisitorUpdateProfileForm extends Vue {
               if (this.user.gender) {
                 this.gender = (this.user.gender===1?"Male":"Female");
               }
-              if (this.user.interest.length > 0) {
+              if (this.user.interest) {
+                if (this.user.interest.length > 0) {
                   this.rawInterests = this.user.interest;
                   let rawInterest;
                   for (rawInterest in this.rawInterests) {
@@ -178,6 +179,7 @@ class VisitorUpdateProfileForm extends Vue {
                           this.interests.push(rawInterest);
                       }
                   }
+                }
               }
           }
         });
