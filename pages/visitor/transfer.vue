@@ -65,7 +65,6 @@ class VisitorScanPage extends Vue {
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
   @Action('game/changeQrCode') changeQrCode;
-  @Action('game/getStatus') getStatusAction;
 
   isUserLoaded: boolean = false;
   scanned: string = '';
@@ -80,22 +79,8 @@ class VisitorScanPage extends Vue {
   }
 
   codeScanned(code) {
-    this.getStatusAction({qr: code}).then((val) =>{
-      // eslint-disable-next-line no-console
-      console.log(val);
-      if (val.status === 404) {
-        this.errorMessage = 'visitor-not-found';
-      }
-      else if (val.status === 400) {
-        this.errorMessage = 'invalid-qrid';
-      }
-      else {
-        if (this.errorMessage === '') {
-          this.scanned = code;
-          this.dialog = true;
-        }
-      }
-    });
+    this.scanned = code;
+    this.dialog = true;
   }
 
   handleGivePointFinished() {
