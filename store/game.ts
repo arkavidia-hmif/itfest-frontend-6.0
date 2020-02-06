@@ -36,13 +36,8 @@ export const mutations = {
 export const actions = {
   //eslint-disable-next-line no-empty-pattern
   async playGame({ }, { qrId, difficultyLevels }): Promise<void> {
-    try {
-      const response = await arkavidiaApi.game.play(qrId, difficultyLevels);
-      return response;
-    }
- catch (e) {
-      return e.response;
-    }
+    const response = await arkavidiaApi.game.play(qrId, difficultyLevels);
+    return response;
   },
   async fetchReview({ commit }, { tenantId }): Promise<number> {
     const review = await arkavidiaApi.game.getTenantReview(tenantId);
@@ -76,20 +71,7 @@ export const actions = {
 
   // eslint-disable-next-line no-empty-pattern
   async getStatus({ }, {qr}): Promise<Object>{
-    try {
-      const response = await arkavidiaApi.game.getPlayStatus(qr);
-      // eslint-disable-next-line no-console
-      // console.log(response);
-      return response;
-
-    }
-    catch (e) {
-      // eslint-disable-next-line no-console
-      // console.log(e.response.status);
-      // eslint-disable-next-line no-console
-      // console.log(e.response);
-      return e.response;
-    }
-
+    const response = await arkavidiaApi.game.getPlayStatus(qr);
+    return response;
   }
 };

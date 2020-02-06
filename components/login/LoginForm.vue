@@ -32,14 +32,12 @@
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
 import Alert from '~/components/partials/Alert.vue';
-import { ApiError } from '~/api/base';
-import { LoginStatus } from '~/api/types';
 
 @Component({
   components: { Alert }
 })
 
-class VisitorLoginForm extends Vue {
+class LoginForm extends Vue {
   error = '';
   emailAddress: string = '';
   password: string = '';
@@ -67,17 +65,14 @@ class VisitorLoginForm extends Vue {
         this.$router.push('/');
       })
       .catch((e) => {
-        if (e instanceof ApiError) {
-          if (e.errorCode === LoginStatus.NO_USER) {
-            this.error = 'User not registered';
-            return;
-          }
-
-          this.error = e.message;
-          return;
+        switch (e.response.status) {
+          case 401:
+          case 404:
+            this.error = 'Invalid email and/or password';
+            break;
+          default:
+            this.error = e.response.data.code || e.toString();
         }
-
-        this.error = e.toString();
       })
       .finally(() => {
         this.loggingIn = false;
@@ -85,6 +80,6 @@ class VisitorLoginForm extends Vue {
   }
 }
 
-export default VisitorLoginForm;
+export default LoginForm;
 
 </script>

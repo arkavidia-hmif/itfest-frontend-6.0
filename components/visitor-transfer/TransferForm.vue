@@ -76,6 +76,18 @@ class TransferPoints extends Vue {
     this.getQrDetailsAction({ qrId: this.qrid })
       .then(qr => {
         this.qrName = qr.name;
+      })
+      .catch(e => {
+        switch (e.response.status) {
+          case 400:
+          case 404:
+            this.errorMessage = "Invalid QR code";
+            break;
+          default:
+            this.errorMessage = e.response.data.code || e.toString();
+        }
+      })
+      .finally(() => {
         this.isLoading = false;
       });
     this.fetchUserAction().finally(()=>{
@@ -94,8 +106,17 @@ class TransferPoints extends Vue {
         .then(() => {
           this.$emit('close');
         })
-        .catch(() => {
-          // TODO show error
+        .catch((e) => {
+          switch (e.response.status) {
+            case 400:
+              this.errorMessage = "Insufficient points";
+              break;
+            case 404:
+              this.errorMessage = "Invalid QR code";
+              break;
+            default:
+              this.errorMessage = e.response.data.code || e.toString();
+          }
         })
         .finally(() => {
           this.isLoading = false;
