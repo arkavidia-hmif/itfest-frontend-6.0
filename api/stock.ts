@@ -1,5 +1,5 @@
 import {ArkavidiaBaseApi} from './base';
-import {ApiResponse, InventoryData, Pagination, Tenant} from "~/api/types";
+import { InventoryData, Pagination, Tenant } from "~/api/types";
 
 export default class StockApi extends ArkavidiaBaseApi {
   async getInventory({page, itemPerPage = 10}): Promise<Pagination<InventoryData>> {
@@ -11,14 +11,14 @@ export default class StockApi extends ArkavidiaBaseApi {
     };
   }
 
-  async createItem({amount, ownerId, name, price}): Promise<ApiResponse<void>> {
+  async createItem({amount, ownerId, name, price}): Promise<void> {
     const payload = {
       name,
       price,
       ownerId,
       qty: amount
     };
-    return this.axios.post(`/item`, payload);
+    await this.axios.post(`/item`, payload);
   }
 
   async getItem({id}): Promise<InventoryData> {
@@ -26,17 +26,17 @@ export default class StockApi extends ArkavidiaBaseApi {
     return response.data.data;
   }
 
-  async updateItem({id, amount, name, price}): Promise<ApiResponse<void>> {
+  async updateItem({id, amount, name, price}): Promise<void> {
     const payload = {
       name: name,
       price: price,
       qty: amount
     };
-    return this.axios.put(`/item/${id}`, payload);
+    await this.axios.put(`/item/${id}`, payload);
   }
 
-  async deleteItem({id}): Promise<ApiResponse<void>> {
-    return this.axios.delete(`/item/${id}`);
+  async deleteItem({id}): Promise<void> {
+    await this.axios.delete(`/item/${id}`);
   }
 
   async getItemPerOwner(): Promise<Tenant[]> {

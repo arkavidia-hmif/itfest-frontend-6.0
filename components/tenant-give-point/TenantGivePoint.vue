@@ -112,24 +112,47 @@
         temp.push(3);
       }
 
-      this.playAction({qrId: this.qrid, difficultyLevels: temp}).then((val) =>{
-        if (val.data.status !== 200) {
-          this.errorMessage = val.data.code;
-        }
-        else {
+      this.playAction({qrId: this.qrid, difficultyLevels: temp})
+        .then(() =>{
           this.$emit('close');
-        }
-      });
+        })
+        .catch(e => {
+          switch (e.response.code) {
+            case 400:
+              this.errorMessage = "Insufficient points";
+              break;
+            case 404:
+              this.errorMessage = "User not found";
+              break;
+            default:
+              this.errorMessage = e.response.data.code || e.toString();
+          }
+        });
     }
     mounted() {
+      this.isLoading = true;
       this.getQrDetailsAction({ qrId: this.qrid })
         .then(qr => {
           this.qrName = qr.name;
+        })
+        .catch(e => {
+          switch (e.response.status) {
+            case 400:
+            case 404:
+              this.errorMessage = "Invalid QR code";
+              break;
+            default:
+              this.errorMessage = e.response.data.code || e.toString();
+          }
+        })
+        .finally(() => {
           this.isLoading = false;
         });
-      this.fetchUserAction().finally(()=>{
-        this.isUserLoaded = true;
-      });
+
+      this.fetchUserAction()
+        .finally(()=>{
+          this.isUserLoaded = true;
+        });
     }
   }
 

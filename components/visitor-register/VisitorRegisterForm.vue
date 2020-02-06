@@ -58,8 +58,6 @@
 <script lang="ts">
 import { Component, Action, Vue } from 'nuxt-property-decorator';
 import Alert from '~/components/partials/Alert.vue';
-import { ApiError } from '~/api/base';
-import { LoginStatus } from '~/api/types';
 
 @Component({
   components: { Alert }
@@ -112,13 +110,8 @@ class VisitorRegisterForm extends Vue {
         this.$router.push('/visitor/');
       })
       .catch((e) => {
-        if (e instanceof ApiError) {
-          if (e.errorCode === LoginStatus.NO_USER) {
-            this.error = 'User belum terdaftar';
-            return;
-          }
-
-          this.error = 'Silakan periksa kembali kode voucher yang Anda masukkan.';
+        if (e.response.status === 400) {
+          this.error = 'Kode voucher salah';
           return;
         }
 

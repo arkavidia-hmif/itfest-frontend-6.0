@@ -10,7 +10,7 @@
           Please login to continue
         </div>
       </div>
-      <VisitorLoginForm />
+      <LoginForm />
       <div class="mt-4">
         Are you a new visitor? <nuxt-link to="/visitor/register">
           Register here!
@@ -25,12 +25,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import VisitorLoginForm from '~/components/visitor-login/VisitorLoginForm.vue';
+import LoginForm from '~/components/login/LoginForm.vue';
 
 export default Vue.extend({
   name: 'Login',
   components: {
-    VisitorLoginForm
+    LoginForm
   }
 });
 </script>
