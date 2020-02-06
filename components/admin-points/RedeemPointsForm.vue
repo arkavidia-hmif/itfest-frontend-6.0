@@ -1,98 +1,79 @@
 <template>
-  <v-row align="center" justify="center" no-gutters>
-    <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
-      {{ message.text }}
-    </v-alert>
-    <v-col class="py-5" cols="10">
-      <v-form v-if="redemptionTarget">
-        <div class="my-2">
-          <div class="form-label">
-            Using points from
-            <span style="font-weight: 800; font-size: 1.5em; margin-right: 0.5rem; color: #FF0B51; vertical-align: sub">
-              {{ redemptionTarget.name }}
-            </span>
-          </div>
+  <div align="left" no-gutters>
+    <v-form v-if="redemptionTarget" class="pa-4">
+      <v-alert v-model="message.visible" :type="message.type" :dismissible="true" class="mt-2">
+        {{ message.text }}
+      </v-alert>
+      <div class="my-2">
+        Using points from
+        <b style="color: #FF0B51">{{ redemptionTarget.name }} </b>
+      </div>
+      <div class="my-4">
+        <div class="form-label">
+          From
         </div>
-        <div class="my-4">
-          <div class="form-label">
-            From
-          </div>
-          <div class="d-flex align-center">
-            <div class="px-2 full-width">
-              <v-select
-                v-model="selectedInventory"
-                :items="inventories"
-                return-object
-                item-text="name"
-                full-width
-                label="Tenant"
-              />
-            </div>
-          </div>
+        <v-select
+          v-model="selectedInventory"
+          :items="inventories"
+          return-object
+          item-text="name"
+          full-width
+          label="Tenant"
+          outlined
+          class="mt-2"
+        />
+      </div>
+      <div class="my-4">
+        <div class="form-label">
+          Merchandise
         </div>
-        <div class="my-4">
-          <div class="form-label">
-            Merchandise
-          </div>
-          <div class="d-flex align-center">
-            <div class="px-2 full-width">
-              <v-select
-                v-model="selectedItem"
-                :items="selectedInventory.items"
-                item-text="name"
-                full-width
-                label="Item"
-                return-object
-              >
-                <template slot="selection" slot-scope="{ item }">
-                  {{ item.name }}
-                </template>
-                <template slot="item" slot-scope="{ item }">
-                  <span>{{ item.name }}</span> <v-spacer /> <span class="float-right">{{ item.price }} pts</span>
-                </template>
-              </v-select>
-            </div>
-          </div>
+        <v-select
+          v-model="selectedItem"
+          :items="selectedInventory.items"
+          item-text="name"
+          full-width
+          label="Item"
+          return-object
+          outlined
+          class="mt-2"
+        >
+          <template slot="selection" slot-scope="{ item }">
+            {{ item.name }}
+          </template>
+          <template slot="item" slot-scope="{ item }">
+            <span>{{ item.name }}</span> <v-spacer /> <span class="float-right">{{ item.price }} pts</span>
+          </template>
+        </v-select>
+      </div>
+      <div class="my-4">
+        <div class="form-label">
+          Amount
         </div>
-        <div class="my-4">
-          <div class="form-label">
-            Amount
-          </div>
-          <div class="d-flex align-center">
-            <div class="px-2 full-width">
-              <v-text-field
-                v-model="amount"
-                :rules="naturalNumber"
-                full-width
-                type="number"
-                :suffix="'out of ' + selectedItem.qty + ' pcs'"
-                step="1"
-                min="1"
-                :disabled="selectedItem.qty == 0"
-              />
-            </div>
-          </div>
+        <v-text-field
+          v-model="amount"
+          :rules="naturalNumber"
+          full-width
+          type="number"
+          :suffix="'out of ' + selectedItem.qty + ' pcs'"
+          step="1"
+          min="1"
+          :disabled="selectedItem.qty == 0"
+          outlined
+          class="mt-2"
+        />
+      </div>
+      <div class="my-4">
+        <div class="form-label">
+          Total price
         </div>
-        <div class="my-4">
-          <div class="form-label">
-            Total price
-          </div>
-          <v-row class="ml-2">
-            <div style="font-weight: 800; font-size: 3em; margin-right: 0.5rem; color: #3F32D5; display: flex; align-items: center;">
-              {{ isSelectionValid ? selectedItem.price * amount : '-' }}
-            </div>
-            <div style="font-weight: 800; font-size: 1.5em; display: flex; align-items: center;">
-              points
-            </div>
-          </v-row>
+        <div class="headline font-weight-bold" style="color: #3F32D5;">
+          {{ isSelectionValid ? selectedItem.price * amount : '-' }} points
         </div>
-      </v-form>
-    </v-col>
-    <v-col class="d-flex justify-center" cols="10">
-      <v-btn color="#4336D7" class="white--text text-none" height="50px" width="100%" @click="validateRedeem">
+      </div>
+      <v-btn color="#4336D7" class="white--text text-none" block @click="validateRedeem">
         Redeem Points
       </v-btn>
-    </v-col>
+    </v-form>
     <ConfirmationDialog
       ref="confirmDialog"
       title="Redeem merchadise?"
@@ -102,20 +83,16 @@
       cancel-color="red darken-1"
       @confirmed="redeem"
     >
-      <v-card-text>
-        The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price }}.
-      </v-card-text>
+      The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price }}.
     </ConfirmationDialog>
     <MessageDialog
       ref="messageDialog"
       title="Merchandise redeemed"
       @dismissed="$router.push(`/admin/scan-user/`)"
     >
-      <v-card-text>
-        The merchandise has been redeemed
-      </v-card-text>
+      The merchandise has been redeemed
     </MessageDialog>
-  </v-row>
+  </div>
 </template>
 
 <style lang="scss" scoped>
