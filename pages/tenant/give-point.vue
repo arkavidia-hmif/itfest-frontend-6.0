@@ -1,148 +1,79 @@
 <template>
   <div>
-    <BackToolbar title-text="Give Point" back-to="/tenant/" />
-    <v-container fluid class="mt-12">
-      <v-row style="background-color:white">
-        <v-col v-if="errorMessage !== ''" :cols="12">
-          <v-alert
-            type="error"
-          >
-            {{ errorMessage }}
-          </v-alert>
-        </v-col>
-        <v-col :cols="12" class="pa-5">
-          <div class="headline">
-            Which difficulties did the visitor played?
-            <v-checkbox
-              v-model="selected"
-              class="black--checkbox"
-              label="Easy"
-              value="Easy"
-              @click.native="pointChange"
-            />
-            <v-checkbox
-              v-model="selected"
-              class="black--checkbox"
-              label="Medium"
-              value="Medium"
-              @click.native="pointChange"
-            />
-            <v-checkbox
-              v-model="selected"
-              class="black--checkbox"
-              label="Hard"
-              value="Hard"
-              @click.native="pointChange"
-            />
-          </div>
-        </v-col>
-        <v-col :cols="12" class="pa-5" style="color:black">
-          <div class="headline">
-            You're giving
-          </div>
-          <div class="display-1 mt-5">
-            <b style="color:#4854D6"> {{ pointTemp }} </b> points
-          </div>
-        </v-col>
-        <v-col :cols="12" class="pa-5" style="color:black">
-          <div class="headline">
-            Account destination
-          </div>
-          <div class="display-1 mt-5">
-            <b style="color:#E4491C"> {{ qr.name }} </b>
-          </div>
-        </v-col>
-        <v-col :cols="12" class="pa-5" style="color:black">
-          <div class="headline">
-            Remaining points after giving
-          </div>
-          <div v-if="isUserLoaded" class="display-1 mt-5 font-weight-bold">
-            <b class="display-2 font-weight-black" style="color:#4854D6"> {{ user.point - pointTemp }} </b> points
-          </div>
-        </v-col>
-        <v-col :cols="12" class="pa-5">
-          <v-row justify="center">
-            <v-btn color="#4854D6" style="text-transform: none;color: white" @click="submitPoint">
-              Give Point
-            </v-btn>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
+    <BackToolbar title-text="Scan QR Code" back-to="/tenant/" />
+    <v-content>
+      <div class="reader-container">
+        <VueQrReader v-if="readerEnabled" @code-scanned="codeScanned" />
+      </div>
+    </v-content>
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <TenantGivePoint :qrid="scanned" class="white" @close="handleGivePointFinished" />
+    </v-dialog>
   </div>
 </template>
 
-<script lang="ts">
-  import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
-  import {UserData, Qrcode} from '../../api/types';
-  import BackToolbar from '~/components/partials/BackToolbar.vue';
+<style lang="scss" scoped>
 
-  @Component({
-    components: {
-      BackToolbar
-    }
-  })
-  class givePoint extends Vue {
-
-    @Action('user/fetchUser') fetchUserAction;
-    @Getter('user/getUser') user!: UserData;
-    @Getter('game/getQrcode') qr!: Qrcode;
-    @Action('game/playGame') playAction;
-
-    isQrCodeLoad: boolean = false
-    selected: Array<string> = [];
-    pointTemp: number = 0;
-    accountTemp: string = "123123";
-    isUserLoaded: boolean = false;
-    errorMessage: string = '';
-
-    pointChange() {
-      let x = 0;
-      if (this.selected.includes('Easy')) {
-        x += 25;
-      }
-      if (this.selected.includes('Medium')) {
-        x += 50;
-      }
-      if (this.selected.includes('Hard')) {
-        x += 75;
-      }
-      this.pointTemp = x;
-    }
-
-    submitPoint() {
-      let temp: number[] = [];
-      if (this.selected.includes('Easy')) {
-        temp.push(1);
-      }
-      if (this.selected.includes('Medium')) {
-        temp.push(2);
-      }
-      if (this.selected.includes('Hard')) {
-        temp.push(3);
-      }
-      this.playAction({qrId: this.qr.qrid, difficultyLevels: temp}).then( (val) =>{
-        if (val.data.status !== 200){
-          this.errorMessage = val.data.code;
-        }
- else {
-          this.$router.push('/tenant');
-        }
-      });
-    }
-    mounted() {
-      this.fetchUserAction().finally(()=>{
-        this.isUserLoaded = true;
-      });
-      // this.
-    }
-  }
-
-  export default givePoint;
-</script>
-<style scoped>
-  .black--checkbox /deep/ label {
-    color: black;
-    font-size: 24px;
-  }
 </style>
+
+<script lang="ts">
+import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
+import { UserData } from '~/api/types';
+import VueQrReader from '~/components/VueQrReader.vue';
+import BackToolbar from '~/components/partials/BackToolbar.vue';
+import TenantGivePoint from '~/components/tenant-give-point/TenantGivePoint.vue';
+
+@Component({
+  components: {
+    VueQrReader,
+    BackToolbar,
+    TenantGivePoint
+  }
+})
+
+class GivePointScanPage extends Vue {
+  @Action('user/fetchUser') fetchUserAction;
+  @Getter('user/getUser') user!: UserData;
+  @Action('game/changeQrCode') changeQrCode;
+  @Action('game/getStatus') getStatusAction;
+
+  isUserLoaded: boolean = false;
+  scanned: string = '';
+  show: boolean = false;
+  dialog: boolean = false;
+  readerEnabled: boolean = true;
+  errorMessage: string = '';
+
+  mounted() {
+    this.fetchUserAction().finally(()=>{
+      this.isUserLoaded = true;
+    });
+  }
+
+  codeScanned(code) {
+    this.getStatusAction({qr: code}).then((val) =>{
+      // eslint-disable-next-line no-console
+      console.log(val);
+      if (val.status === 404) {
+        this.errorMessage = 'visitor-not-found';
+      }
+      else if (val.status === 400) {
+        this.errorMessage = 'invalid-qrid';
+      }
+      else {
+        if (this.errorMessage === '') {
+          this.scanned = code;
+          this.readerEnabled = false;
+          this.dialog = true;
+        }
+      }
+    });
+  }
+
+  handleGivePointFinished() {
+    this.$router.push('/tenant');
+  }
+}
+
+export default GivePointScanPage;
+</script>

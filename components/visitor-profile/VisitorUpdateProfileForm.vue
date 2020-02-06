@@ -100,8 +100,7 @@
       ref="messageDialog"
       title="Profile Updated"
       @dismissed="$router.push('/visitor/')"
-    >
-    </MessageDialog>
+    />
     <MessageDialog
       ref="errorDialog"
     >

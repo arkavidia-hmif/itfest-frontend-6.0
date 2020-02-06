@@ -25,7 +25,7 @@
               <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" target-link="/visitor/trx/" />
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" target-link="/visitor/scan/" />
+              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" target-link="/visitor/transfer/" />
             </v-col>
           </v-row>
         </v-col>

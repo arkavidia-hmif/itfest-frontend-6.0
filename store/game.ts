@@ -54,6 +54,15 @@ export const actions = {
     await arkavidiaApi.game.sendTenantReview(tenantId, tenantReview);
   },
 
+  //eslint-disable-next-line no-empty-pattern
+  async getQrDetails({ }, { qrId }): Promise<Qrcode> {
+    const response = await arkavidiaApi.game.getPlayName(qrId);
+    return {
+      qrid: qrId,
+      name: response.data.data.name
+    };
+  },
+
   async changeQrCode({commit}, {qr}): Promise<Qrcode>{
     const response = await arkavidiaApi.game.getPlayName(qr);
 

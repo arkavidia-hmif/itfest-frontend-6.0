@@ -5,7 +5,7 @@ export default {
   extends: [
     '@nuxtjs/eslint-config-typescript'
   ],
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Headers of the page
   */
