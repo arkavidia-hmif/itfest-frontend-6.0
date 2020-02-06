@@ -36,4 +36,16 @@ export default class UserApi extends ArkavidiaBaseApi {
     const response = await this.axios.post(`/user/${id}/redeem`, payload);
     return response.data;
   }
+
+  async updateProfile({name, email, password, dob, gender, interest}): Promise<void> {
+    const payload = {
+      name: name,
+      email: email,
+      password: password,
+      dob: dob,
+      gender: gender,
+      interest: interest
+    };
+    await this.axios.put('user/me', payload);
+  }
 }

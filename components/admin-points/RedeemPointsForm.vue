@@ -102,14 +102,18 @@
       cancel-color="red darken-1"
       @confirmed="redeem"
     >
-      The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price }}.
+      <v-card-text>
+        The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price }}.
+      </v-card-text>
     </ConfirmationDialog>
     <MessageDialog
       ref="messageDialog"
       title="Merchandise redeemed"
       @dismissed="$router.push(`/admin/scan-user/`)"
     >
-      The merchandise has been redeemed
+      <v-card-text>
+        The merchandise has been redeemed
+      </v-card-text>
     </MessageDialog>
   </v-row>
 </template>

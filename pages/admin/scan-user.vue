@@ -25,7 +25,7 @@
 <script>
 import Vue from 'vue';
 import BackToolbar from '~/components/partials/BackToolbar.vue';
-import ScanUserForm from '~/components/admin-points/ScanUserForm';
+import ScanUserForm from '~/components/admin-points/ScanUserForm.vue';
 
 export default Vue.extend({
   name: 'ScanUser',

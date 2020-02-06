@@ -8,7 +8,7 @@
         <v-col cols="12">
           <SignedInAs v-if="isUserLoaded" :name="user.name" />
         </v-col>
-        <v-col v-if="user && (user.name == null || user.dob == null || user.gender == null || user.interest.length == 0)" cols="12" class="pa-2 py-4">
+        <v-col v-if="user && !user.filled" cols="12" class="pa-2 py-4">
           <nuxt-link to="/visitor/update-profile/" class="no-underline">
             <PersonalDataBanner />
           </nuxt-link>
@@ -25,7 +25,7 @@
               <SubmenuComponent submenu-icon="mdi-wallet-outline" submenu-title="Points History" target-link="/visitor/trx/" />
             </v-col>
             <v-col cols="4">
-              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" target-link="/visitor/scan/" />
+              <SubmenuComponent submenu-icon="mdi-qrcode-scan" submenu-title="Transfer Points" target-link="/visitor/transfer/" />
             </v-col>
           </v-row>
         </v-col>

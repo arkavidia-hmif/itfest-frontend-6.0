@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isValid" @submit.prevent="attemptUpdateProfile">
+  <v-form ref="form" v-model="isValid" @submit.prevent="attemptUpdateProfile">
     <v-text-field
       v-model="fullName"
       :rules="nameRules"
@@ -9,12 +9,14 @@
       v-model="emailAddress"
       :rules="emailRules"
       label="Email"
+      disabled
     />
     <v-text-field
       v-model="password"
       :rules="passwordRules"
       label="Password"
       type="password"
+      @input="$refs.form && $refs.form.validate()"
     />
     <v-text-field
       v-model.lazy="rePassword"
@@ -63,20 +65,25 @@
       Interests
     </h4>
     <v-checkbox
-      v-for="i in 5"
-      :key="i"
+      v-for="label of interestsName"
+      :key="label"
       v-model="interests"
-      :label="interestsName[i-1]"
-      :value="interestsName[i-1]"
+      :label="label"
+      :value="label"
       hide-details
       class="mt-2"
       color="#3F32D5"
     />
     <div class="d-flex">
       <v-checkbox v-model="interestOther" label="Others : " hide-details class="mt-2" color="#3F32D5" />
-      <v-text-field v-model="interestOtherValue" :disabled="!interestOther" class="px-2 py-0" hide-details single-line />
+      <v-text-field
+        v-model="interestOtherValue"
+        :disabled="!interestOther"
+        class="px-2 py-0"
+        hide-details
+        single-line
+      />
     </div>
-    <Alert v-if="error" type="error" class="mt-4" :message="error" />
     <div class="d-flex justify-center py-4">
       <v-btn
         type="submit"
@@ -88,6 +95,24 @@
         Update Profile
       </v-btn>
     </div>
+
+    <MessageDialog
+      ref="messageDialog"
+      title="Profile Updated"
+      @dismissed="$router.push('/visitor/')"
+    />
+    <MessageDialog
+      ref="errorDialog"
+    >
+      <template slot="title" class="red--text">
+        <v-card-title class="headline red--text">
+          Failed to Update
+        </v-card-title>
+      </template>
+      <v-card-text>
+        {{ error }}
+      </v-card-text>
+    </MessageDialog>
   </v-form>
 </template>
 
@@ -95,10 +120,11 @@
 import { Component, Action, Getter, Vue } from 'nuxt-property-decorator';
 import { Gender } from '~/api/types.ts';
 import Alert from '~/components/partials/Alert.vue';
+import MessageDialog from "~/components/MessageDialog.vue";
 import { UserData } from '~/api/types';
 
 @Component({
-  components: { Alert }
+  components: { Alert, MessageDialog }
 })
 class VisitorUpdateProfileForm extends Vue {
   isUpdating: boolean = false;
@@ -132,11 +158,7 @@ class VisitorUpdateProfileForm extends Vue {
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
   ];
   passwordRules = [
-    v => !!v || 'Password is required',
-    v => (v && v.length >= 8) || 'Password must have 8+ characters.'
-  ];
-  rePasswordRules = [
-    v => !!v || 'Password confirmation is required!',
+    v => ((v === '') || (v && v.length >= 8)) || 'New Password must have 8+ characters.',
   ];
 
   get passwordsFilled(): boolean {
@@ -145,7 +167,7 @@ class VisitorUpdateProfileForm extends Vue {
 
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
-  @Action('user/editVisitorProfile') updateProfileAction;
+  @Action('user/updateProfile') updateProfileAction;
 
   mounted() {
     this.fetchUserAction()
@@ -166,14 +188,13 @@ class VisitorUpdateProfileForm extends Vue {
               if (this.user.interest) {
                 if (this.user.interest.length > 0) {
                   this.rawInterests = this.user.interest;
-                  let rawInterest;
-                  for (rawInterest in this.rawInterests) {
-                      if (rawInterest === "0" || rawInterest === "1" || rawInterest === "2" || rawInterest === "3" || rawInterest === "4") {
-                          this.interests.push(this.interestsName[parseInt(rawInterest, 10)]);
+                  for (const rawInterest of this.rawInterests) {
+                      if (this.interestsName.includes(rawInterest)) {
+                          this.interests.push(rawInterest);
                       }
                       else {
                           this.interestOther = true;
-                          this.interests.push(rawInterest);
+                          this.interestOtherValue = rawInterest;
                       }
                   }
                 }
@@ -195,20 +216,20 @@ class VisitorUpdateProfileForm extends Vue {
     const password = this.password;
     const dob = this.date;
     const gender = genderEnum;
-    const interest = this.interests;
-    if (!this.interestOtherValue) {
+    const interest = this.interests.slice();
+    if (this.interestOther) {
       interest.push(this.interestOtherValue);
     }
-
     // Set action after submitting form
     this.isUpdating = true;
 
     this.updateProfileAction({name, email, password, dob, gender, interest})
       .then(() => {
-        this.$router.push('/visitor/edit-profile/');
+        (this.$refs.messageDialog as Vue & { show: () => boolean }).show();
       })
       .catch((e) => {
         this.error = e.toString();
+        (this.$refs.errorDialog as Vue & { show: () => boolean }).show();
       })
       .finally(() => {
         this.isUpdating = false;
@@ -217,10 +238,8 @@ class VisitorUpdateProfileForm extends Vue {
 
   passwordMatch() {
     let samePassword = false;
-    if (this.passwordsFilled) {
-      if (this.password === this.rePassword) {
-        samePassword = true;
-      }
+    if (this.password === this.rePassword) {
+      samePassword = true;
     }
     return samePassword;
   }

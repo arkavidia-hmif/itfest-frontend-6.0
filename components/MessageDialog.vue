@@ -4,13 +4,13 @@
     max-width="310"
   >
     <v-card>
-      <v-card-title class="headline">
-        {{ title }}
-      </v-card-title>
+      <slot name="title">
+        <v-card-title class="headline">
+          {{ title }}
+        </v-card-title>
+      </slot>
 
-      <v-card-text>
-        <slot />
-      </v-card-text>
+      <slot />
 
       <v-card-actions>
         <v-spacer />
@@ -36,7 +36,7 @@
 
         @Provide()
         visible: boolean = false;
-        @Prop({type: String, required: true})
+        @Prop({type: String, default: ""})
         title!: string;
         @Prop({type: String, default: "Dismiss"})
         dismissText!: string;
