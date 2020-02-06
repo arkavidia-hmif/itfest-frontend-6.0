@@ -84,7 +84,7 @@
     isUserLoaded: boolean = false;
     errorMessage: string = '';
     isLoading: boolean = true;
-    qrName: string = ""
+    qrName: string = "";
 
     pointChange() {
       let x = 0;

@@ -46,6 +46,11 @@ export default class UserApi extends ArkavidiaBaseApi {
       gender: gender,
       interest: interest
     };
-    await this.axios.put('user/me', payload);
+    await this.axios.put('/user/me', payload);
+  }
+
+  async transferPoint(recipientQrId: string, amount: number): Promise<void> {
+    const payload = { amount };
+    await this.axios.post(`/user/${recipientQrId}/give`, payload);
   }
 }

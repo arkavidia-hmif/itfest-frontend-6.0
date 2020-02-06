@@ -83,5 +83,9 @@ export const actions = {
     const qrcode = await arkavidiaApi.user.getQRID();
     commit('setQRID', { qrcode });
     return qrcode;
+  },
+  // eslint-disable-next-line no-empty-pattern
+  async transferPoint({ }, { amount, recipientQrId }) {
+    await arkavidiaApi.user.transferPoint(recipientQrId, amount);
   }
 };
