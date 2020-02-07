@@ -4,25 +4,13 @@
       v-model="fullName"
       :rules="nameRules"
       label="Full name"
+      required
     />
     <v-text-field
       v-model="emailAddress"
       :rules="emailRules"
       label="Email"
       disabled
-    />
-    <v-text-field
-      v-model="password"
-      :rules="passwordRules"
-      label="Password"
-      type="password"
-      @input="$refs.form && $refs.form.validate()"
-    />
-    <v-text-field
-      v-model.lazy="rePassword"
-      :rules="[() => passwordMatch() || 'Passwords do not match!']"
-      label="Re-type Password"
-      type="password"
     />
     <v-dialog
       ref="dialog"
@@ -133,9 +121,7 @@ class VisitorUpdateProfileForm extends Vue {
   isAllDataFilled: boolean = false;
   fullName: string = '';
   emailAddress: string = '';
-  password: string = '';
-  rePassword: string = '';
-  gender: string = '';
+  gender: string = 'Male';
   date: string = new Date().toISOString().substr(0, 10);
   rawInterests: string[] = [];
   interests: string[] = [];
@@ -151,19 +137,13 @@ class VisitorUpdateProfileForm extends Vue {
     'Tourism'
     ];
   nameRules = [
-    v => !!v || 'Full name is required!'
+    v => !!v || 'Full name is required!',
+    v => /^([A-Za-z' ]*)$/.test(v) || 'Must be a valid name.'
   ];
   emailRules = [
     v => !!v || 'Email is required!',
     v => /.+@.+/.test(v) || 'Must be a valid email address.'
   ];
-  passwordRules = [
-    v => ((v === '') || (v && v.length >= 8)) || 'New Password must have 8+ characters.',
-  ];
-
-  get passwordsFilled(): boolean {
-    return (this.password !== '' && this.rePassword !== '');
-  }
 
   @Action('user/fetchUser') fetchUserAction;
   @Getter('user/getUser') user!: UserData;
@@ -174,7 +154,14 @@ class VisitorUpdateProfileForm extends Vue {
         .finally(()=>{
           if (this.user) {
               if (this.user.name) {
-                this.fullName = this.user.name;
+                const regex = /.+@.+/ig;
+                const matches = regex.exec(this.user.name);
+                if (matches) {
+                  this.fullName = '';
+                }
+                else {
+                  this.fullName = this.user.name;
+                }
               }
               if (this.user.email) {
                 this.emailAddress = this.user.email;
@@ -213,7 +200,6 @@ class VisitorUpdateProfileForm extends Vue {
 
     const name = this.fullName;
     const email = this.emailAddress;
-    const password = this.password;
     const dob = this.date;
     const gender = genderEnum;
     const interest = this.interests.slice();
@@ -223,7 +209,7 @@ class VisitorUpdateProfileForm extends Vue {
     // Set action after submitting form
     this.isUpdating = true;
 
-    this.updateProfileAction({name, email, password, dob, gender, interest})
+    this.updateProfileAction({name, email, dob, gender, interest})
       .then(() => {
         (this.$refs.messageDialog as Vue & { show: () => boolean }).show();
       })
@@ -234,14 +220,6 @@ class VisitorUpdateProfileForm extends Vue {
       .finally(() => {
         this.isUpdating = false;
       });
-  }
-
-  passwordMatch() {
-    let samePassword = false;
-    if (this.password === this.rePassword) {
-      samePassword = true;
-    }
-    return samePassword;
   }
 }
 

@@ -70,8 +70,8 @@ export const actions = {
     commit('setUser', { user });
     return user;
   },
-  async updateProfile({ commit }, { name, email, password, dob, gender, interest }): Promise<void> {
-    await arkavidiaApi.user.updateProfile({name, email, password, dob, gender, interest});
+  async updateProfile({ commit }, { name, email, dob, gender, interest }): Promise<void> {
+    await arkavidiaApi.user.updateProfile({name, email, dob, gender, interest});
     commit('setUserPartially', {name, email, dob, gender, interest});
   },
   async fetchTransactions({ commit }, { page, itemPerPage }): Promise<Transaction[]> {

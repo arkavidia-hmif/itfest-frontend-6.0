@@ -38,11 +38,10 @@ export default class UserApi extends ArkavidiaBaseApi {
     return response.data;
   }
 
-  async updateProfile({name, email, password, dob, gender, interest}): Promise<void> {
+  async updateProfile({name, email, dob, gender, interest}): Promise<void> {
     const payload = {
       name: name,
       email: email,
-      password: password,
       dob: dob,
       gender: gender,
       interest: interest
