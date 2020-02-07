@@ -83,7 +83,7 @@
       cancel-color="red darken-1"
       @confirmed="redeem"
     >
-      The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price }}.
+      The merchandise {{ selectedItem.name }} will be redeemed and the points will be deducted by {{ selectedItem.price * amount }}.
     </ConfirmationDialog>
     <MessageDialog
       ref="messageDialog"
