@@ -206,6 +206,11 @@ class VisitorUpdateProfileForm extends Vue {
     if (this.interestOther) {
       interest.push(this.interestOtherValue);
     }
+    if (interest.length <= 0) {
+        this.error = "You must specify at least 1 interest";
+        (this.$refs.errorDialog as Vue & { show: () => boolean }).show();
+        return;
+    }
     // Set action after submitting form
     this.isUpdating = true;
 
