@@ -211,6 +211,11 @@ class VisitorUpdateProfileForm extends Vue {
         (this.$refs.errorDialog as Vue & { show: () => boolean }).show();
         return;
     }
+    else if (interest[interest.length - 1] === "") {
+        this.error = "You must specify other interest option";
+        (this.$refs.errorDialog as Vue & { show: () => boolean }).show();
+        return;     
+    }
     // Set action after submitting form
     this.isUpdating = true;
 
