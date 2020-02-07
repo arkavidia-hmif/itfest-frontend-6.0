@@ -7,7 +7,6 @@
       <HomeButton label="Redeem Visitor Points" icon="fa-sync-alt" href="/admin/scan-user" />
       <HomeButton label="See Merch Stock" icon="fa-database" href="/admin/merchandise-stock" />
       <HomeButton label="Add Merch Stock" icon="fa-cart-plus" href="/admin/add-stock" />
-      <HomeButton label="See Redemption History" icon="fa-history" href="/admin/redemption-history" />
       <HomeButton label="Logout" icon="fa-sign-out-alt" @click="doLogout" />
     </div>
   </div>
