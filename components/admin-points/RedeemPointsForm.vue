@@ -38,7 +38,7 @@
           class="mt-2"
         >
           <template slot="selection" slot-scope="{ item }">
-            {{ item.name }}
+            <span>{{ item.name }}</span> <span style="margin-left: 0.5rem;">({{ item.price }} pts)</span>
           </template>
           <template slot="item" slot-scope="{ item }">
             <span>{{ item.name }}</span> <v-spacer /> <span class="float-right">{{ item.price }} pts</span>
