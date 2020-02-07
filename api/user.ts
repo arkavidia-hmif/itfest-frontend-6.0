@@ -31,8 +31,9 @@ export default class UserApi extends ArkavidiaBaseApi {
   async redeemItem({id, itemId, amount}): Promise<ApiResponse<void>> {
     const payload = {
       item: itemId,
-      qty: amount
+      amount: amount
     };
+
     const response = await this.axios.post(`/user/${id}/redeem`, payload);
     return response.data;
   }

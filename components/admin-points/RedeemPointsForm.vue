@@ -152,7 +152,7 @@ export default class RedeemPointsForm extends Vue {
     ];
 
     created(): void {
-        if (this.redemptionTarget == null) {
+        if (this.redemptionTarget == null || this.redemptionTarget.QRid == null) {
             this.$router.push(`/admin/`);
         }
         arkavidiaApi.stock.getItemPerOwner()
