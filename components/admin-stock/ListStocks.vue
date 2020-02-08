@@ -119,7 +119,7 @@
             if (this.companies.has(tenantId)) {
                 return this.companies.get(tenantId);
             }
-            return 'Arkavidia Admin';
+            return 'Administrator';
         }
     }
 
