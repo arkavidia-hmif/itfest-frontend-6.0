@@ -88,9 +88,10 @@
 </style>
 
 <script lang="ts">
-  import {Component, Vue} from 'nuxt-property-decorator';
+  import {Component, Action, Getter, Vue} from 'nuxt-property-decorator';
   import arkavidiaApi from "~/api/api";
   import Alert from "~/components/partials/Alert.vue";
+  import { UserData } from "~/api/types";
 
   const errorMessages = {
     'item-exists': 'Item already exist'
@@ -109,7 +110,9 @@
   })
 
   class AddStockForm extends Vue {
-
+    @Action("user/fetchUser") fetchUserAction;
+    @Getter('user/getUser') user!: UserData;
+    
     message = {
       visible: false,
       text: '',
@@ -142,6 +145,14 @@
           if (this.companies) {
             this.company = this.companies[0];
           }
+        });
+      this.fetchUserAction()
+        .then(() => {
+          const company = {
+            id: this.user.id,
+            name: this.user.name
+          };
+          this.companies.push(company);
           this.isCompanyLoaded = true;
         });
     }
